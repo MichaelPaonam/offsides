@@ -98,11 +98,7 @@ python offsides.py --match "Barcelona vs PSG" --date "2024-04-10"
 ├── data/
 │   ├── match_urls/             # Fixture CSVs with YouTube URLs
 │   └── highlights/             # Downloaded videos (gitignored)
-├── docs/
-│   ├── project-plan.md         # Timeline, milestones, checkpoints
-│   ├── research-plan.md        # 2-day research phase breakdown
-│   ├── project-description.md  # Pitch and description for judges
-│   └── storyline.md            # Full project narrative
+├── offsides-logo.png           # Project logo
 └── venv/                       # Python virtual environment (gitignored)
 ```
 
@@ -137,9 +133,8 @@ python offsides.py --match "Barcelona vs PSG" --date "2024-04-10"
 
 ## Contributing
 
-1. Check `docs/project-plan.md` for current phase and milestones
-2. Run scripts locally — GPU inference happens on AMD Developer Cloud only
-3. Download highlights locally, upload only extracted frames to cloud VM
+1. Run scripts locally — GPU inference happens on AMD Developer Cloud only
+2. Download highlights locally, upload only extracted frames to cloud VM
 
 ## Why AMD
 
