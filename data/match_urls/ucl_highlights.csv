@@ -1,163 +1,163 @@
 season,stage,matchday,home_team,away_team,date,youtube_url
-2023-24,Group A,MD1,Bayern Munich,Manchester United,2023-09-20,
-2023-24,Group A,MD1,FC Copenhagen,Galatasaray,2023-09-19,
-2023-24,Group A,MD2,Galatasaray,Bayern Munich,2023-10-03,
-2023-24,Group A,MD2,Manchester United,FC Copenhagen,2023-10-03,
-2023-24,Group A,MD3,Manchester United,Galatasaray,2023-10-24,
-2023-24,Group A,MD3,FC Copenhagen,Bayern Munich,2023-10-25,
-2023-24,Group A,MD4,Galatasaray,Manchester United,2023-11-07,
-2023-24,Group A,MD4,Bayern Munich,FC Copenhagen,2023-11-08,
-2023-24,Group A,MD5,FC Copenhagen,Manchester United,2023-12-13,
-2023-24,Group A,MD5,Galatasaray,FC Copenhagen,2023-12-12,
-2023-24,Group A,MD6,Manchester United,Bayern Munich,2023-12-12,
-2023-24,Group A,MD6,Bayern Munich,Galatasaray,2023-12-13,
-2023-24,Group B,MD1,Sevilla,Lens,2023-09-20,
-2023-24,Group B,MD1,PSV,Arsenal,2023-09-20,
-2023-24,Group B,MD2,Arsenal,Sevilla,2023-10-03,
-2023-24,Group B,MD2,Lens,PSV,2023-10-04,
-2023-24,Group B,MD3,Sevilla,PSV,2023-10-24,
-2023-24,Group B,MD3,Lens,Arsenal,2023-10-24,
-2023-24,Group B,MD4,PSV,Sevilla,2023-11-08,
-2023-24,Group B,MD4,Arsenal,Lens,2023-11-07,
-2023-24,Group B,MD5,Lens,Sevilla,2023-12-13,
-2023-24,Group B,MD5,Arsenal,PSV,2023-12-12,
-2023-24,Group B,MD6,Sevilla,Arsenal,2023-12-13,
-2023-24,Group B,MD6,PSV,Lens,2023-12-12,
-2023-24,Group C,MD1,Real Madrid,Union Berlin,2023-09-20,
-2023-24,Group C,MD1,Braga,Napoli,2023-09-20,
-2023-24,Group C,MD2,Napoli,Real Madrid,2023-10-03,
-2023-24,Group C,MD2,Union Berlin,Braga,2023-10-04,
-2023-24,Group C,MD3,Braga,Real Madrid,2023-10-24,
-2023-24,Group C,MD3,Napoli,Union Berlin,2023-10-24,
-2023-24,Group C,MD4,Real Madrid,Braga,2023-11-08,
-2023-24,Group C,MD4,Union Berlin,Napoli,2023-11-07,
-2023-24,Group C,MD5,Real Madrid,Napoli,2023-11-29,
-2023-24,Group C,MD5,Braga,Union Berlin,2023-11-29,
-2023-24,Group C,MD6,Napoli,Braga,2023-12-12,
-2023-24,Group C,MD6,Union Berlin,Real Madrid,2023-12-12,
-2023-24,Group D,MD1,Real Sociedad,Inter Milan,2023-09-20,
-2023-24,Group D,MD1,Salzburg,Benfica,2023-09-20,
-2023-24,Group D,MD2,Benfica,Real Sociedad,2023-10-03,
-2023-24,Group D,MD2,Inter Milan,Salzburg,2023-10-04,
-2023-24,Group D,MD3,Real Sociedad,Salzburg,2023-10-24,
-2023-24,Group D,MD3,Inter Milan,Benfica,2023-10-24,
-2023-24,Group D,MD4,Salzburg,Real Sociedad,2023-11-08,
-2023-24,Group D,MD4,Benfica,Inter Milan,2023-11-07,
-2023-24,Group D,MD5,Inter Milan,Real Sociedad,2023-12-12,
-2023-24,Group D,MD5,Benfica,Salzburg,2023-12-12,
-2023-24,Group D,MD6,Real Sociedad,Benfica,2023-12-13,
-2023-24,Group D,MD6,Salzburg,Inter Milan,2023-12-13,
-2023-24,Group E,MD1,Feyenoord,Celtic,2023-09-19,
-2023-24,Group E,MD1,Lazio,Atletico Madrid,2023-09-19,
-2023-24,Group E,MD2,Atletico Madrid,Feyenoord,2023-10-04,
-2023-24,Group E,MD2,Celtic,Lazio,2023-10-04,
+2023-24,Group A,MD1,Bayern Munich,Manchester United,2023-09-20,https://www.youtube.com/watch?v=x4wnlfdsrdU
+2023-24,Group A,MD1,FC Copenhagen,Galatasaray,2023-09-19,https://www.youtube.com/watch?v=JOxHBn3se0I
+2023-24,Group A,MD2,Galatasaray,Bayern Munich,2023-10-03,https://www.youtube.com/watch?v=gnfXD8CGycc
+2023-24,Group A,MD2,Manchester United,FC Copenhagen,2023-10-03,https://www.youtube.com/watch?v=X4iCcr4UqmE
+2023-24,Group A,MD3,Manchester United,Galatasaray,2023-10-24,https://www.youtube.com/watch?v=PFsCDumUWds
+2023-24,Group A,MD3,FC Copenhagen,Bayern Munich,2023-10-25,https://www.youtube.com/watch?v=gnfXD8CGycc
+2023-24,Group A,MD4,Galatasaray,Manchester United,2023-11-07,https://www.youtube.com/watch?v=j3hCKY2IabI
+2023-24,Group A,MD4,Bayern Munich,FC Copenhagen,2023-11-08,https://www.youtube.com/watch?v=-VMw1bCrzCs
+2023-24,Group A,MD5,FC Copenhagen,Manchester United,2023-12-13,https://www.youtube.com/watch?v=wwoeSRrwUmg
+2023-24,Group A,MD5,Galatasaray,FC Copenhagen,2023-12-12,https://www.youtube.com/watch?v=ErPJxrOSMrs
+2023-24,Group A,MD6,Manchester United,Bayern Munich,2023-12-12,https://www.youtube.com/watch?v=l8DV5bbueyQ
+2023-24,Group A,MD6,Bayern Munich,Galatasaray,2023-12-13,https://www.youtube.com/watch?v=wwoeSRrwUmg
+2023-24,Group B,MD1,Sevilla,Lens,2023-09-20,https://www.youtube.com/watch?v=QAn-SyqDNP0
+2023-24,Group B,MD1,PSV,Arsenal,2023-09-20,https://www.youtube.com/watch?v=d0CyFQjcULQ
+2023-24,Group B,MD2,Arsenal,Sevilla,2023-10-03,https://www.youtube.com/watch?v=X9qLiK-oT2g
+2023-24,Group B,MD2,Lens,PSV,2023-10-04,https://www.youtube.com/watch?v=GEUh_KHjXWI
+2023-24,Group B,MD3,Sevilla,PSV,2023-10-24,https://www.youtube.com/watch?v=GEUh_KHjXWI
+2023-24,Group B,MD3,Lens,Arsenal,2023-10-24,https://www.youtube.com/watch?v=xvkS4fAtKUI
+2023-24,Group B,MD4,PSV,Sevilla,2023-11-08,https://www.youtube.com/watch?v=9JtkZVd1eZE
+2023-24,Group B,MD4,Arsenal,Lens,2023-11-07,https://www.youtube.com/watch?v=9JtkZVd1eZE
+2023-24,Group B,MD5,Lens,Sevilla,2023-12-13,https://www.youtube.com/watch?v=UjPK7pkpyF0
+2023-24,Group B,MD5,Arsenal,PSV,2023-12-12,https://www.youtube.com/watch?v=CoKqElz9984
+2023-24,Group B,MD6,Sevilla,Arsenal,2023-12-13,https://www.youtube.com/watch?v=TEkZoOur6GY
+2023-24,Group B,MD6,PSV,Lens,2023-12-12,https://www.youtube.com/watch?v=UjPK7pkpyF0
+2023-24,Group C,MD1,Real Madrid,Union Berlin,2023-09-20,https://www.youtube.com/watch?v=UyL43Ic-6X0
+2023-24,Group C,MD1,Braga,Napoli,2023-09-20,https://www.youtube.com/watch?v=aHkflcC35XU
+2023-24,Group C,MD2,Napoli,Real Madrid,2023-10-03,https://www.youtube.com/watch?v=yIK_5164LSc
+2023-24,Group C,MD2,Union Berlin,Braga,2023-10-04,https://www.youtube.com/watch?v=07hHl6VmFgc
+2023-24,Group C,MD3,Braga,Real Madrid,2023-10-24,https://www.youtube.com/watch?v=gnfXD8CGycc
+2023-24,Group C,MD3,Napoli,Union Berlin,2023-10-24,https://www.youtube.com/watch?v=sQk02YHCX5Y
+2023-24,Group C,MD4,Real Madrid,Braga,2023-11-08,https://www.youtube.com/watch?v=i44MNLz3Ig8
+2023-24,Group C,MD4,Union Berlin,Napoli,2023-11-07,https://www.youtube.com/watch?v=i44MNLz3Ig8
+2023-24,Group C,MD5,Real Madrid,Napoli,2023-11-29,https://www.youtube.com/watch?v=SI88QwSyYp4
+2023-24,Group C,MD5,Braga,Union Berlin,2023-11-29,https://www.youtube.com/watch?v=xk2uI7Gy4jQ
+2023-24,Group C,MD6,Napoli,Braga,2023-12-12,https://www.youtube.com/watch?v=OWjdjkA24to
+2023-24,Group C,MD6,Union Berlin,Real Madrid,2023-12-12,https://www.youtube.com/watch?v=IgkMYBPzGn0
+2023-24,Group D,MD1,Real Sociedad,Inter Milan,2023-09-20,https://www.youtube.com/watch?v=81GUr_pv2oM
+2023-24,Group D,MD1,Salzburg,Benfica,2023-09-20,https://www.youtube.com/watch?v=p_rbZ7sDB7k
+2023-24,Group D,MD2,Benfica,Real Sociedad,2023-10-03,https://www.youtube.com/watch?v=q38Ega9kKCs
+2023-24,Group D,MD2,Inter Milan,Salzburg,2023-10-04,https://www.youtube.com/watch?v=gnfXD8CGycc
+2023-24,Group D,MD3,Real Sociedad,Salzburg,2023-10-24,https://www.youtube.com/watch?v=q38Ega9kKCs
+2023-24,Group D,MD3,Inter Milan,Benfica,2023-10-24,https://www.youtube.com/watch?v=6AcZmwA3zUM
+2023-24,Group D,MD4,Salzburg,Real Sociedad,2023-11-08,https://www.youtube.com/watch?v=4zb91RA4Lu8
+2023-24,Group D,MD4,Benfica,Inter Milan,2023-11-07,https://www.youtube.com/watch?v=-VMw1bCrzCs
+2023-24,Group D,MD5,Inter Milan,Real Sociedad,2023-12-12,https://www.youtube.com/watch?v=OWjdjkA24to
+2023-24,Group D,MD5,Benfica,Salzburg,2023-12-12,https://www.youtube.com/watch?v=OWjdjkA24to
+2023-24,Group D,MD6,Real Sociedad,Benfica,2023-12-13,https://www.youtube.com/watch?v=wwoeSRrwUmg
+2023-24,Group D,MD6,Salzburg,Inter Milan,2023-12-13,https://www.youtube.com/watch?v=OWjdjkA24to
+2023-24,Group E,MD1,Feyenoord,Celtic,2023-09-19,https://www.youtube.com/watch?v=mjTGIeB97zM
+2023-24,Group E,MD1,Lazio,Atletico Madrid,2023-09-19,https://www.youtube.com/watch?v=hOqPptdE_Q4
+2023-24,Group E,MD2,Atletico Madrid,Feyenoord,2023-10-04,https://www.youtube.com/watch?v=_5pOClhIzX4
+2023-24,Group E,MD2,Celtic,Lazio,2023-10-04,https://www.youtube.com/watch?v=optbZtc3dh0
 2023-24,Group E,MD3,Feyenoord,Lazio,2023-10-25,
-2023-24,Group E,MD3,Atletico Madrid,Celtic,2023-10-25,
-2023-24,Group E,MD4,Lazio,Feyenoord,2023-11-07,
-2023-24,Group E,MD4,Celtic,Atletico Madrid,2023-11-07,
-2023-24,Group E,MD5,Feyenoord,Atletico Madrid,2023-12-12,
-2023-24,Group E,MD5,Lazio,Celtic,2023-12-12,
-2023-24,Group E,MD6,Atletico Madrid,Lazio,2023-12-13,
-2023-24,Group E,MD6,Celtic,Feyenoord,2023-12-13,
-2023-24,Group F,MD1,AC Milan,Newcastle,2023-09-19,
-2023-24,Group F,MD1,PSG,Dortmund,2023-09-19,
-2023-24,Group F,MD2,Dortmund,AC Milan,2023-10-04,
-2023-24,Group F,MD2,Newcastle,PSG,2023-10-04,
-2023-24,Group F,MD3,PSG,AC Milan,2023-10-25,
-2023-24,Group F,MD3,Newcastle,Dortmund,2023-10-25,
-2023-24,Group F,MD4,AC Milan,PSG,2023-11-07,
-2023-24,Group F,MD4,Dortmund,Newcastle,2023-11-07,
-2023-24,Group F,MD5,AC Milan,Dortmund,2023-11-28,
-2023-24,Group F,MD5,PSG,Newcastle,2023-11-28,
-2023-24,Group F,MD6,Dortmund,PSG,2023-12-13,
-2023-24,Group F,MD6,Newcastle,AC Milan,2023-12-13,
-2023-24,Group G,MD1,Man City,Crvena Zvezda,2023-09-19,
-2023-24,Group G,MD1,RB Leipzig,Young Boys,2023-09-19,
-2023-24,Group G,MD2,Young Boys,Man City,2023-10-03,
-2023-24,Group G,MD2,Crvena Zvezda,RB Leipzig,2023-10-03,
-2023-24,Group G,MD3,Man City,Young Boys,2023-10-25,
-2023-24,Group G,MD3,RB Leipzig,Crvena Zvezda,2023-10-25,
-2023-24,Group G,MD4,Young Boys,RB Leipzig,2023-11-07,
-2023-24,Group G,MD4,Crvena Zvezda,Man City,2023-11-07,
-2023-24,Group G,MD5,Man City,RB Leipzig,2023-11-28,
-2023-24,Group G,MD5,Crvena Zvezda,Young Boys,2023-11-28,
-2023-24,Group G,MD6,RB Leipzig,Man City,2023-12-13,
-2023-24,Group G,MD6,Young Boys,Crvena Zvezda,2023-12-13,
-2023-24,Group H,MD1,Barcelona,Antwerp,2023-09-19,
-2023-24,Group H,MD1,Shakhtar Donetsk,Porto,2023-09-19,
-2023-24,Group H,MD2,Porto,Barcelona,2023-10-04,
-2023-24,Group H,MD2,Antwerp,Shakhtar Donetsk,2023-10-04,
-2023-24,Group H,MD3,Barcelona,Shakhtar Donetsk,2023-10-25,
-2023-24,Group H,MD3,Porto,Antwerp,2023-10-25,
-2023-24,Group H,MD4,Shakhtar Donetsk,Barcelona,2023-11-07,
+2023-24,Group E,MD3,Atletico Madrid,Celtic,2023-10-25,https://www.youtube.com/watch?v=F7hOgfqQhIc
+2023-24,Group E,MD4,Lazio,Feyenoord,2023-11-07,https://www.youtube.com/watch?v=ZX6mCwz4JXM
+2023-24,Group E,MD4,Celtic,Atletico Madrid,2023-11-07,https://www.youtube.com/watch?v=9JtkZVd1eZE
+2023-24,Group E,MD5,Feyenoord,Atletico Madrid,2023-12-12,https://www.youtube.com/watch?v=ThqXK7WnzzY
+2023-24,Group E,MD5,Lazio,Celtic,2023-12-12,https://www.youtube.com/watch?v=dXE8OXkez18
+2023-24,Group E,MD6,Atletico Madrid,Lazio,2023-12-13,https://www.youtube.com/watch?v=wSkWps8CXbg
+2023-24,Group E,MD6,Celtic,Feyenoord,2023-12-13,https://www.youtube.com/watch?v=ThqXK7WnzzY
+2023-24,Group F,MD1,AC Milan,Newcastle,2023-09-19,https://www.youtube.com/watch?v=81GUr_pv2oM
+2023-24,Group F,MD1,PSG,Dortmund,2023-09-19,https://www.youtube.com/watch?v=81GUr_pv2oM
+2023-24,Group F,MD2,Dortmund,AC Milan,2023-10-04,https://www.youtube.com/watch?v=6cwQtYcmY3I
+2023-24,Group F,MD2,Newcastle,PSG,2023-10-04,https://www.youtube.com/watch?v=GEUh_KHjXWI
+2023-24,Group F,MD3,PSG,AC Milan,2023-10-25,https://www.youtube.com/watch?v=GEUh_KHjXWI
+2023-24,Group F,MD3,Newcastle,Dortmund,2023-10-25,https://www.youtube.com/watch?v=GEUh_KHjXWI
+2023-24,Group F,MD4,AC Milan,PSG,2023-11-07,https://www.youtube.com/watch?v=-VMw1bCrzCs
+2023-24,Group F,MD4,Dortmund,Newcastle,2023-11-07,https://www.youtube.com/watch?v=-VMw1bCrzCs
+2023-24,Group F,MD5,AC Milan,Dortmund,2023-11-28,https://www.youtube.com/watch?v=Fs-wL4YN_1g
+2023-24,Group F,MD5,PSG,Newcastle,2023-11-28,https://www.youtube.com/watch?v=-VMw1bCrzCs
+2023-24,Group F,MD6,Dortmund,PSG,2023-12-13,https://www.youtube.com/watch?v=wwoeSRrwUmg
+2023-24,Group F,MD6,Newcastle,AC Milan,2023-12-13,https://www.youtube.com/watch?v=KHmU0VBS16w
+2023-24,Group G,MD1,Man City,Crvena Zvezda,2023-09-19,https://www.youtube.com/watch?v=H4qS4Kaqbc8
+2023-24,Group G,MD1,RB Leipzig,Young Boys,2023-09-19,https://www.youtube.com/watch?v=Vo8ZGrmMLeg
+2023-24,Group G,MD2,Young Boys,Man City,2023-10-03,https://www.youtube.com/watch?v=DZzEG8IzZt0
+2023-24,Group G,MD2,Crvena Zvezda,RB Leipzig,2023-10-03,https://www.youtube.com/watch?v=kBy1Shv-2x4
+2023-24,Group G,MD3,Man City,Young Boys,2023-10-25,https://www.youtube.com/watch?v=DZzEG8IzZt0
+2023-24,Group G,MD3,RB Leipzig,Crvena Zvezda,2023-10-25,https://www.youtube.com/watch?v=kBy1Shv-2x4
+2023-24,Group G,MD4,Young Boys,RB Leipzig,2023-11-07,https://www.youtube.com/watch?v=EK2qXiXgLNw
+2023-24,Group G,MD4,Crvena Zvezda,Man City,2023-11-07,https://www.youtube.com/watch?v=sHqHngq_43w
+2023-24,Group G,MD5,Man City,RB Leipzig,2023-11-28,https://www.youtube.com/watch?v=dsQ_iQxUih4
+2023-24,Group G,MD5,Crvena Zvezda,Young Boys,2023-11-28,https://www.youtube.com/watch?v=BbJ3RHYOv_E
+2023-24,Group G,MD6,RB Leipzig,Man City,2023-12-13,https://www.youtube.com/watch?v=QdXF-J2R7AI
+2023-24,Group G,MD6,Young Boys,Crvena Zvezda,2023-12-13,https://www.youtube.com/watch?v=6YWaJ8DPN24
+2023-24,Group H,MD1,Barcelona,Antwerp,2023-09-19,https://www.youtube.com/watch?v=QAn-SyqDNP0
+2023-24,Group H,MD1,Shakhtar Donetsk,Porto,2023-09-19,https://www.youtube.com/watch?v=QAn-SyqDNP0
+2023-24,Group H,MD2,Porto,Barcelona,2023-10-04,https://www.youtube.com/watch?v=nSx-RYN8QIo
+2023-24,Group H,MD2,Antwerp,Shakhtar Donetsk,2023-10-04,https://www.youtube.com/watch?v=o2p3eFKn3b0
+2023-24,Group H,MD3,Barcelona,Shakhtar Donetsk,2023-10-25,https://www.youtube.com/watch?v=6FovOlpb8HM
+2023-24,Group H,MD3,Porto,Antwerp,2023-10-25,https://www.youtube.com/watch?v=plxHgthahdw
+2023-24,Group H,MD4,Shakhtar Donetsk,Barcelona,2023-11-07,https://www.youtube.com/watch?v=PcNh_2gvMU0
 2023-24,Group H,MD4,Antwerp,Porto,2023-11-07,
 2023-24,Group H,MD5,Barcelona,Porto,2023-11-28,
-2023-24,Group H,MD5,Shakhtar Donetsk,Antwerp,2023-11-28,
-2023-24,Group H,MD6,Porto,Shakhtar Donetsk,2023-12-13,
-2023-24,Group H,MD6,Antwerp,Barcelona,2023-12-13,
-2023-24,Round of 16,Leg 1,Porto,Arsenal,2024-02-21,
-2023-24,Round of 16,Leg 1,Napoli,Barcelona,2024-02-21,
-2023-24,Round of 16,Leg 1,PSG,Real Sociedad,2024-02-14,
-2023-24,Round of 16,Leg 1,Inter Milan,Atletico Madrid,2024-02-20,
-2023-24,Round of 16,Leg 1,PSV,Dortmund,2024-02-20,
-2023-24,Round of 16,Leg 1,Lazio,Bayern Munich,2024-02-14,
+2023-24,Group H,MD5,Shakhtar Donetsk,Antwerp,2023-11-28,https://www.youtube.com/watch?v=Y_d8kzuZ41o
+2023-24,Group H,MD6,Porto,Shakhtar Donetsk,2023-12-13,https://www.youtube.com/watch?v=HfSl06meS9Y
+2023-24,Group H,MD6,Antwerp,Barcelona,2023-12-13,https://www.youtube.com/watch?v=ZFyb-3XbrEg
+2023-24,Round of 16,Leg 1,Porto,Arsenal,2024-02-21,https://www.youtube.com/watch?v=e_Xo1-Rd56I
+2023-24,Round of 16,Leg 1,Napoli,Barcelona,2024-02-21,https://www.youtube.com/watch?v=OfzO68a6NmM
+2023-24,Round of 16,Leg 1,PSG,Real Sociedad,2024-02-14,https://www.youtube.com/watch?v=gxANrWa20BM
+2023-24,Round of 16,Leg 1,Inter Milan,Atletico Madrid,2024-02-20,https://www.youtube.com/watch?v=JWo3HYUeBa8
+2023-24,Round of 16,Leg 1,PSV,Dortmund,2024-02-20,https://www.youtube.com/watch?v=JWo3HYUeBa8
+2023-24,Round of 16,Leg 1,Lazio,Bayern Munich,2024-02-14,https://www.youtube.com/watch?v=U4AVLzYzyRQ
 2023-24,Round of 16,Leg 1,FC Copenhagen,Man City,2024-02-13,
-2023-24,Round of 16,Leg 1,RB Leipzig,Real Madrid,2024-02-13,
-2023-24,Round of 16,Leg 2,Arsenal,Porto,2024-03-12,
-2023-24,Round of 16,Leg 2,Barcelona,Napoli,2024-03-12,
-2023-24,Round of 16,Leg 2,Real Sociedad,PSG,2024-03-05,
-2023-24,Round of 16,Leg 2,Atletico Madrid,Inter Milan,2024-03-13,
+2023-24,Round of 16,Leg 1,RB Leipzig,Real Madrid,2024-02-13,https://www.youtube.com/watch?v=PHEmisKNCI4
+2023-24,Round of 16,Leg 2,Arsenal,Porto,2024-03-12,https://www.youtube.com/watch?v=jLj5O_Qg0rE
+2023-24,Round of 16,Leg 2,Barcelona,Napoli,2024-03-12,https://www.youtube.com/watch?v=qnkSOLY7St0
+2023-24,Round of 16,Leg 2,Real Sociedad,PSG,2024-03-05,https://www.youtube.com/watch?v=ICz7GvxPne0
+2023-24,Round of 16,Leg 2,Atletico Madrid,Inter Milan,2024-03-13,https://www.youtube.com/watch?v=u4JVV8-mj7E
 2023-24,Round of 16,Leg 2,Dortmund,PSV,2024-03-13,
-2023-24,Round of 16,Leg 2,Bayern Munich,Lazio,2024-03-05,
+2023-24,Round of 16,Leg 2,Bayern Munich,Lazio,2024-03-05,https://www.youtube.com/watch?v=KTVNsynF5lY
 2023-24,Round of 16,Leg 2,Man City,FC Copenhagen,2024-03-06,
-2023-24,Round of 16,Leg 2,Real Madrid,RB Leipzig,2024-03-06,
+2023-24,Round of 16,Leg 2,Real Madrid,RB Leipzig,2024-03-06,https://www.youtube.com/watch?v=cmzNOwCnY8Y
 2023-24,Quarter-final,Leg 1,Arsenal,Bayern Munich,2024-04-09,
-2023-24,Quarter-final,Leg 1,Real Madrid,Man City,2024-04-09,
+2023-24,Quarter-final,Leg 1,Real Madrid,Man City,2024-04-09,https://www.youtube.com/watch?v=i4RLbzITz2E
 2023-24,Quarter-final,Leg 1,Atletico Madrid,Dortmund,2024-04-10,
-2023-24,Quarter-final,Leg 1,Barcelona,PSG,2024-04-10,
-2023-24,Quarter-final,Leg 2,Bayern Munich,Arsenal,2024-04-17,
-2023-24,Quarter-final,Leg 2,Man City,Real Madrid,2024-04-17,
+2023-24,Quarter-final,Leg 1,Barcelona,PSG,2024-04-10,https://www.youtube.com/watch?v=NygK05yAkPg
+2023-24,Quarter-final,Leg 2,Bayern Munich,Arsenal,2024-04-17,https://www.youtube.com/watch?v=b0spgXjpNv4
+2023-24,Quarter-final,Leg 2,Man City,Real Madrid,2024-04-17,https://www.youtube.com/watch?v=i4RLbzITz2E
 2023-24,Quarter-final,Leg 2,Dortmund,Atletico Madrid,2024-04-16,
 2023-24,Quarter-final,Leg 2,PSG,Barcelona,2024-04-16,
-2023-24,Semi-final,Leg 1,Bayern Munich,Real Madrid,2024-04-30,
-2023-24,Semi-final,Leg 1,PSG,Dortmund,2024-05-01,
-2023-24,Semi-final,Leg 2,Real Madrid,Bayern Munich,2024-05-08,
-2023-24,Semi-final,Leg 2,Dortmund,PSG,2024-05-07,
-2023-24,Final,Final,Dortmund,Real Madrid,2024-06-01,
-2024-25,League Phase,MD1,Juventus,PSV,2024-09-17,
-2024-25,League Phase,MD1,Young Boys,Aston Villa,2024-09-17,
-2024-25,League Phase,MD1,Bayern Munich,Dinamo Zagreb,2024-09-17,
-2024-25,League Phase,MD1,Real Madrid,Stuttgart,2024-09-17,
-2024-25,League Phase,MD1,Sporting CP,Lille,2024-09-17,
-2024-25,League Phase,MD1,AC Milan,Liverpool,2024-09-17,
-2024-25,League Phase,MD1,Celtic,Slovan Bratislava,2024-09-18,
-2024-25,League Phase,MD1,Club Brugge,Dortmund,2024-09-18,
-2024-25,League Phase,MD1,Man City,Inter Milan,2024-09-18,
-2024-25,League Phase,MD1,PSG,Girona,2024-09-18,
-2024-25,League Phase,MD1,Feyenoord,Bayer Leverkusen,2024-09-19,
+2023-24,Semi-final,Leg 1,Bayern Munich,Real Madrid,2024-04-30,https://www.youtube.com/watch?v=vw4dEpDgR6s
+2023-24,Semi-final,Leg 1,PSG,Dortmund,2024-05-01,https://www.youtube.com/watch?v=n-1EmUf8Q9o
+2023-24,Semi-final,Leg 2,Real Madrid,Bayern Munich,2024-05-08,https://www.youtube.com/watch?v=vw4dEpDgR6s
+2023-24,Semi-final,Leg 2,Dortmund,PSG,2024-05-07,https://www.youtube.com/watch?v=n-1EmUf8Q9o
+2023-24,Final,Final,Dortmund,Real Madrid,2024-06-01,https://www.youtube.com/watch?v=Ju97ueo0MOc
+2024-25,League Phase,MD1,Juventus,PSV,2024-09-17,https://www.youtube.com/watch?v=plwnU1V7w2E
+2024-25,League Phase,MD1,Young Boys,Aston Villa,2024-09-17,https://www.youtube.com/watch?v=OleyT2Aty1M
+2024-25,League Phase,MD1,Bayern Munich,Dinamo Zagreb,2024-09-17,https://www.youtube.com/watch?v=geeygj5DFHs
+2024-25,League Phase,MD1,Real Madrid,Stuttgart,2024-09-17,https://www.youtube.com/watch?v=n_BkNbRC5UQ
+2024-25,League Phase,MD1,Sporting CP,Lille,2024-09-17,https://www.youtube.com/watch?v=al3NwLNYTjM
+2024-25,League Phase,MD1,AC Milan,Liverpool,2024-09-17,https://www.youtube.com/watch?v=_3g3ts_sVXg
+2024-25,League Phase,MD1,Celtic,Slovan Bratislava,2024-09-18,https://www.youtube.com/watch?v=IpwgxgHH2fw
+2024-25,League Phase,MD1,Club Brugge,Dortmund,2024-09-18,https://www.youtube.com/watch?v=CuyXFPrBqjs
+2024-25,League Phase,MD1,Man City,Inter Milan,2024-09-18,https://www.youtube.com/watch?v=2DbubM94MZY
+2024-25,League Phase,MD1,PSG,Girona,2024-09-18,https://www.youtube.com/watch?v=plwnU1V7w2E
+2024-25,League Phase,MD1,Feyenoord,Bayer Leverkusen,2024-09-19,https://www.youtube.com/watch?v=QM0A8Nc7bxQ
 2024-25,League Phase,MD1,Red Star Belgrade,Benfica,2024-09-19,
-2024-25,League Phase,MD1,Monaco,Barcelona,2024-09-19,
-2024-25,League Phase,MD1,Atalanta,Arsenal,2024-09-19,
-2024-25,League Phase,MD1,Atletico Madrid,RB Leipzig,2024-09-19,
-2024-25,League Phase,MD1,Brest,Sturm Graz,2024-09-19,
-2024-25,League Phase,MD1,Shakhtar Donetsk,Bologna,2024-09-18,
-2024-25,League Phase,MD1,Sparta Prague,Salzburg,2024-09-18,
-2024-25,League Phase,MD2,Arsenal,PSG,2024-10-01,
-2024-25,League Phase,MD2,Bayer Leverkusen,AC Milan,2024-10-01,
+2024-25,League Phase,MD1,Monaco,Barcelona,2024-09-19,https://www.youtube.com/watch?v=XboySB56m2s
+2024-25,League Phase,MD1,Atalanta,Arsenal,2024-09-19,https://www.youtube.com/watch?v=8XU8pg7HWKo
+2024-25,League Phase,MD1,Atletico Madrid,RB Leipzig,2024-09-19,https://www.youtube.com/watch?v=plwnU1V7w2E
+2024-25,League Phase,MD1,Brest,Sturm Graz,2024-09-19,https://www.youtube.com/watch?v=lUjXMskFqr0
+2024-25,League Phase,MD1,Shakhtar Donetsk,Bologna,2024-09-18,https://www.youtube.com/watch?v=qS__FBgbV0Q
+2024-25,League Phase,MD1,Sparta Prague,Salzburg,2024-09-18,https://www.youtube.com/watch?v=AsDSIOdfBok
+2024-25,League Phase,MD2,Arsenal,PSG,2024-10-01,https://www.youtube.com/watch?v=YxOsZxtusiU
+2024-25,League Phase,MD2,Bayer Leverkusen,AC Milan,2024-10-01,https://www.youtube.com/watch?v=YxOsZxtusiU
 2024-25,League Phase,MD2,Dortmund,Celtic,2024-10-01,
-2024-25,League Phase,MD2,Barcelona,Young Boys,2024-10-01,
+2024-25,League Phase,MD2,Barcelona,Young Boys,2024-10-01,https://www.youtube.com/watch?v=YxOsZxtusiU
 2024-25,League Phase,MD2,Inter Milan,Red Star Belgrade,2024-10-01,
-2024-25,League Phase,MD2,Liverpool,Bologna,2024-10-02,
+2024-25,League Phase,MD2,Liverpool,Bologna,2024-10-02,https://www.youtube.com/watch?v=zewUxUwvWpE
 2024-25,League Phase,MD2,PSV,Sporting CP,2024-10-01,
-2024-25,League Phase,MD2,Slovan Bratislava,Man City,2024-10-01,
+2024-25,League Phase,MD2,Slovan Bratislava,Man City,2024-10-01,https://www.youtube.com/watch?v=YxOsZxtusiU
 2024-25,League Phase,MD2,Salzburg,Brest,2024-10-01,
 2024-25,League Phase,MD2,Stuttgart,Sparta Prague,2024-10-01,
-2024-25,League Phase,MD2,Benfica,Atletico Madrid,2024-10-02,
+2024-25,League Phase,MD2,Benfica,Atletico Madrid,2024-10-02,https://www.youtube.com/watch?v=L5f6ZCqG4d8
 2024-25,League Phase,MD2,Dinamo Zagreb,Monaco,2024-10-02,
-2024-25,League Phase,MD2,Girona,Feyenoord,2024-10-02,
-2024-25,League Phase,MD2,Aston Villa,Bayern Munich,2024-10-02,
-2024-25,League Phase,MD2,Lille,Real Madrid,2024-10-02,
-2024-25,League Phase,MD2,RB Leipzig,Juventus,2024-10-02,
+2024-25,League Phase,MD2,Girona,Feyenoord,2024-10-02,https://www.youtube.com/watch?v=MmhxO0MFhVM
+2024-25,League Phase,MD2,Aston Villa,Bayern Munich,2024-10-02,https://www.youtube.com/watch?v=SJzDturaRcU
+2024-25,League Phase,MD2,Lille,Real Madrid,2024-10-02,https://www.youtube.com/watch?v=xzakhghZ0-s
+2024-25,League Phase,MD2,RB Leipzig,Juventus,2024-10-02,https://www.youtube.com/watch?v=EQdCWkQcAHs
 2024-25,League Phase,MD2,Sturm Graz,Club Brugge,2024-10-01,
 2024-25,League Phase,MD2,Shakhtar Donetsk,Atalanta,2024-10-02,
 2024-25,League Phase,MD3,Atalanta,Celtic,2024-10-23,
@@ -166,149 +166,149 @@ season,stage,matchday,home_team,away_team,date,youtube_url
 2024-25,League Phase,MD3,Man City,Sparta Prague,2024-10-23,
 2024-25,League Phase,MD3,Juventus,Stuttgart,2024-10-22,
 2024-25,League Phase,MD3,Arsenal,Shakhtar Donetsk,2024-10-22,
-2024-25,League Phase,MD3,Aston Villa,Bologna,2024-10-22,
+2024-25,League Phase,MD3,Aston Villa,Bologna,2024-10-22,https://www.youtube.com/watch?v=W1R66QhyQbQ
 2024-25,League Phase,MD3,Girona,Slovan Bratislava,2024-10-22,
-2024-25,League Phase,MD3,Bayern Munich,Benfica,2024-10-22,
-2024-25,League Phase,MD3,AC Milan,Club Brugge,2024-10-22,
+2024-25,League Phase,MD3,Bayern Munich,Benfica,2024-10-22,https://www.youtube.com/watch?v=2KF9MxQIwpE
+2024-25,League Phase,MD3,AC Milan,Club Brugge,2024-10-22,https://www.youtube.com/watch?v=SV-l3Z_ZeP8
 2024-25,League Phase,MD3,PSG,PSV,2024-10-22,
-2024-25,League Phase,MD3,Real Madrid,Dortmund,2024-10-22,
-2024-25,League Phase,MD3,Atletico Madrid,Lille,2024-10-23,
-2024-25,League Phase,MD3,RB Leipzig,Liverpool,2024-10-23,
+2024-25,League Phase,MD3,Real Madrid,Dortmund,2024-10-22,https://www.youtube.com/watch?v=EiiCpG0HI_A
+2024-25,League Phase,MD3,Atletico Madrid,Lille,2024-10-23,https://www.youtube.com/watch?v=gA_VTvYN5ng
+2024-25,League Phase,MD3,RB Leipzig,Liverpool,2024-10-23,https://www.youtube.com/watch?v=k3MJJMhbIvc
 2024-25,League Phase,MD3,Salzburg,Dinamo Zagreb,2024-10-23,
 2024-25,League Phase,MD3,Sporting CP,Sturm Graz,2024-10-23,
 2024-25,League Phase,MD3,Monaco,Red Star Belgrade,2024-10-22,
 2024-25,League Phase,MD3,Feyenoord,Young Boys,2024-10-23,
-2024-25,League Phase,MD4,Barcelona,Brest,2024-11-06,
-2024-25,League Phase,MD4,Dortmund,Sturm Graz,2024-11-05,
-2024-25,League Phase,MD4,Inter Milan,Arsenal,2024-11-06,
-2024-25,League Phase,MD4,Liverpool,Bayer Leverkusen,2024-11-05,
-2024-25,League Phase,MD4,PSV,Girona,2024-11-05,
+2024-25,League Phase,MD4,Barcelona,Brest,2024-11-06,https://www.youtube.com/watch?v=58UOR7OWths
+2024-25,League Phase,MD4,Dortmund,Sturm Graz,2024-11-05,https://www.youtube.com/watch?v=bcHaA52Q4jw
+2024-25,League Phase,MD4,Inter Milan,Arsenal,2024-11-06,https://www.youtube.com/watch?v=2U7cfRfDLrU
+2024-25,League Phase,MD4,Liverpool,Bayer Leverkusen,2024-11-05,https://www.youtube.com/watch?v=ZZMnfRgsba8
+2024-25,League Phase,MD4,PSV,Girona,2024-11-05,https://www.youtube.com/watch?v=bcHaA52Q4jw
 2024-25,League Phase,MD4,Young Boys,Atalanta,2024-11-06,
-2024-25,League Phase,MD4,Benfica,Feyenoord,2024-11-06,
-2024-25,League Phase,MD4,Bologna,Monaco,2024-11-05,
-2024-25,League Phase,MD4,Celtic,RB Leipzig,2024-11-05,
-2024-25,League Phase,MD4,Club Brugge,Aston Villa,2024-11-06,
+2024-25,League Phase,MD4,Benfica,Feyenoord,2024-11-06,https://www.youtube.com/watch?v=bcHaA52Q4jw
+2024-25,League Phase,MD4,Bologna,Monaco,2024-11-05,https://www.youtube.com/watch?v=bcHaA52Q4jw
+2024-25,League Phase,MD4,Celtic,RB Leipzig,2024-11-05,https://www.youtube.com/watch?v=bcHaA52Q4jw
+2024-25,League Phase,MD4,Club Brugge,Aston Villa,2024-11-06,https://www.youtube.com/watch?v=bcHaA52Q4jw
 2024-25,League Phase,MD4,Dinamo Zagreb,Slovan Bratislava,2024-11-05,
-2024-25,League Phase,MD4,Lille,Juventus,2024-11-05,
-2024-25,League Phase,MD4,Real Madrid,AC Milan,2024-11-05,
+2024-25,League Phase,MD4,Lille,Juventus,2024-11-05,https://www.youtube.com/watch?v=9nE5u1a8M5o
+2024-25,League Phase,MD4,Real Madrid,AC Milan,2024-11-05,https://www.youtube.com/watch?v=ERDhuGUGcDU
 2024-25,League Phase,MD4,Salzburg,Sporting CP,2024-11-06,
 2024-25,League Phase,MD4,Sparta Prague,Atletico Madrid,2024-11-06,
 2024-25,League Phase,MD4,Stuttgart,Red Star Belgrade,2024-11-06,
-2024-25,League Phase,MD4,Shakhtar Donetsk,Man City,2024-11-06,
-2024-25,League Phase,MD4,PSG,Bayern Munich,2024-11-06,
-2024-25,League Phase,MD5,Brest,Barcelona,2024-11-26,
-2024-25,League Phase,MD5,Bayer Leverkusen,Salzburg,2024-11-26,
+2024-25,League Phase,MD4,Shakhtar Donetsk,Man City,2024-11-06,https://www.youtube.com/watch?v=YUxHXnLKjzU
+2024-25,League Phase,MD4,PSG,Bayern Munich,2024-11-06,https://www.youtube.com/watch?v=9nE5u1a8M5o
+2024-25,League Phase,MD5,Brest,Barcelona,2024-11-26,https://www.youtube.com/watch?v=PebktCwx4tQ
+2024-25,League Phase,MD5,Bayer Leverkusen,Salzburg,2024-11-26,https://www.youtube.com/watch?v=OZJviJVTfRg
 2024-25,League Phase,MD5,Red Star Belgrade,Stuttgart,2024-11-27,
-2024-25,League Phase,MD5,Inter Milan,RB Leipzig,2024-11-26,
-2024-25,League Phase,MD5,Sporting CP,Arsenal,2024-11-26,
+2024-25,League Phase,MD5,Inter Milan,RB Leipzig,2024-11-26,https://www.youtube.com/watch?v=bcHaA52Q4jw
+2024-25,League Phase,MD5,Sporting CP,Arsenal,2024-11-26,https://www.youtube.com/watch?v=bcHaA52Q4jw
 2024-25,League Phase,MD5,Young Boys,Atalanta,2024-11-26,
-2024-25,League Phase,MD5,Bayern Munich,PSG,2024-11-26,
+2024-25,League Phase,MD5,Bayern Munich,PSG,2024-11-26,https://www.youtube.com/watch?v=XJm9CSWAK0w
 2024-25,League Phase,MD5,Sparta Prague,Atletico Madrid,2024-11-26,
-2024-25,League Phase,MD5,Man City,Feyenoord,2024-11-26,
-2024-25,League Phase,MD5,Juventus,Man City,2024-11-27,
-2024-25,League Phase,MD5,Liverpool,Real Madrid,2024-11-27,
+2024-25,League Phase,MD5,Man City,Feyenoord,2024-11-26,https://www.youtube.com/watch?v=XJm9CSWAK0w
+2024-25,League Phase,MD5,Juventus,Man City,2024-11-27,https://www.youtube.com/watch?v=UjULk9_Cyv0
+2024-25,League Phase,MD5,Liverpool,Real Madrid,2024-11-27,https://www.youtube.com/watch?v=eWvGJ-W7uzg
 2024-25,League Phase,MD5,Dinamo Zagreb,Dortmund,2024-11-27,
 2024-25,League Phase,MD5,AC Milan,Slovan Bratislava,2024-11-26,
-2024-25,League Phase,MD5,Celtic,Club Brugge,2024-11-27,
+2024-25,League Phase,MD5,Celtic,Club Brugge,2024-11-27,https://www.youtube.com/watch?v=bcHaA52Q4jw
 2024-25,League Phase,MD5,Bologna,Lille,2024-11-27,
-2024-25,League Phase,MD5,PSV,Shakhtar Donetsk,2024-11-27,
-2024-25,League Phase,MD5,Sturm Graz,Girona,2024-11-27,
-2024-25,League Phase,MD5,Monaco,Benfica,2024-11-27,
-2024-25,League Phase,MD6,Atletico Madrid,Slovan Bratislava,2024-12-11,
-2024-25,League Phase,MD6,Bayer Leverkusen,Inter Milan,2024-12-10,
-2024-25,League Phase,MD6,Club Brugge,Sporting CP,2024-12-11,
-2024-25,League Phase,MD6,RB Leipzig,Aston Villa,2024-12-10,
-2024-25,League Phase,MD6,Liverpool,Girona,2024-12-10,
-2024-25,League Phase,MD6,Salzburg,PSG,2024-12-10,
-2024-25,League Phase,MD6,Atalanta,Real Madrid,2024-12-10,
+2024-25,League Phase,MD5,PSV,Shakhtar Donetsk,2024-11-27,https://www.youtube.com/watch?v=YUxHXnLKjzU
+2024-25,League Phase,MD5,Sturm Graz,Girona,2024-11-27,https://www.youtube.com/watch?v=bcHaA52Q4jw
+2024-25,League Phase,MD5,Monaco,Benfica,2024-11-27,https://www.youtube.com/watch?v=9nE5u1a8M5o
+2024-25,League Phase,MD6,Atletico Madrid,Slovan Bratislava,2024-12-11,https://www.youtube.com/watch?v=2ejGyLvTwY0
+2024-25,League Phase,MD6,Bayer Leverkusen,Inter Milan,2024-12-10,https://www.youtube.com/watch?v=o2oSDgI9nZs
+2024-25,League Phase,MD6,Club Brugge,Sporting CP,2024-12-11,https://www.youtube.com/watch?v=d2BQG-mYPYc
+2024-25,League Phase,MD6,RB Leipzig,Aston Villa,2024-12-10,https://www.youtube.com/watch?v=lLn8vkp6j44
+2024-25,League Phase,MD6,Liverpool,Girona,2024-12-10,https://www.youtube.com/watch?v=1Wx49H5qcDY
+2024-25,League Phase,MD6,Salzburg,PSG,2024-12-10,https://www.youtube.com/watch?v=S_B2qOFc-1U
+2024-25,League Phase,MD6,Atalanta,Real Madrid,2024-12-10,https://www.youtube.com/watch?v=4HsNDf-BwPA
 2024-25,League Phase,MD6,Brest,PSV,2024-12-10,
-2024-25,League Phase,MD6,Dortmund,Barcelona,2024-12-11,
+2024-25,League Phase,MD6,Dortmund,Barcelona,2024-12-11,https://www.youtube.com/watch?v=kq3l4XYv1XY
 2024-25,League Phase,MD6,Feyenoord,Sparta Prague,2024-12-11,
-2024-25,League Phase,MD6,Juventus,Man City,2024-12-11,
+2024-25,League Phase,MD6,Juventus,Man City,2024-12-11,https://www.youtube.com/watch?v=JoLETUcXkw0
 2024-25,League Phase,MD6,Benfica,Bologna,2024-12-11,
-2024-25,League Phase,MD6,Red Star Belgrade,Young Boys,2024-12-11,
+2024-25,League Phase,MD6,Red Star Belgrade,Young Boys,2024-12-11,https://www.youtube.com/watch?v=vwVWkNeqBtE
 2024-25,League Phase,MD6,Dinamo Zagreb,Celtic,2024-12-10,
-2024-25,League Phase,MD6,Monaco,Arsenal,2024-12-10,
+2024-25,League Phase,MD6,Monaco,Arsenal,2024-12-10,https://www.youtube.com/watch?v=P-Bf6rMWTbI
 2024-25,League Phase,MD6,Stuttgart,Shakhtar Donetsk,2024-12-10,
 2024-25,League Phase,MD6,Sturm Graz,Lille,2024-12-11,
-2024-25,League Phase,MD6,AC Milan,Bayern Munich,2024-12-11,
+2024-25,League Phase,MD6,AC Milan,Bayern Munich,2024-12-11,https://www.youtube.com/watch?v=S_B2qOFc-1U
 2024-25,League Phase,MD7,Atalanta,Sturm Graz,2025-01-21,
 2024-25,League Phase,MD7,Atletico Madrid,Bayer Leverkusen,2025-01-21,
 2024-25,League Phase,MD7,Bologna,Dortmund,2025-01-21,
-2024-25,League Phase,MD7,Club Brugge,Juventus,2025-01-21,
-2024-25,League Phase,MD7,Liverpool,Lille,2025-01-21,
-2024-25,League Phase,MD7,Monaco,Aston Villa,2025-01-21,
+2024-25,League Phase,MD7,Club Brugge,Juventus,2025-01-21,https://www.youtube.com/watch?v=BHBL5F6DXC8
+2024-25,League Phase,MD7,Liverpool,Lille,2025-01-21,https://www.youtube.com/watch?v=6VzUQK3bCxI
+2024-25,League Phase,MD7,Monaco,Aston Villa,2025-01-21,https://www.youtube.com/watch?v=LgGxq7iiwUc
 2024-25,League Phase,MD7,PSV,Red Star Belgrade,2025-01-21,
-2024-25,League Phase,MD7,Benfica,Barcelona,2025-01-21,
+2024-25,League Phase,MD7,Benfica,Barcelona,2025-01-21,https://www.youtube.com/watch?v=_KzKyfn64R0
 2024-25,League Phase,MD7,Feyenoord,Bayern Munich,2025-01-22,
-2024-25,League Phase,MD7,AC Milan,Girona,2025-01-22,
+2024-25,League Phase,MD7,AC Milan,Girona,2025-01-22,https://www.youtube.com/watch?v=x21LnlNro7Y
 2024-25,League Phase,MD7,Real Madrid,Salzburg,2025-01-22,
 2024-25,League Phase,MD7,Celtic,Young Boys,2025-01-22,
-2024-25,League Phase,MD7,Inter Milan,Monaco,2025-01-22,
-2024-25,League Phase,MD7,Man City,Club Brugge,2025-01-22,
-2024-25,League Phase,MD7,PSG,Man City,2025-01-22,
+2024-25,League Phase,MD7,Inter Milan,Monaco,2025-01-22,https://www.youtube.com/watch?v=kg9r7fgTZGw
+2024-25,League Phase,MD7,Man City,Club Brugge,2025-01-22,https://www.youtube.com/watch?v=BHBL5F6DXC8
+2024-25,League Phase,MD7,PSG,Man City,2025-01-22,https://www.youtube.com/watch?v=9W-TObN-4i0
 2024-25,League Phase,MD7,Sparta Prague,Inter Milan,2025-01-22,
 2024-25,League Phase,MD7,Stuttgart,Slovan Bratislava,2025-01-22,
 2024-25,League Phase,MD7,Sporting CP,Bologna,2025-01-22,
-2024-25,League Phase,MD8,Barcelona,Atalanta,2025-01-29,
+2024-25,League Phase,MD8,Barcelona,Atalanta,2025-01-29,https://www.youtube.com/watch?v=BHBL5F6DXC8
 2024-25,League Phase,MD8,Bayern Munich,Slovan Bratislava,2025-01-29,
 2024-25,League Phase,MD8,Dortmund,Shakhtar Donetsk,2025-01-29,
-2024-25,League Phase,MD8,Inter Milan,Monaco,2025-01-29,
-2024-25,League Phase,MD8,Juventus,Benfica,2025-01-29,
+2024-25,League Phase,MD8,Inter Milan,Monaco,2025-01-29,https://www.youtube.com/watch?v=kg9r7fgTZGw
+2024-25,League Phase,MD8,Juventus,Benfica,2025-01-29,https://www.youtube.com/watch?v=l5VfOhsrpSI
 2024-25,League Phase,MD8,Lille,Feyenoord,2025-01-29,
-2024-25,League Phase,MD8,Man City,Club Brugge,2025-01-29,
-2024-25,League Phase,MD8,PSG,Stuttgart,2025-01-29,
-2024-25,League Phase,MD8,Salzburg,Atletico Madrid,2025-01-29,
+2024-25,League Phase,MD8,Man City,Club Brugge,2025-01-29,https://www.youtube.com/watch?v=BHBL5F6DXC8
+2024-25,League Phase,MD8,PSG,Stuttgart,2025-01-29,https://www.youtube.com/watch?v=BHBL5F6DXC8
+2024-25,League Phase,MD8,Salzburg,Atletico Madrid,2025-01-29,https://www.youtube.com/watch?v=c50t_p9UyY4
 2024-25,League Phase,MD8,Sporting CP,Bologna,2025-01-29,
-2024-25,League Phase,MD8,Brest,Real Madrid,2025-01-29,
+2024-25,League Phase,MD8,Brest,Real Madrid,2025-01-29,https://www.youtube.com/watch?v=_eZsk-QVfTE
 2024-25,League Phase,MD8,Dinamo Zagreb,AC Milan,2025-01-29,
-2024-25,League Phase,MD8,Girona,Arsenal,2025-01-29,
+2024-25,League Phase,MD8,Girona,Arsenal,2025-01-29,https://www.youtube.com/watch?v=MyArFv50674
 2024-25,League Phase,MD8,Bayer Leverkusen,Sparta Prague,2025-01-29,
 2024-25,League Phase,MD8,Aston Villa,Celtic,2025-01-29,
 2024-25,League Phase,MD8,RB Leipzig,Sturm Graz,2025-01-29,
 2024-25,League Phase,MD8,Red Star Belgrade,Young Boys,2025-01-29,
 2024-25,League Phase,MD8,Young Boys,Red Star Belgrade,2025-01-29,
-2024-25,Knockout Playoff,Leg 1,Juventus,PSV,2025-02-11,
-2024-25,Knockout Playoff,Leg 1,Feyenoord,AC Milan,2025-02-11,
-2024-25,Knockout Playoff,Leg 1,Club Brugge,Atalanta,2025-02-11,
-2024-25,Knockout Playoff,Leg 1,Sporting CP,Dortmund,2025-02-11,
-2024-25,Knockout Playoff,Leg 1,Man City,Real Madrid,2025-02-11,
-2024-25,Knockout Playoff,Leg 1,Celtic,Bayern Munich,2025-02-11,
-2024-25,Knockout Playoff,Leg 1,Monaco,Benfica,2025-02-11,
-2024-25,Knockout Playoff,Leg 1,Brest,PSG,2025-02-11,
-2024-25,Knockout Playoff,Leg 2,PSV,Juventus,2025-02-18,
-2024-25,Knockout Playoff,Leg 2,AC Milan,Feyenoord,2025-02-18,
-2024-25,Knockout Playoff,Leg 2,Atalanta,Club Brugge,2025-02-18,
-2024-25,Knockout Playoff,Leg 2,Dortmund,Sporting CP,2025-02-18,
-2024-25,Knockout Playoff,Leg 2,Real Madrid,Man City,2025-02-18,
-2024-25,Knockout Playoff,Leg 2,Bayern Munich,Celtic,2025-02-18,
-2024-25,Knockout Playoff,Leg 2,Benfica,Monaco,2025-02-18,
-2024-25,Knockout Playoff,Leg 2,PSG,Brest,2025-02-18,
-2024-25,Round of 16,Leg 1,Atalanta,Barcelona,2025-03-04,
-2024-25,Round of 16,Leg 1,Dortmund,Liverpool,2025-03-04,
-2024-25,Round of 16,Leg 1,Real Madrid,Atletico Madrid,2025-03-04,
-2024-25,Round of 16,Leg 1,Juventus,Arsenal,2025-03-04,
-2024-25,Round of 16,Leg 1,AC Milan,Inter Milan,2025-03-05,
-2024-25,Round of 16,Leg 1,Bayern Munich,Benfica,2025-03-05,
-2024-25,Round of 16,Leg 1,PSG,Lille,2025-03-05,
-2024-25,Round of 16,Leg 1,Feyenoord,Bayer Leverkusen,2025-03-05,
-2024-25,Round of 16,Leg 2,Barcelona,Atalanta,2025-03-11,
-2024-25,Round of 16,Leg 2,Liverpool,Dortmund,2025-03-11,
+2024-25,Knockout Playoff,Leg 1,Juventus,PSV,2025-02-11,https://www.youtube.com/watch?v=vrLmYBAQpPQ
+2024-25,Knockout Playoff,Leg 1,Feyenoord,AC Milan,2025-02-11,https://www.youtube.com/watch?v=PLEq9IsqsNk
+2024-25,Knockout Playoff,Leg 1,Club Brugge,Atalanta,2025-02-11,https://www.youtube.com/watch?v=74mPfMNyvcg
+2024-25,Knockout Playoff,Leg 1,Sporting CP,Dortmund,2025-02-11,https://www.youtube.com/watch?v=7cVIpXq1M4o
+2024-25,Knockout Playoff,Leg 1,Man City,Real Madrid,2025-02-11,https://www.youtube.com/watch?v=8HsvaR4RiVA
+2024-25,Knockout Playoff,Leg 1,Celtic,Bayern Munich,2025-02-11,https://www.youtube.com/watch?v=A8QOqEfj6hU
+2024-25,Knockout Playoff,Leg 1,Monaco,Benfica,2025-02-11,https://www.youtube.com/watch?v=ZZWdnX44jDE
+2024-25,Knockout Playoff,Leg 1,Brest,PSG,2025-02-11,https://www.youtube.com/watch?v=E0xUzVMjtUg
+2024-25,Knockout Playoff,Leg 2,PSV,Juventus,2025-02-18,https://www.youtube.com/watch?v=vrLmYBAQpPQ
+2024-25,Knockout Playoff,Leg 2,AC Milan,Feyenoord,2025-02-18,https://www.youtube.com/watch?v=PLEq9IsqsNk
+2024-25,Knockout Playoff,Leg 2,Atalanta,Club Brugge,2025-02-18,https://www.youtube.com/watch?v=74mPfMNyvcg
+2024-25,Knockout Playoff,Leg 2,Dortmund,Sporting CP,2025-02-18,https://www.youtube.com/watch?v=7cVIpXq1M4o
+2024-25,Knockout Playoff,Leg 2,Real Madrid,Man City,2025-02-18,https://www.youtube.com/watch?v=8HsvaR4RiVA
+2024-25,Knockout Playoff,Leg 2,Bayern Munich,Celtic,2025-02-18,https://www.youtube.com/watch?v=A8QOqEfj6hU
+2024-25,Knockout Playoff,Leg 2,Benfica,Monaco,2025-02-18,https://www.youtube.com/watch?v=ZZWdnX44jDE
+2024-25,Knockout Playoff,Leg 2,PSG,Brest,2025-02-18,https://www.youtube.com/watch?v=E0xUzVMjtUg
+2024-25,Round of 16,Leg 1,Atalanta,Barcelona,2025-03-04,https://www.youtube.com/watch?v=2SJr-ymD4RU
+2024-25,Round of 16,Leg 1,Dortmund,Liverpool,2025-03-04,https://www.youtube.com/watch?v=QWwhCioDC1w
+2024-25,Round of 16,Leg 1,Real Madrid,Atletico Madrid,2025-03-04,https://www.youtube.com/watch?v=2SJr-ymD4RU
+2024-25,Round of 16,Leg 1,Juventus,Arsenal,2025-03-04,https://www.youtube.com/watch?v=C3GKkWetr9A
+2024-25,Round of 16,Leg 1,AC Milan,Inter Milan,2025-03-05,https://www.youtube.com/watch?v=Jij75iUvDig
+2024-25,Round of 16,Leg 1,Bayern Munich,Benfica,2025-03-05,https://www.youtube.com/watch?v=u4JVV8-mj7E
+2024-25,Round of 16,Leg 1,PSG,Lille,2025-03-05,https://www.youtube.com/watch?v=QWwhCioDC1w
+2024-25,Round of 16,Leg 1,Feyenoord,Bayer Leverkusen,2025-03-05,https://www.youtube.com/watch?v=kQo4IkGEwWQ
+2024-25,Round of 16,Leg 2,Barcelona,Atalanta,2025-03-11,https://www.youtube.com/watch?v=2SJr-ymD4RU
+2024-25,Round of 16,Leg 2,Liverpool,Dortmund,2025-03-11,https://www.youtube.com/watch?v=QWwhCioDC1w
 2024-25,Round of 16,Leg 2,Atletico Madrid,Real Madrid,2025-03-11,
-2024-25,Round of 16,Leg 2,Arsenal,Juventus,2025-03-11,
-2024-25,Round of 16,Leg 2,Inter Milan,AC Milan,2025-03-12,
-2024-25,Round of 16,Leg 2,Benfica,Bayern Munich,2025-03-12,
-2024-25,Round of 16,Leg 2,Lille,PSG,2025-03-12,
-2024-25,Round of 16,Leg 2,Bayer Leverkusen,Feyenoord,2025-03-12,
-2024-25,Quarter-final,Leg 1,Barcelona,Liverpool,2025-04-08,
-2024-25,Quarter-final,Leg 1,Inter Milan,Bayern Munich,2025-04-08,
-2024-25,Quarter-final,Leg 1,Arsenal,PSG,2025-04-09,
+2024-25,Round of 16,Leg 2,Arsenal,Juventus,2025-03-11,https://www.youtube.com/watch?v=C3GKkWetr9A
+2024-25,Round of 16,Leg 2,Inter Milan,AC Milan,2025-03-12,https://www.youtube.com/watch?v=kQo4IkGEwWQ
+2024-25,Round of 16,Leg 2,Benfica,Bayern Munich,2025-03-12,https://www.youtube.com/watch?v=tALyzOvpD70
+2024-25,Round of 16,Leg 2,Lille,PSG,2025-03-12,https://www.youtube.com/watch?v=QWwhCioDC1w
+2024-25,Round of 16,Leg 2,Bayer Leverkusen,Feyenoord,2025-03-12,https://www.youtube.com/watch?v=kQo4IkGEwWQ
+2024-25,Quarter-final,Leg 1,Barcelona,Liverpool,2025-04-08,https://www.youtube.com/watch?v=8MgbHaTL7_U
+2024-25,Quarter-final,Leg 1,Inter Milan,Bayern Munich,2025-04-08,https://www.youtube.com/watch?v=79xxN25DIxw
+2024-25,Quarter-final,Leg 1,Arsenal,PSG,2025-04-09,https://www.youtube.com/watch?v=8MgbHaTL7_U
 2024-25,Quarter-final,Leg 1,Atletico Madrid,Bayer Leverkusen,2025-04-09,
-2024-25,Quarter-final,Leg 2,Liverpool,Barcelona,2025-04-15,
-2024-25,Quarter-final,Leg 2,Bayern Munich,Inter Milan,2025-04-15,
-2024-25,Quarter-final,Leg 2,PSG,Arsenal,2025-04-16,
+2024-25,Quarter-final,Leg 2,Liverpool,Barcelona,2025-04-15,https://www.youtube.com/watch?v=8MgbHaTL7_U
+2024-25,Quarter-final,Leg 2,Bayern Munich,Inter Milan,2025-04-15,https://www.youtube.com/watch?v=79xxN25DIxw
+2024-25,Quarter-final,Leg 2,PSG,Arsenal,2025-04-16,https://www.youtube.com/watch?v=8MgbHaTL7_U
 2024-25,Quarter-final,Leg 2,Bayer Leverkusen,Atletico Madrid,2025-04-16,
-2024-25,Semi-final,Leg 1,Arsenal,Barcelona,2025-04-29,
-2024-25,Semi-final,Leg 1,Inter Milan,Atletico Madrid,2025-04-30,
-2024-25,Semi-final,Leg 2,Barcelona,Arsenal,2025-05-06,
-2024-25,Semi-final,Leg 2,Atletico Madrid,Inter Milan,2025-05-07,
+2024-25,Semi-final,Leg 1,Arsenal,Barcelona,2025-04-29,https://www.youtube.com/watch?v=8MgbHaTL7_U
+2024-25,Semi-final,Leg 1,Inter Milan,Atletico Madrid,2025-04-30,https://www.youtube.com/watch?v=nuyuCSRx8sI
+2024-25,Semi-final,Leg 2,Barcelona,Arsenal,2025-05-06,https://www.youtube.com/watch?v=VMfNgKSGMk4
+2024-25,Semi-final,Leg 2,Atletico Madrid,Inter Milan,2025-05-07,https://www.youtube.com/watch?v=VMfNgKSGMk4
