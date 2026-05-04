@@ -142,4 +142,4 @@ The MI300X's 192GB unified HBM3 memory fits the 90B parameter Llama 3.2 Vision m
 
 ## License
 
-TBD
+MIT
