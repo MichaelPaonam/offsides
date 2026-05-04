@@ -1,5 +1,9 @@
 # Offsides
 
+<p align="center">
+  <img src="offsides-logo.png" alt="Offsides Logo" width="400">
+</p>
+
 A multimodal AI system that analyzes UEFA Champions League match footage alongside statistical data to detect when sports prediction markets are mispriced. Using Llama 3.2 Vision running on AMD MI300X GPUs, it extracts tactical signals from video frames — defensive shape, pressing intensity, transition patterns — that traditional stats-based models miss, then compares its probability estimates against market odds to surface edges the crowd hasn't priced in yet.
 
 **Track 3: Vision & Multimodal AI** | AMD Developer Hackathon 2026
