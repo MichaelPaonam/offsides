@@ -13,13 +13,15 @@ A multimodal AI system that analyzes UEFA Champions League match footage alongsi
 ```mermaid
 flowchart LR
     YT[YouTube Highlights] --> FE[Frame Extraction]
-    FE --> FS[Frame Selection]
-    FS --> LLM[Multimodal LLM\non AMD MI300X]
+    FE --> YOLO[YOLO Detection]
+    YOLO --> Struct[Player/Ball Positions\nFormations, Distances]
 
     Stats[Stats API\nStatsBomb / FBref] --> Feat[Feature Engineering]
-    Feat --> LLM
 
-    LLM --> Prob[Match Probability\nEstimate]
+    Struct --> VLM[Qwen-VL\nTactical Reasoning\non AMD MI300X]
+    Feat --> VLM
+
+    VLM --> Prob[Match Probability\nEstimate]
 
     Odds[Historical Odds] --> Edge[Edge Detection]
     Prob --> Edge
@@ -32,8 +34,10 @@ flowchart LR
 | Component | Technology |
 |-----------|-----------|
 | Compute | AMD Instinct MI300X (192GB HBM3) via AMD Developer Cloud |
-| Model | Llama 3.2 Vision on ROCm |
+| Object Detection | YOLO (player/ball tracking, formations) |
+| Reasoning Model | Qwen-VL on ROCm |
 | Serving | vLLM / Hugging Face Transformers + Accelerate |
+| Demo | Hugging Face Spaces (Gradio) |
 | Stats data | StatsBomb (event-level), FBref (aggregate), API-Football |
 | Odds data | Historical betting odds via Odds-portal |
 | Video | YouTube UEFA Champions League highlights |
@@ -105,21 +109,24 @@ python offsides.py --match "Barcelona vs PSG" --date "2024-04-10"
 ## How It Works
 
 1. **Ingest** — Pull match highlight clips + structured stats (xG, pressing data, form, fitness proxies) + historical market odds
-2. **Extract** — Sample key frames from video that reveal tactical shape
-3. **Analyze** — Feed frames to Llama 3.2 Vision on AMD MI300X. Ask targeted tactical questions: defensive line shape, midfield compactness, pressing structure
-4. **Aggregate** — Combine visual tactical insights with statistical features into a unified match assessment
-5. **Price** — Generate win/draw/loss probability
-6. **Compare** — Overlay against market odds, flag discrepancies as potential edges
+2. **Extract** — Sample key frames from video
+3. **Detect** — Run YOLO on frames to get precise player/ball positions, formation shapes, defensive line height
+4. **Map** — Convert YOLO detections into tactical metrics (compactness, pressing distances, transition speed)
+5. **Reason** — Feed structured YOLO data + stats to Qwen-VL for tactical interpretation ("Is this team's midfield being bypassed?")
+6. **Price** — Generate win/draw/loss probability
+7. **Compare** — Overlay against market odds, flag discrepancies as potential edges
 
 ## Key Design Decisions
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
+| Two-stage architecture | YOLO (perception) + VLM (reasoning) | VLMs are bad at precise tracking; YOLO is bad at interpretation. Use each for its strength |
+| Qwen-VL over Llama Vision | Qwen-based VLAs for reasoning | Stronger reasoning support, mentor-recommended, ROCm compatible |
 | No fine-tuning | Base model + prompt engineering | No labeled tactical data; fine-tuning would consume the entire timeline |
-| No ball/player tracking | Vision-language model for holistic scene interpretation | Tracking is solved by others (StatsBomb); our value is tactical *interpretation* |
-| Highlights not full matches | YouTube highlights are legal and sufficient | Tactical shape is visible in frames; full matches are copyrighted |
+| Highlights not full matches | YouTube highlights are legal and sufficient | Tactical shape visible in frames; full matches are copyrighted |
 | Stats for fitness | Minutes played, pressing dropoff, rotation patterns | Highlights don't show off-ball fatigue |
-| CLI-first | Terminal output with clear results | Judges care about the pipeline working, not a polished UI |
+| HF Space as demo | Gradio app on Hugging Face Spaces | Prize opportunity (most likes wins), interactive, shareable URL for judges |
+| CLI + chatbot | Terminal output + natural language queries | Judges can ask "Was Barcelona struggling in midfield?" and get reasoned answers |
 
 ## Data Sources
 
