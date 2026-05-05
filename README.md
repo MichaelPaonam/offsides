@@ -19,7 +19,7 @@ flowchart LR
     subgraph Perception
         YT[Recent Highlights\nBoth Teams] --> FE[Frame Extraction]
         FE --> YOLO[YOLO Detection]
-        YOLO --> Tact[Tactical Features\nFormation, Compactness\nPressing, Transitions]
+        YOLO --> Ann[Annotated Frames\nOverlays via OpenCV]
     end
 
     subgraph Context
@@ -28,7 +28,7 @@ flowchart LR
     end
 
     subgraph Reasoning
-        Tact --> VLM[Qwen-VL\nConversational Reasoning\non AMD MI300X]
+        Ann --> VLM[Qwen-VL\nMultimodal Conversation\non AMD MI300X]
         Feat --> VLM
         Ctx --> VLM
         User --> VLM
@@ -42,14 +42,15 @@ flowchart LR
 | Component | Technology |
 |-----------|-----------|
 | Compute | AMD Instinct MI300X (192GB HBM3) via AMD Developer Cloud |
+| Cloud Image | vLLM 0.17.1 on ROCm (Ubuntu 24.04) |
 | Object Detection | YOLO (player/ball tracking, formations) |
-| Reasoning Model | Qwen-VL on ROCm |
-| Serving | vLLM / Hugging Face Transformers + Accelerate |
+| Frame Annotation | OpenCV (render YOLO detections onto frames) |
+| Reasoning Model | Qwen-VL on ROCm (7B dev / 72B final) |
+| Model Serving | vLLM on ROCm |
 | Demo | Hugging Face Spaces (Gradio) |
-| Stats data | StatsBomb (event-level), FBref (aggregate), API-Football |
+| Stats data | StatsBomb (event-level), FBref (aggregate) |
 | Odds data | Historical betting odds via Odds-portal |
 | Video | YouTube UEFA Champions League highlights |
-| Frame extraction | OpenCV |
 | Language | Python 3.12 |
 | Tests | pytest |
 
@@ -91,6 +92,28 @@ python scripts/download_highlights.py
 
 See [scripts/README.md](scripts/README.md) for full details.
 
+### GPU Cloud Setup
+
+```bash
+# Install CLI
+brew install doctl
+doctl auth init  # paste your API token
+
+# Create GPU droplet (single MI300X, vLLM pre-installed)
+doctl compute droplet create offsides-gpu \
+  --size gpu-mi300x1-192gb \
+  --image amddeveloperclou-vllm0171 \
+  --region atl1 \
+  --ssh-keys <your-fingerprint>
+
+# SSH in
+ssh -i ~/.ssh/id_ed25519_amd root@<droplet-ip>
+
+# On the droplet: download model and serve
+huggingface-cli download Qwen/Qwen2.5-VL-7B-Instruct
+vllm serve Qwen/Qwen2.5-VL-7B-Instruct --dtype auto
+```
+
 ### Run the Pipeline
 
 ```bash
@@ -129,24 +152,24 @@ python offsides.py --chat
 2. **Ingest** — System pulls recent highlights for both teams (last 3-5 matches) + stats + market odds
 3. **Extract** — Sample key frames from recent footage
 4. **Detect** — YOLO extracts player/ball positions, formation shapes, defensive line height
-5. **Map** — Convert detections into tactical metrics and trends (compactness dropping, pressing weakening)
-6. **Reason** — Qwen-VL reasons over tactical features + stats + odds, produces assessment
-7. **Respond** — Natural language answer: probability, edge vs market, reasoning, supporting evidence
+5. **Annotate** — Render detections onto original frames (bounding boxes, defensive line, compactness ellipse, formation skeleton)
+6. **Reason** — Qwen-VL receives annotated frames + stats + odds, produces tactical assessment via multimodal conversation
+7. **Respond** — Natural language answer: probability, edge vs market, reasoning, visual evidence from frames
 
-Users can ask follow-up questions ("What specifically is wrong with PSG's defense?") for multi-turn conversation.
+Users can ask follow-up questions ("What specifically is wrong with PSG's defense?") — the VLM references annotated frames in its responses.
 
 ## Key Design Decisions
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| Two-stage architecture | YOLO (perception) + VLM (reasoning) | VLMs are bad at precise tracking; YOLO is bad at interpretation. Use each for its strength |
+| Two-stage architecture | YOLO (perception) → Annotate → VLM (reasoning) | VLMs can't do precise tracking; YOLO can't interpret. Annotation bridges both — VLM sees the scene with spatial data overlaid |
 | Prospective mode | Analyze recent form of both teams pre-match | Edge is only actionable before kickoff — this is how market users seek alpha |
 | Conversational interface | Multi-turn natural language Q&A | Track 3 asks for multimodal conversational assistants; users ask tactical questions, get reasoned answers |
 | Qwen-VL over Llama Vision | Qwen-based VLAs for reasoning | Stronger reasoning support, mentor-recommended, ROCm compatible |
 | No fine-tuning | Base model + prompt engineering | No labeled tactical data; fine-tuning would consume the entire timeline |
 | Highlights not full matches | YouTube highlights are legal and sufficient | Tactical shape visible in frames; full matches are copyrighted |
 | Stats for fitness | Minutes played, pressing dropoff, rotation patterns | Highlights don't show off-ball fatigue |
-| HF Space as demo | Gradio app on Hugging Face Spaces | Prize opportunity (most likes wins), interactive, shareable URL for judges |
+| HF Space as submission | Gradio app on Hugging Face Spaces | Required deliverable (submit Space link on lablab.ai) + most likes wins HF Category Prize |
 | CLI + chatbot | Terminal output + natural language queries | Judges can ask "Was Barcelona struggling in midfield?" and get reasoned answers |
 
 ## Data Sources
@@ -155,7 +178,7 @@ Users can ask follow-up questions ("What specifically is wrong with PSG's defens
 |--------|-----------------|--------|
 | [StatsBomb Open Data](https://github.com/statsbomb/open-data) | Event-level match data (passes, shots, pressures with x/y coords) | Free (GitHub) |
 | [FBref](https://fbref.com) | Aggregate match stats, xG, pressing data | Free (web) |
-| [API-Football](https://www.api-football.com) | Fixtures, lineups, live stats | Free tier (100 req/day) |
+| [API-Football](https://www.api-football.com) | Fixtures, lineups for upcoming matches | Free tier (100 req/day) — optional, not on critical path |
 | [Odds-portal](https://www.oddsportal.com) | Historical betting odds | Free (web) |
 | [UEFA YouTube](https://www.youtube.com/@ChampionsLeague) | Official highlight clips | Free |
 
@@ -166,7 +189,7 @@ Users can ask follow-up questions ("What specifically is wrong with PSG's defens
 
 ## Why AMD
 
-The MI300X's 192GB unified HBM3 memory fits Qwen-VL 72B on a single device — no model sharding required. This enables real-time conversational inference where users can ask follow-up questions without latency spikes from cross-device communication. ROCm provides native PyTorch compatibility, so the pipeline runs without CUDA-specific rewrites.
+The MI300X's 192GB unified HBM3 memory fits Qwen-VL 72B on a single device — no model sharding required. This enables real-time multimodal conversation: the VLM processes annotated frames (4-6 images per team) alongside stats in a single context window, and users can ask follow-up questions without latency from cross-device communication. ROCm provides native PyTorch compatibility — our pipeline runs identically to CUDA with zero code changes (just a different pip install URL).
 
 ## License
 
