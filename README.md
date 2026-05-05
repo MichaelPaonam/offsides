@@ -4,7 +4,7 @@
   <img src="offsides-logo.png" alt="Offsides Logo" width="400">
 </p>
 
-A multimodal AI system that analyzes UEFA Champions League match footage alongside statistical data to detect when sports prediction markets are mispriced. Using Llama 3.2 Vision running on AMD MI300X GPUs, it extracts tactical signals from video frames — defensive shape, pressing intensity, transition patterns — that traditional stats-based models miss, then compares its probability estimates against market odds to surface edges the crowd hasn't priced in yet.
+A multimodal conversational assistant for sports prediction markets. Ask about any upcoming UEFA Champions League match — Offsides analyzes recent footage of both teams using YOLO + Qwen-VL on AMD MI300X GPUs, extracts tactical signals the market hasn't priced in (defensive shape deterioration, pressing intensity trends, transition vulnerabilities), and tells you where it disagrees with the odds.
 
 **Track 3: Vision & Multimodal AI** | AMD Developer Hackathon 2026
 
@@ -12,21 +12,29 @@ A multimodal AI system that analyzes UEFA Champions League match footage alongsi
 
 ```mermaid
 flowchart LR
-    YT[YouTube Highlights] --> FE[Frame Extraction]
-    FE --> YOLO[YOLO Detection]
-    YOLO --> Struct[Player/Ball Positions\nFormations, Distances]
+    subgraph Input
+        User[User Query\n'How does Barça vs PSG look?']
+    end
 
-    Stats[Stats API\nStatsBomb / FBref] --> Feat[Feature Engineering]
+    subgraph Perception
+        YT[Recent Highlights\nBoth Teams] --> FE[Frame Extraction]
+        FE --> YOLO[YOLO Detection]
+        YOLO --> Tact[Tactical Features\nFormation, Compactness\nPressing, Transitions]
+    end
 
-    Struct --> VLM[Qwen-VL\nTactical Reasoning\non AMD MI300X]
-    Feat --> VLM
+    subgraph Context
+        Stats[Stats API\nxG, Form, Pressing] --> Feat[Feature Engineering]
+        Odds[Market Odds] --> Ctx[Match Context]
+    end
 
-    VLM --> Prob[Match Probability\nEstimate]
+    subgraph Reasoning
+        Tact --> VLM[Qwen-VL\nConversational Reasoning\non AMD MI300X]
+        Feat --> VLM
+        Ctx --> VLM
+        User --> VLM
+    end
 
-    Odds[Historical Odds] --> Edge[Edge Detection]
-    Prob --> Edge
-
-    Edge --> Out["Market says 35%\nWe say 52%"]
+    VLM --> Resp["'Market says 42% Barça.\nWe say 55%. Edge: +13pts.\nPSG high line is vulnerable.'"]
 ```
 
 ## Tech Stack
@@ -86,8 +94,17 @@ See [scripts/README.md](scripts/README.md) for full details.
 ### Run the Pipeline
 
 ```bash
-# TODO: implement during development phase
-python offsides.py --match "Barcelona vs PSG" --date "2024-04-10"
+# Ask about an upcoming match
+python offsides.py "How does Barcelona vs PSG look for Tuesday?"
+
+# Ask about a past match (retrospective validation)
+python offsides.py "Was the market wrong on Inter vs Atletico, March 2024?"
+
+# Interactive conversation mode
+python offsides.py --chat
+> How does Barcelona vs PSG look?
+> What's wrong with PSG's defense specifically?
+> Show me the pressing data from their last 3 matches
 ```
 
 ## Project Structure
@@ -108,19 +125,23 @@ python offsides.py --match "Barcelona vs PSG" --date "2024-04-10"
 
 ## How It Works
 
-1. **Ingest** — Pull match highlight clips + structured stats (xG, pressing data, form, fitness proxies) + historical market odds
-2. **Extract** — Sample key frames from video
-3. **Detect** — Run YOLO on frames to get precise player/ball positions, formation shapes, defensive line height
-4. **Map** — Convert YOLO detections into tactical metrics (compactness, pressing distances, transition speed)
-5. **Reason** — Feed structured YOLO data + stats to Qwen-VL for tactical interpretation ("Is this team's midfield being bypassed?")
-6. **Price** — Generate win/draw/loss probability
-7. **Compare** — Overlay against market odds, flag discrepancies as potential edges
+1. **Query** — User asks about a match ("How does Barcelona vs PSG look for Tuesday?")
+2. **Ingest** — System pulls recent highlights for both teams (last 3-5 matches) + stats + market odds
+3. **Extract** — Sample key frames from recent footage
+4. **Detect** — YOLO extracts player/ball positions, formation shapes, defensive line height
+5. **Map** — Convert detections into tactical metrics and trends (compactness dropping, pressing weakening)
+6. **Reason** — Qwen-VL reasons over tactical features + stats + odds, produces assessment
+7. **Respond** — Natural language answer: probability, edge vs market, reasoning, supporting evidence
+
+Users can ask follow-up questions ("What specifically is wrong with PSG's defense?") for multi-turn conversation.
 
 ## Key Design Decisions
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
 | Two-stage architecture | YOLO (perception) + VLM (reasoning) | VLMs are bad at precise tracking; YOLO is bad at interpretation. Use each for its strength |
+| Prospective mode | Analyze recent form of both teams pre-match | Edge is only actionable before kickoff — this is how market users seek alpha |
+| Conversational interface | Multi-turn natural language Q&A | Track 3 asks for multimodal conversational assistants; users ask tactical questions, get reasoned answers |
 | Qwen-VL over Llama Vision | Qwen-based VLAs for reasoning | Stronger reasoning support, mentor-recommended, ROCm compatible |
 | No fine-tuning | Base model + prompt engineering | No labeled tactical data; fine-tuning would consume the entire timeline |
 | Highlights not full matches | YouTube highlights are legal and sufficient | Tactical shape visible in frames; full matches are copyrighted |
@@ -145,7 +166,7 @@ python offsides.py --match "Barcelona vs PSG" --date "2024-04-10"
 
 ## Why AMD
 
-The MI300X's 192GB unified HBM3 memory fits the 90B parameter Llama 3.2 Vision model on a single device — no model sharding required. ROCm provides native PyTorch compatibility, so the pipeline runs without CUDA-specific rewrites.
+The MI300X's 192GB unified HBM3 memory fits Qwen-VL 72B on a single device — no model sharding required. This enables real-time conversational inference where users can ask follow-up questions without latency spikes from cross-device communication. ROCm provides native PyTorch compatibility, so the pipeline runs without CUDA-specific rewrites.
 
 ## License
 
