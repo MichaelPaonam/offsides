@@ -33,6 +33,8 @@ import sys
 from pathlib import Path
 from datetime import datetime
 
+from manifest import append_to_manifest
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CSV_PATH = PROJECT_ROOT / "data" / "match_urls" / "ucl_highlights.csv"
 OUTPUT_DIR = PROJECT_ROOT / "data" / "highlights"
@@ -151,6 +153,25 @@ def main():
 
             if success:
                 stats["downloaded"] += 1
+                video_id = youtube_url.split("v=")[-1].split("&")[0]
+                downloaded_file = None
+                for f in output_dir.iterdir():
+                    if video_id in f.name and f.suffix == ".mp4":
+                        downloaded_file = f
+                        break
+                if downloaded_file:
+                    rel_path = str(downloaded_file.relative_to(OUTPUT_DIR))
+                    append_to_manifest({
+                        "file": rel_path,
+                        "season": season,
+                        "stage": stage,
+                        "matchday": row.get("matchday", ""),
+                        "home_team": home,
+                        "away_team": away,
+                        "date": date,
+                        "source": "youtube",
+                        "source_id": video_id,
+                    })
             else:
                 stats["failed"] += 1
 
