@@ -52,6 +52,8 @@ TEAM_ALIASES = {
     "shakhtar donetsk": "shakhtar",
     "bayer leverkusen": "leverkusen",
     "sturm graz": "sturm graz",
+    "manchester united": "man utd",
+    "manchester city": "man city",
 }
 
 
@@ -233,34 +235,39 @@ def output_path_for(season: str, stage: str, home: str, away: str, date: str) ->
 def main():
     parser = argparse.ArgumentParser(description="Download UEFA UCL highlights")
     parser.add_argument("--dry-run", action="store_true", help="Test API calls without downloading")
+    parser.add_argument("--all", action="store_true", help="Download all matches (not just those missing YouTube URLs)")
     parser.add_argument("--start-row", type=int, default=0, help="Row index to start from")
+    parser.add_argument("--limit", type=int, default=0, help="Max videos to download (0=all)")
     parser.add_argument("--delay", type=int, default=10, help="Seconds between matches (default: 10)")
     args = parser.parse_args()
 
     with open(CSV_PATH) as f:
         rows = list(csv.DictReader(f))
 
-    missing = [
-        (i, row) for i, row in enumerate(rows)
-        if not row["youtube_url"].strip()
-    ]
+    if args.all:
+        targets = [(i, row) for i, row in enumerate(rows)]
+    else:
+        targets = [
+            (i, row) for i, row in enumerate(rows)
+            if not row["youtube_url"].strip()
+        ]
 
-    log(f"Found {len(missing)} matches missing URLs (total rows: {len(rows)})")
+    log(f"Found {len(targets)} matches to process (total rows: {len(rows)}, mode: {'all' if args.all else 'missing only'})")
 
     if args.start_row > 0:
-        missing = [(i, r) for i, r in missing if i >= args.start_row]
-        log(f"Starting from row {args.start_row} ({len(missing)} remaining)")
+        targets = [(i, r) for i, r in targets if i >= args.start_row]
+        log(f"Starting from row {args.start_row} ({len(targets)} remaining)")
 
     stats = {"downloaded": 0, "skipped": 0, "failed": 0, "no_match": 0}
 
-    for idx, (_row_num, row) in enumerate(missing):
+    for idx, (_row_num, row) in enumerate(targets):
         home = row["home_team"]
         away = row["away_team"]
         date = row["date"]
         season = row["season"]
         stage = row["stage"]
 
-        log(f"[{idx+1}/{len(missing)}] {home} vs {away} ({date})")
+        log(f"[{idx+1}/{len(targets)}] {home} vs {away} ({date})")
 
         out_path = output_path_for(season, stage, home, away, date)
         if out_path.exists():
@@ -273,7 +280,7 @@ def main():
         if not match_id:
             log("  FAIL: matchId not found")
             stats["no_match"] += 1
-            if idx < len(missing) - 1:
+            if idx < len(targets) - 1:
                 time.sleep(args.delay)
             continue
 
@@ -284,7 +291,7 @@ def main():
         if not asset_id:
             log("  FAIL: no highlights video found")
             stats["failed"] += 1
-            if idx < len(missing) - 1:
+            if idx < len(targets) - 1:
                 time.sleep(args.delay)
             continue
 
@@ -295,14 +302,14 @@ def main():
         if not hls_url:
             log("  FAIL: HLS URL not available")
             stats["failed"] += 1
-            if idx < len(missing) - 1:
+            if idx < len(targets) - 1:
                 time.sleep(args.delay)
             continue
 
         if args.dry_run:
             log(f"  DRY RUN: would download to {out_path}")
             stats["downloaded"] += 1
-            if idx < len(missing) - 1:
+            if idx < len(targets) - 1:
                 time.sleep(args.delay)
             continue
 
@@ -328,8 +335,12 @@ def main():
             log("  FAIL: download failed")
             stats["failed"] += 1
 
-        if idx < len(missing) - 1:
+        if idx < len(targets) - 1:
             time.sleep(args.delay)
+
+        if args.limit and stats["downloaded"] >= args.limit:
+            log(f"Reached limit of {args.limit} downloads, stopping")
+            break
 
     log(f"\nDone. Downloaded: {stats['downloaded']}, Skipped: {stats['skipped']}, "
         f"Failed: {stats['failed']}, No match: {stats['no_match']}")

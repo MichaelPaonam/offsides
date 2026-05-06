@@ -26,6 +26,7 @@ The script:
     - Logs progress to data/highlights/download_log.txt
 """
 
+import argparse
 import csv
 import os
 import subprocess
@@ -107,6 +108,11 @@ def download_video(youtube_url: str, output_dir: Path, match_label: str) -> bool
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Download UCL highlights from YouTube")
+    parser.add_argument("--start-row", type=int, default=0, help="Row index to start from")
+    parser.add_argument("--limit", type=int, default=0, help="Max videos to download (0=all)")
+    args = parser.parse_args()
+
     if not CSV_PATH.exists():
         print(f"ERROR: CSV not found at {CSV_PATH}")
         print("Create the CSV with columns: season,stage,matchday,home_team,away_team,date,youtube_url")
@@ -119,61 +125,67 @@ def main():
     log(f"CSV: {CSV_PATH}")
     log(f"Output: {OUTPUT_DIR}")
     log(f"Quality: {MAX_QUALITY}p")
+    if args.limit:
+        log(f"Limit: {args.limit} videos")
     log("=" * 60)
 
     stats = {"total": 0, "skipped_no_url": 0, "skipped_exists": 0, "downloaded": 0, "failed": 0}
 
     with open(CSV_PATH, "r") as f:
-        reader = csv.DictReader(f)
+        rows = list(csv.DictReader(f))
 
-        for row in reader:
-            stats["total"] += 1
-            youtube_url = row.get("youtube_url", "").strip()
+    for row in rows[args.start_row:]:
+        stats["total"] += 1
+        youtube_url = row.get("youtube_url", "").strip()
 
-            if not youtube_url:
-                stats["skipped_no_url"] += 1
-                continue
+        if not youtube_url:
+            stats["skipped_no_url"] += 1
+            continue
 
-            season = row.get("season", "unknown")
-            stage = row.get("stage", "unknown")
-            home = row.get("home_team", "unknown")
-            away = row.get("away_team", "unknown")
-            date = row.get("date", "")
-            match_label = f"{season} | {stage} | {home} vs {away} ({date})"
+        season = row.get("season", "unknown")
+        stage = row.get("stage", "unknown")
+        home = row.get("home_team", "unknown")
+        away = row.get("away_team", "unknown")
+        date = row.get("date", "")
+        match_label = f"{season} | {stage} | {home} vs {away} ({date})"
 
-            output_dir = get_output_dir(season, stage)
+        output_dir = get_output_dir(season, stage)
 
-            if is_already_downloaded(output_dir, youtube_url):
-                log(f"SKIP (exists): {match_label}")
-                stats["skipped_exists"] += 1
-                continue
+        if is_already_downloaded(output_dir, youtube_url):
+            log(f"SKIP (exists): {match_label}")
+            stats["skipped_exists"] += 1
+            continue
 
-            log(f"DOWNLOADING: {match_label}")
-            success = download_video(youtube_url, output_dir, match_label)
+        log(f"DOWNLOADING: {match_label}")
+        success = download_video(youtube_url, output_dir, match_label)
 
-            if success:
-                stats["downloaded"] += 1
-                video_id = youtube_url.split("v=")[-1].split("&")[0]
-                downloaded_file = None
-                for f in output_dir.iterdir():
-                    if video_id in f.name and f.suffix == ".mp4":
-                        downloaded_file = f
-                        break
-                if downloaded_file:
-                    rel_path = str(downloaded_file.relative_to(OUTPUT_DIR))
-                    append_to_manifest({
-                        "file": rel_path,
-                        "season": season,
-                        "stage": stage,
-                        "matchday": row.get("matchday", ""),
-                        "home_team": home,
-                        "away_team": away,
-                        "date": date,
-                        "source": "youtube",
-                        "source_id": video_id,
-                    })
-            else:
-                stats["failed"] += 1
+        if success:
+            stats["downloaded"] += 1
+            video_id = youtube_url.split("v=")[-1].split("&")[0]
+            downloaded_file = None
+            for f in output_dir.iterdir():
+                if video_id in f.name and f.suffix == ".mp4":
+                    downloaded_file = f
+                    break
+            if downloaded_file:
+                rel_path = str(downloaded_file.relative_to(OUTPUT_DIR))
+                append_to_manifest({
+                    "file": rel_path,
+                    "season": season,
+                    "stage": stage,
+                    "matchday": row.get("matchday", ""),
+                    "home_team": home,
+                    "away_team": away,
+                    "date": date,
+                    "source": "youtube",
+                    "source_id": video_id,
+                })
+        else:
+            stats["failed"] += 1
+
+        if args.limit and stats["downloaded"] >= args.limit:
+            log(f"Reached limit of {args.limit} downloads, stopping")
+            break
 
     log("=" * 60)
     log("Session complete")
