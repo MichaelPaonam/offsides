@@ -26,8 +26,8 @@ HIGHLIGHTS_DIR = PROJECT_ROOT / "data" / "highlights"
 FRAMES_DIR = PROJECT_ROOT / "data" / "frames"
 
 # Scene detection
-SCENE_DIFF_THRESHOLD = 30.0  # mean absolute diff between frames to mark a scene cut
-MIN_SCENE_FRAMES = 30  # minimum frames in a scene (~1 second at 30fps)
+SCENE_DIFF_THRESHOLD = 20.0  # mean absolute diff between frames to mark a scene cut
+MIN_SCENE_FRAMES = 24  # minimum frames in a scene (~0.8 seconds at 30fps)
 
 # Pre-filter thresholds (moderate)
 GREEN_RATIO_MIN = 0.25  # minimum fraction of green pixels to keep scene
@@ -38,7 +38,7 @@ SKIP_PERCENT = 0.05  # skip first/last 5% of video
 MIN_SEQUENCE_FRAMES = 60  # ~2 seconds at 30fps
 MAX_SEQUENCE_FRAMES = 90  # ~3 seconds at 30fps
 MAX_SEQUENCES_PER_VIDEO = 5
-MAX_KEYFRAMES_PER_VIDEO = 12
+MAX_KEYFRAMES_PER_VIDEO = 25
 
 
 def compute_green_ratio(frame: np.ndarray) -> float:
@@ -55,12 +55,53 @@ def compute_edge_density(frame: np.ndarray) -> float:
     return np.count_nonzero(edges) / edges.size
 
 
+def is_closeup(frame: np.ndarray) -> bool:
+    """Detect close-up shots where a player fills the frame with blurred green background."""
+    h, w = frame.shape[:2]
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    lower_green = np.array([30, 40, 40])
+    upper_green = np.array([85, 255, 255])
+    mask = cv2.inRange(hsv, lower_green, upper_green)
+
+    # Check center region vs full frame green ratio
+    ch, cw = h // 4, w // 4
+    center = mask[ch:h-ch, cw:w-cw]
+    center_green = np.count_nonzero(center) / center.size
+    full_green = np.count_nonzero(mask) / mask.size
+
+    # Close-ups: moderate green overall (player fills frame) with center less green
+    # Wide tactical shots typically have full_green > 0.65
+    if full_green < 0.65 and center_green < 0.40:
+        return True
+
+    # Close-ups with blurred green background: edges green, center not
+    if full_green > 0.20 and center_green < 0.20 and (full_green - center_green) > 0.10:
+        return True
+
+    # Detect via edge sharpness contrast: close-ups have sharp foreground, blurry background
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    center_lap = cv2.Laplacian(gray[ch:h-ch, cw:w-cw], cv2.CV_64F).var()
+    edge_regions = np.concatenate([gray[:ch, :].flatten(), gray[h-ch:, :].flatten()])
+    edge_lap = cv2.Laplacian(edge_regions.reshape(ch*2, w), cv2.CV_64F).var()
+    if center_lap > 3 * edge_lap and edge_lap < 100:
+        return True
+
+    # Large non-green blob in center — player fills frame
+    center_non_green = 1.0 - center_green
+    if center_non_green > 0.75 and full_green > 0.30:
+        return True
+
+    return False
+
+
 def is_tactical_scene(frame: np.ndarray) -> bool:
     green = compute_green_ratio(frame)
     if green < GREEN_RATIO_MIN:
         return False
     edge = compute_edge_density(frame)
     if edge < EDGE_DENSITY_MIN:
+        return False
+    if is_closeup(frame):
         return False
     return True
 
@@ -160,24 +201,38 @@ def extract_match(video_path: Path, match_id: str) -> dict:
 
     print(f"  {len(scenes)} scenes total, {len(tactical_scenes)} tactical")
 
-    # Extract keyframes (middle frame of each tactical scene)
+    # Extract keyframes — try multiple candidates per scene, pick best
     keyframe_count = 0
     for scene in tactical_scenes:
         if keyframe_count >= MAX_KEYFRAMES_PER_VIDEO:
             break
 
-        mid_idx = (scene["start"] + scene["end"]) // 2
-        cap.set(cv2.CAP_PROP_POS_FRAMES, mid_idx)
-        ret, frame = cap.read()
-        if not ret:
+        # Try 3 positions: 1/4, 1/2, 3/4 through the scene
+        best_frame = None
+        best_green = 0
+        for frac in (0.5, 0.33, 0.66):
+            candidate_idx = scene["start"] + int(scene["length"] * frac)
+            cap.set(cv2.CAP_PROP_POS_FRAMES, candidate_idx)
+            ret, frame = cap.read()
+            if not ret:
+                continue
+            if not is_tactical_scene(frame):
+                continue
+            green = compute_green_ratio(frame)
+            if green > best_green:
+                best_green = green
+                best_frame = (frame, candidate_idx)
+
+        if best_frame is None:
             continue
 
+        frame, frame_idx = best_frame
         filename = f"frame_{keyframe_count:03d}.jpg"
         cv2.imwrite(str(keyframes_dir / filename), frame, [cv2.IMWRITE_JPEG_QUALITY, 90])
         metadata["keyframes"].append({
             "file": filename,
-            "frame_idx": mid_idx,
-            "timestamp": mid_idx / fps,
+            "frame_idx": frame_idx,
+            "timestamp": frame_idx / fps,
             "scene_start": scene["start"],
             "scene_end": scene["end"],
         })
