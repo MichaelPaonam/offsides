@@ -15,7 +15,11 @@ env/
 
 # Data (large files — download locally, don't commit)
 data/highlights/
+data/frames/
 data/match_urls/autofill_log.txt
+
+# Model weights
+*.pt
 
 # IDE
 .idea/
