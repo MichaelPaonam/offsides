@@ -1,0 +1,177 @@
+[
+  {
+    "match_id": "Dortmund_vs_PSG_2024-05-07",
+    "home_team": "Dortmund",
+    "away_team": "PSG",
+    "date": "2024-05-07",
+    "stage": "Semi-final 2nd leg",
+    "first_leg": "PSG 0-1 Dortmund",
+    "actual_score": "1-0",
+    "actual_result": "home_win",
+    "odds": {"home": 4.33, "draw": 4.00, "away": 1.80},
+    "implied_prob": {"home": 0.23, "draw": 0.25, "away": 0.56},
+    "stats": {
+      "home": {
+        "team": "Dortmund",
+        "xg_last5": 1.52,
+        "xga_last5": 1.28,
+        "ppda": 10.2,
+        "possession_pct": 46,
+        "form": "WWLWW",
+        "goals_scored_last5": 9,
+        "goals_conceded_last5": 5
+      },
+      "away": {
+        "team": "PSG",
+        "xg_last5": 2.14,
+        "xga_last5": 0.72,
+        "ppda": 9.6,
+        "possession_pct": 58,
+        "form": "WWWWL",
+        "goals_scored_last5": 12,
+        "goals_conceded_last5": 3
+      }
+    },
+    "narrative": "PSG heavily favored to overturn 1st-leg deficit at home but Dortmund's compact defensive shape and rapid transitions from their recent knockout run suggested resilience the market underpriced."
+  },
+  {
+    "match_id": "Dortmund_vs_Atletico_Madrid_2024-04-16",
+    "home_team": "Dortmund",
+    "away_team": "Atletico Madrid",
+    "date": "2024-04-16",
+    "stage": "Quarter-final 2nd leg",
+    "first_leg": "Atletico Madrid 2-1 Dortmund",
+    "actual_score": "4-2",
+    "actual_result": "home_win",
+    "odds": {"home": 2.50, "draw": 3.60, "away": 2.75},
+    "implied_prob": {"home": 0.40, "draw": 0.28, "away": 0.36},
+    "stats": {
+      "home": {
+        "team": "Dortmund",
+        "xg_last5": 1.68,
+        "xga_last5": 1.34,
+        "ppda": 9.8,
+        "possession_pct": 48,
+        "form": "WLWDW",
+        "goals_scored_last5": 10,
+        "goals_conceded_last5": 6
+      },
+      "away": {
+        "team": "Atletico Madrid",
+        "xg_last5": 1.44,
+        "xga_last5": 0.96,
+        "ppda": 12.8,
+        "possession_pct": 52,
+        "form": "DWWWW",
+        "goals_scored_last5": 7,
+        "goals_conceded_last5": 4
+      }
+    },
+    "narrative": "Atletico held 1st-leg advantage and were favored on aggregate. Dortmund's explosive transition speed and Signal Iduna Park atmosphere fueled a 4-2 comeback the market didn't fully price in."
+  },
+  {
+    "match_id": "PSG_vs_Barcelona_2024-04-16",
+    "home_team": "PSG",
+    "away_team": "Barcelona",
+    "date": "2024-04-16",
+    "stage": "Quarter-final 2nd leg",
+    "first_leg": "Barcelona 3-2 PSG",
+    "actual_score": "4-1",
+    "actual_result": "home_win",
+    "odds": {"home": 2.10, "draw": 3.80, "away": 3.40},
+    "implied_prob": {"home": 0.48, "draw": 0.26, "away": 0.29},
+    "stats": {
+      "home": {
+        "team": "PSG",
+        "xg_last5": 2.06,
+        "xga_last5": 0.88,
+        "ppda": 9.4,
+        "possession_pct": 56,
+        "form": "WWWDW",
+        "goals_scored_last5": 11,
+        "goals_conceded_last5": 5
+      },
+      "away": {
+        "team": "Barcelona",
+        "xg_last5": 1.82,
+        "xga_last5": 1.22,
+        "ppda": 10.8,
+        "possession_pct": 60,
+        "form": "WWLWW",
+        "goals_scored_last5": 9,
+        "goals_conceded_last5": 6
+      }
+    },
+    "narrative": "Barcelona had 1st-leg advantage and high possession but PSG's aggressive pressing intensity and Dembele's pace on transitions created a 4-1 demolition the aggregate market didn't reflect."
+  },
+  {
+    "match_id": "Man_City_vs_Real_Madrid_2024-04-17",
+    "home_team": "Man City",
+    "away_team": "Real Madrid",
+    "date": "2024-04-17",
+    "stage": "Quarter-final 2nd leg",
+    "first_leg": "Real Madrid 3-3 Man City",
+    "actual_score": "1-1 (Real Madrid won on penalties)",
+    "actual_result": "draw",
+    "odds": {"home": 1.83, "draw": 4.00, "away": 4.33},
+    "implied_prob": {"home": 0.55, "draw": 0.25, "away": 0.23},
+    "stats": {
+      "home": {
+        "team": "Man City",
+        "xg_last5": 2.24,
+        "xga_last5": 0.86,
+        "ppda": 8.2,
+        "possession_pct": 64,
+        "form": "WWWWW",
+        "goals_scored_last5": 13,
+        "goals_conceded_last5": 4
+      },
+      "away": {
+        "team": "Real Madrid",
+        "xg_last5": 1.76,
+        "xga_last5": 1.08,
+        "ppda": 11.6,
+        "possession_pct": 52,
+        "form": "WDWWW",
+        "goals_scored_last5": 10,
+        "goals_conceded_last5": 5
+      }
+    },
+    "narrative": "Man City dominant favorites at home but Real Madrid's low-block + lethal transitions and penalty-shootout composure saw them through. City's high line was vulnerable to counter-attacks the market discounted."
+  },
+  {
+    "match_id": "Atletico_Madrid_vs_Inter_Milan_2024-03-13",
+    "home_team": "Atletico Madrid",
+    "away_team": "Inter Milan",
+    "date": "2024-03-13",
+    "stage": "Round of 16 2nd leg",
+    "first_leg": "Inter Milan 1-0 Atletico Madrid",
+    "actual_score": "2-1",
+    "actual_result": "home_win",
+    "odds": {"home": 2.20, "draw": 3.30, "away": 3.40},
+    "implied_prob": {"home": 0.45, "draw": 0.30, "away": 0.29},
+    "stats": {
+      "home": {
+        "team": "Atletico Madrid",
+        "xg_last5": 1.56,
+        "xga_last5": 0.92,
+        "ppda": 11.4,
+        "possession_pct": 50,
+        "form": "WWDWL",
+        "goals_scored_last5": 8,
+        "goals_conceded_last5": 5
+      },
+      "away": {
+        "team": "Inter Milan",
+        "xg_last5": 1.88,
+        "xga_last5": 0.78,
+        "ppda": 10.2,
+        "possession_pct": 54,
+        "form": "WWWWD",
+        "goals_scored_last5": 10,
+        "goals_conceded_last5": 3
+      }
+    },
+    "narrative": "Inter led on aggregate and had the best defensive record in Serie A. Atletico's high-energy pressing at home disrupted Inter's build-up play, creating chaos the market underestimated."
+  }
+]

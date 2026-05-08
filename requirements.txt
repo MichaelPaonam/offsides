@@ -5,3 +5,7 @@ torchvision>=0.17
 numpy>=1.26
 jupyter
 matplotlib
+gradio>=4.0
+plotly>=5.0
+pillow>=10.0
+openai>=1.0
