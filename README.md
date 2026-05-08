@@ -73,11 +73,28 @@ python3 -m venv venv
 source venv/bin/activate
 
 # Install dependencies
-pip install yt-dlp
-# pip install -r requirements.txt  (TODO: add during development)
+pip install -r requirements.txt
 ```
 
-### Download Match Highlights
+### Run the Demo (local)
+
+```bash
+# Launch Gradio app (displays pre-computed results)
+python app.py
+# Open http://localhost:7860
+```
+
+### Run VLM Inference (requires AMD GPU)
+
+See [docs/cloud_inference.md](docs/cloud_inference.md) for full setup.
+
+```bash
+# Quick start (with SSH tunnel to AMD MI300X droplet)
+ssh -i ~/.ssh/id_ed25519_amd -f -N -L 8000:localhost:8000 root@<droplet-ip>
+VLM_MODEL="Qwen/Qwen2.5-VL-72B-Instruct" python3 scripts/vlm_inference.py
+```
+
+### Download Match Highlights (full pipeline)
 
 ```bash
 # 1. Generate fixture list (313 UCL matches across 2023-24 and 2024-25 seasons)
@@ -86,64 +103,58 @@ python scripts/generate_match_list.py
 # 2. Auto-fill YouTube URLs (~16 min unattended)
 python scripts/autofill_urls.py
 
-# 3. Spot-check the CSV, then download videos (~2-4 hrs unattended)
+# 3. Download videos (~2-4 hrs unattended)
 python scripts/download_highlights.py
-```
 
-See [scripts/README.md](scripts/README.md) for full details.
+# 4. Extract frames, detect players, annotate
+python scripts/extract_frames.py
+python scripts/detect_players.py
+python scripts/annotate_frames.py
+```
 
 ### GPU Cloud Setup
 
+See [docs/cloud_inference.md](docs/cloud_inference.md) for detailed instructions.
+
 ```bash
-# Install CLI
-brew install doctl
-doctl auth init  # paste your API token
-
-# Create GPU droplet (single MI300X, vLLM pre-installed)
-doctl compute droplet create offsides-gpu \
-  --size gpu-mi300x1-192gb \
-  --image amddeveloperclou-vllm0171 \
-  --region atl1 \
-  --ssh-keys <your-fingerprint>
-
-# SSH in
+# SSH into AMD MI300X droplet
 ssh -i ~/.ssh/id_ed25519_amd root@<droplet-ip>
 
-# On the droplet: download model and serve
-huggingface-cli download Qwen/Qwen2.5-VL-7B-Instruct
-vllm serve Qwen/Qwen2.5-VL-7B-Instruct --dtype auto
-```
-
-### Run the Pipeline
-
-```bash
-# Ask about an upcoming match
-python offsides.py "How does Barcelona vs PSG look for Tuesday?"
-
-# Ask about a past match (retrospective validation)
-python offsides.py "Was the market wrong on Inter vs Atletico, March 2024?"
-
-# Interactive conversation mode
-python offsides.py --chat
-> How does Barcelona vs PSG look?
-> What's wrong with PSG's defense specifically?
-> Show me the pressing data from their last 3 matches
+# Start vLLM with Qwen-VL 72B
+docker run -d --name vllm-server \
+  --device=/dev/kfd --device=/dev/dri --group-add video \
+  -p 8000:8000 --shm-size=16g \
+  rocm/vllm:latest \
+  vllm serve Qwen/Qwen2.5-VL-72B-Instruct --dtype auto --max-model-len 8192 --port 8000 --host 0.0.0.0
 ```
 
 ## Project Structure
 
 ```
 .
-├── scripts/                    # Data collection scripts
-│   ├── generate_match_list.py  # Generate UCL fixture CSV
-│   ├── autofill_urls.py        # Auto-fill YouTube URLs via yt-dlp search
-│   ├── download_highlights.py  # Download highlight videos at 720p
-│   └── README.md               # Script usage docs
+├── app.py                         # Gradio demo app (HF Space)
+├── scripts/
+│   ├── generate_match_list.py     # Generate UCL fixture CSV
+│   ├── autofill_urls.py           # Auto-fill YouTube URLs via yt-dlp search
+│   ├── download_highlights.py     # Download highlight videos at 720p
+│   ├── extract_frames.py          # Scene-detection frame extraction
+│   ├── detect_players.py          # YOLO player/ball detection + ByteTrack
+│   ├── annotate_frames.py         # Team color assignment + tactical overlays
+│   ├── vlm_inference.py           # Qwen-VL multimodal inference via vLLM
+│   └── manifest.py                # Video metadata helper
 ├── data/
-│   ├── match_urls/             # Fixture CSVs with YouTube URLs
-│   └── highlights/             # Downloaded videos (gitignored)
-├── offsides-logo.png           # Project logo
-└── venv/                       # Python virtual environment (gitignored)
+│   ├── demo_matches.json          # 5 curated UCL upset matches
+│   ├── team_kits.json             # HSV color definitions for 50 UCL teams
+│   ├── vlm_results/               # VLM inference output
+│   │   ├── results.json           # Structured assessments (72B)
+│   │   └── frames/                # Annotated frames used by VLM
+│   ├── frames/                    # Full pipeline output (gitignored)
+│   └── highlights/                # Downloaded videos (gitignored)
+├── docs/
+│   └── cloud_inference.md         # AMD GPU cloud runbook
+├── notebooks/                     # Validation notebooks
+├── requirements.txt
+└── README.md
 ```
 
 ## How It Works
@@ -157,6 +168,22 @@ python offsides.py --chat
 7. **Respond** — Natural language answer: probability, edge vs market, reasoning, visual evidence from frames
 
 Users can ask follow-up questions ("What specifically is wrong with PSG's defense?") — the VLM references annotated frames in its responses.
+
+## Results
+
+Validated on 5 UCL knockout matches where the market-favored outcome lost. The VLM correctly identified the edge on the actual winning outcome in **3 out of 5 matches**.
+
+| Match | Stage | Market Favorite | VLM Edge | Actual Result | Correct? |
+|-------|-------|----------------|----------|---------------|----------|
+| Dortmund vs PSG | SF 2nd leg | PSG (56%) | **Dortmund +9pp** | Dortmund 1-0 | ✓ |
+| Dortmund vs Atletico | QF 2nd leg | Atletico (1st leg lead) | **Dortmund +5pp** | Dortmund 4-2 | ✓ |
+| PSG vs Barcelona | QF 2nd leg | Barcelona (agg lead) | **PSG +4pp** | PSG 4-1 | ✓ |
+| Man City vs Real Madrid | QF 2nd leg | Man City (55%) | Man City +3pp | Draw (1-1, pens) | ✗ |
+| Atletico vs Inter | R16 2nd leg | Inter (1st leg lead) | Draw +2pp | Atletico 2-1 | ✗ |
+
+**Key finding:** In the 3 correct cases, the VLM identified tactical signals (defensive compactness, transition speed, pressing intensity) that were visible in annotated frames but not captured in traditional stats — the exact kind of signal prediction markets discount.
+
+**Model:** Qwen-VL 72B on AMD MI300X (single GPU, 192GB HBM3) via vLLM on ROCm. Inference time: ~10-18s per match.
 
 ## Key Design Decisions
 
