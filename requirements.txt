@@ -3,6 +3,7 @@ opencv-python>=4.9
 torch>=2.2
 torchvision>=0.17
 numpy>=1.26
+scikit-learn>=1.4
 jupyter
 matplotlib
 gradio>=4.0
