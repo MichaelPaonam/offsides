@@ -27,8 +27,8 @@ FRAMES_DIR = PROJECT_ROOT / "data" / "frames"
 HIGHLIGHTS_DIR = PROJECT_ROOT / "data" / "highlights"
 KITS_PATH = PROJECT_ROOT / "data" / "team_kits.json"
 
-HOME_COLOR = (0, 0, 255)   # Red in BGR
-AWAY_COLOR = (255, 100, 0)  # Blue in BGR
+HOME_COLOR = (255, 100, 0)  # Blue in BGR (home)
+AWAY_COLOR = (0, 0, 255)   # Red in BGR (away)
 UNKNOWN_COLOR = (128, 128, 128)
 BALL_COLOR = (0, 255, 255)  # Yellow in BGR
 
@@ -140,38 +140,42 @@ def annotate_keyframe(frame: np.ndarray, detections: dict, home_kit: dict, away_
     annotated = frame.copy()
     h, w = frame.shape[:2]
 
-    # First pass: assign teams by jersey color
+    players = detections.get("players", [])
     player_assignments = []
-    for player in detections.get("players", []):
+
+    # Collect torso colors for all players
+    colors_hsv = []
+    valid_indices = []
+    for i, player in enumerate(players):
         bbox = player["bbox"]
         median_hsv = get_torso_color(frame, bbox)
-        team = assign_team(median_hsv, home_kit, away_kit)
-        player_assignments.append({"bbox": bbox, "team": team})
+        player_assignments.append({"bbox": bbox, "team": "unknown"})
+        if median_hsv is not None:
+            colors_hsv.append(median_hsv)
+            valid_indices.append(i)
 
-    # Goalkeeper fix: player nearest each goal edge likely belongs to the team defending there
-    # In broadcast view: leftmost deep player = one GK, rightmost deep player = other GK
-    if len(player_assignments) >= 6:
-        # Find team centroids to determine which team defends which side
-        home_xs = [((p["bbox"][0] + p["bbox"][2]) / 2) for p in player_assignments if p["team"] == "home"]
-        away_xs = [((p["bbox"][0] + p["bbox"][2]) / 2) for p in player_assignments if p["team"] == "away"]
+    # Cluster into 2 teams by torso color using KMeans
+    if len(colors_hsv) >= 4:
+        from sklearn.cluster import KMeans
+        X = np.array(colors_hsv)
+        kmeans = KMeans(n_clusters=2, random_state=0, n_init=10).fit(X)
+        labels = kmeans.labels_
 
-        if home_xs and away_xs:
-            home_avg_x = np.mean(home_xs)
-            away_avg_x = np.mean(away_xs)
+        # Determine which cluster is "home" (left side) vs "away" (right side)
+        cluster_xs = {0: [], 1: []}
+        for idx, vi in enumerate(valid_indices):
+            bbox = player_assignments[vi]["bbox"]
+            cx = (bbox[0] + bbox[2]) / 2
+            cluster_xs[labels[idx]].append(cx)
 
-            # The team with lower avg X is defending the left goal
-            left_team = "home" if home_avg_x < away_avg_x else "away"
-            right_team = "away" if left_team == "home" else "home"
+        avg_x_0 = np.mean(cluster_xs[0]) if cluster_xs[0] else w / 2
+        avg_x_1 = np.mean(cluster_xs[1]) if cluster_xs[1] else w / 2
 
-            # Find the leftmost and rightmost players
-            for p in player_assignments:
-                cx = (p["bbox"][0] + p["bbox"][2]) / 2
-                # Player in the leftmost 10% of frame and assigned wrong or unknown
-                if cx < w * 0.10 and p["team"] != left_team:
-                    p["team"] = left_team
-                # Player in the rightmost 10% of frame and assigned wrong or unknown
-                elif cx > w * 0.90 and p["team"] != right_team:
-                    p["team"] = right_team
+        # Left-side cluster = home (blue), right-side = away (red)
+        home_cluster = 0 if avg_x_0 < avg_x_1 else 1
+
+        for idx, vi in enumerate(valid_indices):
+            player_assignments[vi]["team"] = "home" if labels[idx] == home_cluster else "away"
 
     # Draw boxes
     players_by_team = {"home": [], "away": [], "unknown": []}

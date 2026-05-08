@@ -21,7 +21,6 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from annotate_frames import (
     get_torso_color,
-    assign_team,
     draw_defensive_line,
     draw_compactness_ellipse,
     load_team_kits,
@@ -63,35 +62,46 @@ def annotate_sequence_frame(
     home_kit: dict,
     away_kit: dict,
 ) -> np.ndarray:
-    """Annotate a single frame from a tracked sequence."""
+    """Annotate a single frame from a tracked sequence using KMeans clustering."""
+    from sklearn.cluster import KMeans
+
     annotated = frame.copy()
     h, w = frame.shape[:2]
 
     player_assignments = []
+    colors_hsv = []
+    valid_indices = []
+
     for track_id, positions in tracks.items():
         pos_at_frame = [p for p in positions if p["frame"] == frame_idx]
         if not pos_at_frame:
             continue
         bbox = pos_at_frame[0]["bbox"]
         median_hsv = get_torso_color(frame, bbox)
-        team = assign_team(median_hsv, home_kit, away_kit)
-        player_assignments.append({"bbox": bbox, "team": team, "track_id": track_id})
+        player_assignments.append({"bbox": bbox, "team": "unknown", "track_id": track_id})
+        if median_hsv is not None:
+            colors_hsv.append(median_hsv)
+            valid_indices.append(len(player_assignments) - 1)
 
-    # Goalkeeper fix
-    if len(player_assignments) >= 6:
-        home_xs = [((p["bbox"][0] + p["bbox"][2]) / 2) for p in player_assignments if p["team"] == "home"]
-        away_xs = [((p["bbox"][0] + p["bbox"][2]) / 2) for p in player_assignments if p["team"] == "away"]
-        if home_xs and away_xs:
-            home_avg_x = np.mean(home_xs)
-            away_avg_x = np.mean(away_xs)
-            left_team = "home" if home_avg_x < away_avg_x else "away"
-            right_team = "away" if left_team == "home" else "home"
-            for p in player_assignments:
-                cx = (p["bbox"][0] + p["bbox"][2]) / 2
-                if cx < w * 0.10 and p["team"] != left_team:
-                    p["team"] = left_team
-                elif cx > w * 0.90 and p["team"] != right_team:
-                    p["team"] = right_team
+    # KMeans clustering into 2 teams
+    if len(colors_hsv) >= 4:
+        X = np.array(colors_hsv)
+        kmeans = KMeans(n_clusters=2, random_state=0, n_init=10).fit(X)
+        labels = kmeans.labels_
+
+        cluster_xs = {0: [], 1: []}
+        for idx, vi in enumerate(valid_indices):
+            bbox = player_assignments[vi]["bbox"]
+            cx = (bbox[0] + bbox[2]) / 2
+            cluster_xs[labels[idx]].append(cx)
+
+        avg_x_0 = np.mean(cluster_xs[0]) if cluster_xs[0] else w / 2
+        avg_x_1 = np.mean(cluster_xs[1]) if cluster_xs[1] else w / 2
+
+        home_cluster = 0 if avg_x_0 < avg_x_1 else 1
+
+        for idx, vi in enumerate(valid_indices):
+            player_assignments[vi]["team"] = "home" if labels[idx] == home_cluster else "away"
 
     # Draw bounding boxes
     players_by_team = {"home": [], "away": [], "unknown": []}
@@ -241,23 +251,27 @@ def main():
     parser = argparse.ArgumentParser(description="Render annotated video clips from sequences")
     parser.add_argument("--match", type=str, help="Process single match (substring)")
     parser.add_argument("--clips", type=int, default=2, help="Number of clips per match")
+    parser.add_argument("--all", action="store_true", help="Process all matches (not just results.json)")
     args = parser.parse_args()
 
     kits = load_team_kits()
 
-    # Use the form matches referenced in VLM results
-    results_path = PROJECT_ROOT / "data" / "vlm_results" / "results.json"
-    if results_path.exists():
-        with open(results_path) as f:
-            results = json.load(f)
-        match_dirs = set()
-        for m in results["matches"]:
-            for fp in m.get("frames_used", []):
-                parts = Path(fp).parts
-                if len(parts) >= 3:
-                    match_dirs.add(parts[2])
-    else:
+    if args.all:
         match_dirs = {d.name for d in FRAMES_DIR.iterdir() if d.is_dir()}
+    else:
+        # Use the form matches referenced in VLM results
+        results_path = PROJECT_ROOT / "data" / "vlm_results" / "results.json"
+        if results_path.exists():
+            with open(results_path) as f:
+                results = json.load(f)
+            match_dirs = set()
+            for m in results["matches"]:
+                for fp in m.get("frames_used", []):
+                    parts = Path(fp).parts
+                    if len(parts) >= 3:
+                        match_dirs.add(parts[2])
+        else:
+            match_dirs = {d.name for d in FRAMES_DIR.iterdir() if d.is_dir()}
 
     if args.match:
         match_dirs = {d for d in match_dirs if args.match.lower() in d.lower()}
