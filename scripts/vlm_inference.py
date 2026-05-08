@@ -34,7 +34,12 @@ MAX_IMAGE_WIDTH = 720
 
 SYSTEM_PROMPT = """You are a tactical football analyst specializing in UEFA Champions League.
 
-You will receive annotated match frames showing:
+You will receive annotated match frames organized into THREE groups:
+1. HOME TEAM RECENT FORM — frames from their last 3 matches (any opponent)
+2. AWAY TEAM RECENT FORM — frames from their last 3 matches (any opponent)
+3. HEAD-TO-HEAD — frames from prior direct matchups between these two teams (if available)
+
+Each frame shows:
 - Player positions (bounding boxes colored by team: RED = home, BLUE = away)
 - Defensive line height (lines connecting back 4 per team)
 - Team compactness (ellipse overlay per team)
@@ -45,17 +50,17 @@ You also receive structured tactical metrics and match statistics.
 Your job: reason over what you SEE in these frames + the statistics to assess match probabilities and identify where prediction markets may be mispriced.
 
 When analyzing:
-1. Reference specific visual evidence from the frames ("I can see the defensive line is very high in frame 3...")
-2. Identify tactical trends across multiple frames from recent matches
-3. Compare tactical shape against what the market price implies
-4. Provide a probability estimate for home_win / draw / away_win
-5. Explain your reasoning with specific data points
+1. Compare each team's recent form — are they pressing high, sitting deep, compact or stretched?
+2. Look at head-to-head frames for how these specific teams match up tactically
+3. Identify which team's style gives them an advantage in this specific matchup
+4. Compare your tactical assessment against what the market price implies
+5. Provide a probability estimate for home_win / draw / away_win
 
 Output your response in this exact JSON format:
 {
   "probabilities": {"home": 0.XX, "draw": 0.XX, "away": 0.XX},
   "confidence": "low|medium|high",
-  "reasoning": "2-3 sentence tactical assessment",
+  "reasoning": "2-3 sentence tactical assessment referencing form and H2H patterns",
   "visual_evidence": ["observation 1", "observation 2", "observation 3"],
   "edge_signal": "which outcome the market underprices and why"
 }"""
@@ -125,6 +130,52 @@ def select_form_frames(match_id: str, team: str, demo_date: str, n_matches: int 
     return selected_frames
 
 
+def select_h2h_frames(home_team: str, away_team: str, demo_date: str, n_matches: int = 2) -> list[Path]:
+    """Find prior direct matchups between the two teams, pick best annotated frames."""
+    home_pat = home_team.replace(" ", "_")
+    away_pat = away_team.replace(" ", "_")
+    h2h_matches = []
+
+    for d in sorted(FRAMES_DIR.iterdir()):
+        if not d.is_dir():
+            continue
+        name = d.name
+        if not (home_pat in name and away_pat in name):
+            continue
+        date_part = name.rsplit("_", 1)[-1]
+        if date_part >= demo_date:
+            continue
+        annotated_dir = d / "annotated"
+        if not annotated_dir.exists():
+            continue
+        ann_files = sorted(annotated_dir.glob("*.jpg"))
+        if not ann_files:
+            continue
+        h2h_matches.append((name, date_part, ann_files))
+
+    h2h_matches.sort(key=lambda x: x[1], reverse=True)
+    h2h_matches = h2h_matches[:n_matches]
+
+    selected_frames = []
+    for match_name, _, ann_files in h2h_matches:
+        det_path = FRAMES_DIR / match_name / "detections.json"
+        if det_path.exists():
+            with open(det_path) as f:
+                dets = json.load(f)
+            scored = []
+            for af in ann_files:
+                n_players = 0
+                if af.name in dets.get("keyframes", {}):
+                    n_players = len(dets["keyframes"][af.name].get("players", []))
+                scored.append((af, n_players))
+            scored.sort(key=lambda x: x[1], reverse=True)
+            selected_frames.extend([s[0] for s in scored[:2]])
+        else:
+            selected_frames.extend(ann_files[:2])
+
+    return selected_frames
+
+
 def build_metrics_context(team: str, demo_date: str, n_matches: int = 3) -> dict:
     """Aggregate metrics from recent form matches for a team."""
     team_pattern = team.replace(" ", "_")
@@ -166,7 +217,50 @@ def build_metrics_context(team: str, demo_date: str, n_matches: int = 3) -> dict
     }
 
 
-def build_context_text(demo_match: dict, home_metrics: dict, away_metrics: dict) -> str:
+def build_h2h_metrics(home_team: str, away_team: str, demo_date: str, n_matches: int = 2) -> dict:
+    """Aggregate metrics from prior direct matchups between the two teams."""
+    home_pat = home_team.replace(" ", "_")
+    away_pat = away_team.replace(" ", "_")
+    h2h_data = []
+
+    for d in sorted(FRAMES_DIR.iterdir()):
+        if not d.is_dir():
+            continue
+        name = d.name
+        if not (home_pat in name and away_pat in name):
+            continue
+        date_part = name.rsplit("_", 1)[-1]
+        if date_part >= demo_date:
+            continue
+        metrics_path = d / "metrics.json"
+        if not metrics_path.exists():
+            continue
+        with open(metrics_path) as f:
+            m = json.load(f)
+        if m.get("aggregated"):
+            h2h_data.append((date_part, name, m["aggregated"]))
+
+    h2h_data.sort(key=lambda x: x[0], reverse=True)
+    h2h_data = h2h_data[:n_matches]
+
+    if not h2h_data:
+        return {}
+
+    import numpy as np
+    keys = ["avg_pressing_speed", "avg_def_line_movement", "avg_compactness_delta", "avg_transition_speed"]
+    aggregated = {}
+    for key in keys:
+        values = [m[2][key] for m in h2h_data if key in m[2]]
+        if values:
+            aggregated[key] = round(float(np.mean(values)), 4)
+
+    return {
+        "matches": [m[1] for m in h2h_data],
+        "metrics": aggregated,
+    }
+
+
+def build_context_text(demo_match: dict, home_metrics: dict, away_metrics: dict, h2h_metrics: dict = None) -> str:
     """Build the structured text context for the VLM prompt."""
     lines = []
     lines.append(f"=== MATCH: {demo_match['home_team']} vs {demo_match['away_team']} ===")
@@ -201,6 +295,20 @@ def build_context_text(demo_match: dict, home_metrics: dict, away_metrics: dict)
         lines.append(f"  Form: {s['form']}, Goals: {s['goals_scored_last5']}F/{s['goals_conceded_last5']}A")
         lines.append("")
 
+    if h2h_metrics and h2h_metrics.get("matches"):
+        lines.append("=== HEAD-TO-HEAD (prior direct matchups) ===")
+        lines.append(f"  Matches: {', '.join(h2h_metrics['matches'])}")
+        m = h2h_metrics.get("metrics", {})
+        if m.get("avg_pressing_speed"):
+            lines.append(f"  Pressing speed: {m['avg_pressing_speed']:.4f}")
+        if m.get("avg_def_line_movement"):
+            lines.append(f"  Defensive line movement: {m['avg_def_line_movement']:.4f}")
+        if m.get("avg_compactness_delta"):
+            lines.append(f"  Compactness delta: {m['avg_compactness_delta']:.3f}")
+        if m.get("avg_transition_speed"):
+            lines.append(f"  Transition speed: {m['avg_transition_speed']:.4f}")
+        lines.append("")
+
     lines.append("=== MARKET ODDS (pre-match) ===")
     odds = demo_match["odds"]
     prob = demo_match["implied_prob"]
@@ -211,22 +319,66 @@ def build_context_text(demo_match: dict, home_metrics: dict, away_metrics: dict)
     return "\n".join(lines)
 
 
-def build_messages(frames: list[Path], context_text: str, query: str) -> list[dict]:
-    """Build OpenAI-compatible multimodal message list."""
+def build_messages(
+    home_frames: list[Path],
+    away_frames: list[Path],
+    h2h_frames: list[Path],
+    home_team: str,
+    away_team: str,
+    context_text: str,
+    query: str,
+) -> list[dict]:
+    """Build OpenAI-compatible multimodal message list with grouped frames."""
     content = []
+    frame_num = 0
 
-    for i, frame_path in enumerate(frames):
-        b64 = encode_image(frame_path)
-        if not b64:
-            continue
-        content.append({
-            "type": "text",
-            "text": f"[Frame {i+1}: {frame_path.parent.parent.name} — {frame_path.name}]"
-        })
-        content.append({
-            "type": "image_url",
-            "image_url": {"url": f"data:image/jpeg;base64,{b64}"}
-        })
+    if home_frames:
+        content.append({"type": "text", "text": f"--- {home_team.upper()} RECENT FORM (last 3 matches) ---"})
+        for frame_path in home_frames:
+            b64 = encode_image(frame_path)
+            if not b64:
+                continue
+            frame_num += 1
+            content.append({
+                "type": "text",
+                "text": f"[Frame {frame_num}: {frame_path.parent.parent.name} — {frame_path.name}]"
+            })
+            content.append({
+                "type": "image_url",
+                "image_url": {"url": f"data:image/jpeg;base64,{b64}"}
+            })
+
+    if away_frames:
+        content.append({"type": "text", "text": f"--- {away_team.upper()} RECENT FORM (last 3 matches) ---"})
+        for frame_path in away_frames:
+            b64 = encode_image(frame_path)
+            if not b64:
+                continue
+            frame_num += 1
+            content.append({
+                "type": "text",
+                "text": f"[Frame {frame_num}: {frame_path.parent.parent.name} — {frame_path.name}]"
+            })
+            content.append({
+                "type": "image_url",
+                "image_url": {"url": f"data:image/jpeg;base64,{b64}"}
+            })
+
+    if h2h_frames:
+        content.append({"type": "text", "text": f"--- HEAD-TO-HEAD ({home_team} vs {away_team}) ---"})
+        for frame_path in h2h_frames:
+            b64 = encode_image(frame_path)
+            if not b64:
+                continue
+            frame_num += 1
+            content.append({
+                "type": "text",
+                "text": f"[Frame {frame_num}: {frame_path.parent.parent.name} — {frame_path.name}]"
+            })
+            content.append({
+                "type": "image_url",
+                "image_url": {"url": f"data:image/jpeg;base64,{b64}"}
+            })
 
     content.append({"type": "text", "text": context_text})
     content.append({"type": "text", "text": f"\n=== QUERY ===\n{query}"})
@@ -280,49 +432,53 @@ def compute_edge(vlm_probs: dict, market_probs: dict) -> dict:
 
 
 def process_match(demo_match: dict, dry_run: bool = False) -> dict:
-    """Run VLM inference on a single demo match."""
+    """Run VLM inference on a single demo match using three-pillar analysis."""
     match_id = demo_match["match_id"]
     home_team = demo_match["home_team"]
     away_team = demo_match["away_team"]
     demo_date = demo_match["date"]
 
     print(f"  Selecting form frames...")
-    home_frames = select_form_frames(match_id, home_team, demo_date)
-    away_frames = select_form_frames(match_id, away_team, demo_date)
-    all_frames = home_frames[:4] + away_frames[:4]
-    print(f"  Frames: {len(home_frames)} home + {len(away_frames)} away → {len(all_frames)} total")
+    home_frames = select_form_frames(match_id, home_team, demo_date)[:4]
+    away_frames = select_form_frames(match_id, away_team, demo_date)[:4]
+
+    print(f"  Selecting head-to-head frames...")
+    h2h_frames = select_h2h_frames(home_team, away_team, demo_date)[:4]
+
+    # Deduplicate: remove frames from away_form that already appear in home_form,
+    # and remove H2H frames that already appear in either form group
+    home_set = {str(f) for f in home_frames}
+    away_frames = [f for f in away_frames if str(f) not in home_set]
+    form_set = home_set | {str(f) for f in away_frames}
+    h2h_frames = [f for f in h2h_frames if str(f) not in form_set]
+
+    total = len(home_frames) + len(away_frames) + len(h2h_frames)
+    print(f"  Frames: {len(home_frames)} home form + {len(away_frames)} away form + {len(h2h_frames)} H2H → {total} total")
 
     print(f"  Building metrics context...")
     home_metrics = build_metrics_context(home_team, demo_date)
     away_metrics = build_metrics_context(away_team, demo_date)
+    h2h_metrics = build_h2h_metrics(home_team, away_team, demo_date)
 
-    context_text = build_context_text(demo_match, home_metrics, away_metrics)
+    context_text = build_context_text(demo_match, home_metrics, away_metrics, h2h_metrics)
     query = (
         f"Assess the pre-match win probabilities for {home_team} vs {away_team}. "
         f"The market prices {home_team} at {demo_match['implied_prob']['home']*100:.0f}%, "
         f"draw at {demo_match['implied_prob']['draw']*100:.0f}%, "
         f"and {away_team} at {demo_match['implied_prob']['away']*100:.0f}%. "
-        f"Based on the tactical patterns visible in these recent form frames and the metrics, "
+        f"Based on {home_team}'s recent form, {away_team}'s recent form, and their head-to-head tactical patterns, "
         f"do you see evidence that the market is mispriced? Provide your probability assessment."
     )
 
-    # Deduplicate frames (same match can appear for both teams)
-    seen = set()
-    deduped = []
-    for f in all_frames:
-        if str(f) not in seen:
-            seen.add(str(f))
-            deduped.append(f)
-    all_frames = deduped
+    messages = build_messages(home_frames, away_frames, h2h_frames, home_team, away_team, context_text, query)
 
-    messages = build_messages(all_frames, context_text, query)
-
+    all_frames = home_frames + away_frames + h2h_frames
     if dry_run:
         print(f"\n  --- DRY RUN: Prompt Preview ---")
         print(f"  System prompt: {len(SYSTEM_PROMPT)} chars")
         print(f"  Images: {sum(1 for c in messages[1]['content'] if isinstance(c, dict) and c.get('type') == 'image_url')}")
         print(f"  Context text:\n")
-        for line in context_text.split("\n")[:20]:
+        for line in context_text.split("\n")[:30]:
             print(f"    {line}")
         print(f"    ...")
         print(f"  Query: {query}")
@@ -364,6 +520,7 @@ def process_match(demo_match: dict, dry_run: bool = False) -> dict:
         "metrics_context": {
             "home": home_metrics,
             "away": away_metrics,
+            "h2h": h2h_metrics,
         },
         "stats": demo_match["stats"],
         "inference_time_s": elapsed,
