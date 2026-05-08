@@ -30,38 +30,62 @@ BALL_CONF_THRESHOLD = 0.3
 MIN_PLAYERS_TACTICAL = 8  # frames with fewer players lack full formation data
 
 
+DEVICE = "0" if __import__("torch").cuda.is_available() else "cpu"
+BATCH_SIZE = 16
+IMGSZ_KEYFRAMES = 1280
+IMGSZ_TRACKING = 640
+
+
 def load_model():
     from ultralytics import YOLO
     model = YOLO("yolov8m.pt")
+    if DEVICE != "cpu":
+        print(f"  Using GPU: {__import__('torch').cuda.get_device_name(0)}")
+    else:
+        print("  Using CPU")
+    print(f"  Batch size: {BATCH_SIZE}, Keyframes: {IMGSZ_KEYFRAMES}px, Tracking: {IMGSZ_TRACKING}px")
     return model
 
 
 def detect_keyframes(model, match_dir: Path) -> dict:
-    """Run single-frame detection on all keyframes."""
+    """Run batched detection on all keyframes."""
     keyframes_dir = match_dir / "keyframes"
     if not keyframes_dir.exists():
         return {}
 
+    img_paths = sorted(keyframes_dir.glob("*.jpg"))
+    if not img_paths:
+        return {}
+
     results = {}
-    for img_path in sorted(keyframes_dir.glob("*.jpg")):
-        preds = model.predict(str(img_path), verbose=False, conf=BALL_CONF_THRESHOLD)
-        pred = preds[0]
 
-        players = []
-        ball = None
+    for batch_start in range(0, len(img_paths), BATCH_SIZE):
+        batch_paths = img_paths[batch_start:batch_start + BATCH_SIZE]
+        preds_list = model.predict(
+            [str(p) for p in batch_paths],
+            verbose=False,
+            conf=BALL_CONF_THRESHOLD,
+            device=DEVICE,
+            imgsz=IMGSZ_KEYFRAMES,
+            batch=len(batch_paths),
+        )
 
-        for box in pred.boxes:
-            cls = int(box.cls[0])
-            conf = float(box.conf[0])
-            bbox = box.xyxy[0].tolist()
+        for img_path, pred in zip(batch_paths, preds_list):
+            players = []
+            ball = None
 
-            if cls == PERSON_CLASS and conf >= PLAYER_CONF_THRESHOLD:
-                players.append({"bbox": [round(v, 1) for v in bbox], "conf": round(conf, 3)})
-            elif cls == BALL_CLASS and conf >= BALL_CONF_THRESHOLD:
-                if ball is None or conf > ball["conf"]:
-                    ball = {"bbox": [round(v, 1) for v in bbox], "conf": round(conf, 3)}
+            for box in pred.boxes:
+                cls = int(box.cls[0])
+                conf = float(box.conf[0])
+                bbox = box.xyxy[0].tolist()
 
-        results[img_path.name] = {"players": players, "ball": ball}
+                if cls == PERSON_CLASS and conf >= PLAYER_CONF_THRESHOLD:
+                    players.append({"bbox": [round(v, 1) for v in bbox], "conf": round(conf, 3)})
+                elif cls == BALL_CLASS and conf >= BALL_CONF_THRESHOLD:
+                    if ball is None or conf > ball["conf"]:
+                        ball = {"bbox": [round(v, 1) for v in bbox], "conf": round(conf, 3)}
+
+            results[img_path.name] = {"players": players, "ball": ball}
 
     return results
 
@@ -84,32 +108,35 @@ def track_sequence(model, seq_dir: Path) -> dict:
             conf=BALL_CONF_THRESHOLD,
             persist=True,
             tracker="bytetrack.yaml",
+            device=DEVICE,
+            imgsz=IMGSZ_TRACKING,
+            stream=True,
         )
-        pred = preds[0]
 
-        for box in pred.boxes:
-            cls = int(box.cls[0])
-            conf = float(box.conf[0])
-            bbox = box.xyxy[0].tolist()
+        for pred in preds:
+            for box in pred.boxes:
+                cls = int(box.cls[0])
+                conf = float(box.conf[0])
+                bbox = box.xyxy[0].tolist()
 
-            if cls == PERSON_CLASS and conf >= PLAYER_CONF_THRESHOLD:
-                track_id = int(box.id[0]) if box.id is not None else -1
-                if track_id < 0:
-                    continue
-                tid = str(track_id)
-                if tid not in tracks:
-                    tracks[tid] = []
-                tracks[tid].append({
-                    "frame": frame_idx,
-                    "bbox": [round(v, 1) for v in bbox],
-                    "conf": round(conf, 3),
-                })
-            elif cls == BALL_CLASS and conf >= BALL_CONF_THRESHOLD:
-                ball_positions.append({
-                    "frame": frame_idx,
-                    "bbox": [round(v, 1) for v in bbox],
-                    "conf": round(conf, 3),
-                })
+                if cls == PERSON_CLASS and conf >= PLAYER_CONF_THRESHOLD:
+                    track_id = int(box.id[0]) if box.id is not None else -1
+                    if track_id < 0:
+                        continue
+                    tid = str(track_id)
+                    if tid not in tracks:
+                        tracks[tid] = []
+                    tracks[tid].append({
+                        "frame": frame_idx,
+                        "bbox": [round(v, 1) for v in bbox],
+                        "conf": round(conf, 3),
+                    })
+                elif cls == BALL_CLASS and conf >= BALL_CONF_THRESHOLD:
+                    ball_positions.append({
+                        "frame": frame_idx,
+                        "bbox": [round(v, 1) for v in bbox],
+                        "conf": round(conf, 3),
+                    })
 
     return {"tracks": tracks, "ball": ball_positions}
 
