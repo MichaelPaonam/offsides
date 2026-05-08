@@ -42,3 +42,4 @@ Thumbs.db
 CLAUDE.md
 .playwright-cli/
 vlm_results/
+data/league_stats/
