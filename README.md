@@ -8,6 +8,8 @@ A multimodal conversational assistant for sports prediction markets. Ask about a
 
 **Track 3: Vision & Multimodal AI** | AMD Developer Hackathon 2026
 
+**[Live Demo](https://lablab-ai-amd-developer-hackathon-offsides-socce-6e05641.hf.space)** | **[GitHub](https://github.com/MichaelPaonam/offsides)**
+
 ## Architecture
 
 ```mermaid
@@ -45,10 +47,10 @@ flowchart LR
 | Cloud Image | vLLM 0.17.1 on ROCm (Ubuntu 24.04) |
 | Object Detection | YOLO (player/ball tracking, formations) |
 | Frame Annotation | OpenCV (render YOLO detections onto frames) |
-| Reasoning Model | Qwen-VL on ROCm (7B dev / 72B final) |
+| Reasoning Model | Qwen3-VL 32B on ROCm |
 | Model Serving | vLLM on ROCm |
 | Demo | Hugging Face Spaces (Gradio) |
-| Stats data | StatsBomb (event-level), FBref (aggregate) |
+| Stats data | football-data.co.uk (10 leagues, rolling xG/PPDA/form) |
 | Odds data | Historical betting odds via Odds-portal |
 | Video | YouTube UEFA Champions League highlights |
 | Language | Python 3.12 |
@@ -91,7 +93,7 @@ See [docs/cloud_inference.md](docs/cloud_inference.md) for full setup.
 ```bash
 # Quick start (with SSH tunnel to AMD MI300X droplet)
 ssh -i ~/.ssh/id_ed25519_amd -f -N -L 8000:localhost:8000 root@<droplet-ip>
-VLM_MODEL="Qwen/Qwen2.5-VL-72B-Instruct" python3 scripts/vlm_inference.py
+VLM_MODEL="Qwen/Qwen3-VL-32B-Instruct" python3 scripts/vlm_inference.py
 ```
 
 ### Download Match Highlights (full pipeline)
@@ -120,12 +122,12 @@ See [docs/cloud_inference.md](docs/cloud_inference.md) for detailed instructions
 # SSH into AMD MI300X droplet
 ssh -i ~/.ssh/id_ed25519_amd root@<droplet-ip>
 
-# Start vLLM with Qwen-VL 72B
+# Start vLLM with Qwen3-VL 32B
 docker run -d --name vllm-server \
   --device=/dev/kfd --device=/dev/dri --group-add video \
   -p 8000:8000 --shm-size=16g \
   rocm/vllm:latest \
-  vllm serve Qwen/Qwen2.5-VL-72B-Instruct --dtype auto --max-model-len 8192 --port 8000 --host 0.0.0.0
+  vllm serve Qwen/Qwen3-VL-32B-Instruct --dtype auto --max-model-len 8192 --port 8000 --host 0.0.0.0
 ```
 
 ## Project Structure
@@ -143,12 +145,15 @@ docker run -d --name vllm-server \
 │   ├── vlm_inference.py           # Qwen-VL multimodal inference via vLLM
 │   └── manifest.py                # Video metadata helper
 ├── data/
-│   ├── demo_matches.json          # 5 curated UCL upset matches
+│   ├── demo_matches.json          # 29 UCL knockout matches (R16–SF)
 │   ├── team_kits.json             # HSV color definitions for 50 UCL teams
+│   ├── match_stats.json           # League stats (xG, PPDA, form) for 51 teams
+│   ├── frames_index.json          # Index of all 280 processed matches
 │   ├── vlm_results/               # VLM inference output
-│   │   ├── results.json           # Structured assessments (72B)
+│   │   ├── results.json           # Structured assessments (Qwen3-VL 32B)
 │   │   └── frames/                # Annotated frames used by VLM
-│   ├── frames/                    # Full pipeline output (gitignored)
+│   ├── frames/                    # Full pipeline output (280 matches, gitignored)
+│   ├── league_stats/              # football-data.co.uk CSVs (10 leagues)
 │   └── highlights/                # Downloaded videos (gitignored)
 ├── docs/
 │   └── cloud_inference.md         # AMD GPU cloud runbook
@@ -169,9 +174,97 @@ docker run -d --name vllm-server \
 
 Users can ask follow-up questions ("What specifically is wrong with PSG's defense?") — the VLM references annotated frames in its responses.
 
+## Technical Walkthrough
+
+### 1. Match List Generation
+
+`scripts/generate_match_list.py` builds a CSV of 313 UCL fixtures (2023-24, 2024-25 seasons) by scraping UEFA's fixture calendar. Output: `data/ucl_matches.csv` with columns for home/away teams, date, stage, and season.
+
+### 2. Video Acquisition
+
+`scripts/autofill_urls.py` uses yt-dlp search to find official highlight videos for each fixture on UEFA's YouTube channel. `scripts/download_highlights.py` downloads at 720p. Total: 283 videos (~25GB).
+
+### 3. Frame Extraction
+
+`scripts/extract_frames.py` uses PySceneDetect to identify shot boundaries, then applies a close-up filter (rejects frames where a single detection fills >40% of frame area) to keep only wide-angle tactical views. Outputs ~25 keyframes per match plus 5-frame sequences for tracking.
+
+```python
+# Scene detection with adaptive threshold
+scene_list = detect(video_path, ContentDetector(threshold=27.0))
+# Close-up filter using face/body ratio heuristic
+if max_box_area / frame_area > 0.4:
+    continue  # skip close-ups
+```
+
+### 4. Player Detection (YOLO)
+
+`scripts/detect_players.py` runs YOLOv8m at 1280px resolution in batch mode (batch_size=16). Detects persons (class 0) and sports balls (class 32). For multi-frame sequences, ByteTrack assigns consistent player IDs across frames.
+
+```bash
+python scripts/detect_players.py  # processes all matches without existing detections.json
+```
+
+Output per match: `detections.json` with bounding boxes, confidence scores, track IDs, and class labels for every frame.
+
+### 5. Annotation
+
+`scripts/annotate_frames.py` performs:
+- **Team color assignment**: KMeans clustering (k=2) on jersey pixel colors within bounding boxes, matched against known team kits via HSV distance (`data/team_kits.json`)
+- **Tactical overlays**: Defensive line (lowest y-coordinate of back 4), team compactness ellipse, formation skeleton connecting players by proximity
+
+```bash
+python scripts/annotate_frames.py  # renders overlays on all detected frames
+```
+
+### 6. League Statistics
+
+`scripts/build_stats.py` ingests football-data.co.uk CSVs (10 leagues, 6,547 domestic matches) and computes rolling metrics per team:
+- **xG**: Approximated as shots on target * 0.32
+- **PPDA**: Passes per defensive action (derived from fouls/possession proxy)
+- **Form**: Points from last 5 league matches
+- **Goals scored/conceded**: Rolling averages
+
+Output: `data/match_stats.json` (51 UCL teams with latest domestic form).
+
+### 7. VLM Inference
+
+`scripts/vlm_inference.py` sends multimodal requests to Qwen3-VL 32B served via vLLM on AMD MI300X:
+
+```bash
+# Start vLLM server on AMD GPU
+docker run -d --name vllm-server \
+  --device=/dev/kfd --device=/dev/dri --group-add video \
+  -p 8000:8000 --shm-size=16g \
+  rocm/vllm:latest \
+  vllm serve Qwen/Qwen3-VL-32B-Instruct --dtype auto --max-model-len 8192
+
+# Run inference (requires SSH tunnel or direct access to GPU)
+VLM_MODEL="Qwen/Qwen3-VL-32B-Instruct" python scripts/vlm_inference.py
+```
+
+Each request includes:
+- 8-12 annotated frames (4-6 per team from recent matches)
+- League statistics context (xG, PPDA, form, goals)
+- Market odds (when available)
+- Structured prompt requesting probability estimates with tactical reasoning
+
+The VLM returns JSON with win/draw/loss probabilities, confidence level, reasoning, edge signals, and references to specific frames as visual evidence.
+
+### 8. Deployment
+
+The Gradio app (`app.py`) serves pre-computed results from HF Buckets (22GB mounted at `/data` on HF Spaces) and supports live VLM queries via the remote vLLM API endpoint.
+
+```bash
+# Local development
+python app.py  # http://localhost:7860
+
+# HF Space deployment (auto-detects /data mount)
+# Set secrets: VLM_BASE_URL, VLM_API_KEY, VLM_MODEL
+```
+
 ## Results
 
-Validated on 5 UCL knockout matches where the market-favored outcome lost. The VLM correctly identified the edge on the actual winning outcome in **3 out of 5 matches**.
+Validated on 29 UCL knockout matches (Feb–Apr 2025 season), with 5 historical matches where we have actual outcomes for backtesting. The VLM correctly identified the edge on the actual winning outcome in **3 out of 5** backtested matches (60% on market upsets — matches where the favored team lost).
 
 | Match | Stage | Market Favorite | VLM Edge | Actual Result | Correct? |
 |-------|-------|----------------|----------|---------------|----------|
@@ -181,9 +274,11 @@ Validated on 5 UCL knockout matches where the market-favored outcome lost. The V
 | Man City vs Real Madrid | QF 2nd leg | Man City (55%) | Man City +3pp | Draw (1-1, pens) | ✗ |
 | Atletico vs Inter | R16 2nd leg | Inter (1st leg lead) | Draw +2pp | Atletico 2-1 | ✗ |
 
+Additionally, 24 matches from the 2024-25 knockout stage (R16 through Semi-finals) have full VLM tactical assessments available in the demo — these show the system's probability estimates, reasoning, and visual evidence for each matchup.
+
 **Key finding:** In the 3 correct cases, the VLM identified tactical signals (defensive compactness, transition speed, pressing intensity) that were visible in annotated frames but not captured in traditional stats — the exact kind of signal prediction markets discount.
 
-**Model:** Qwen-VL 72B on AMD MI300X (single GPU, 192GB HBM3) via vLLM on ROCm. Inference time: ~10-18s per match.
+**Model:** Qwen3-VL 32B on AMD MI300X (single GPU, 192GB HBM3) via vLLM on ROCm. Inference time: ~10s per match.
 
 ## Key Design Decisions
 
@@ -203,11 +298,11 @@ Validated on 5 UCL knockout matches where the market-favored outcome lost. The V
 
 | Source | What it provides | Access |
 |--------|-----------------|--------|
-| [StatsBomb Open Data](https://github.com/statsbomb/open-data) | Event-level match data (passes, shots, pressures with x/y coords) | Free (GitHub) |
-| [FBref](https://fbref.com) | Aggregate match stats, xG, pressing data | Free (web) |
-| [API-Football](https://www.api-football.com) | Fixtures, lineups for upcoming matches | Free tier (100 req/day) — optional, not on critical path |
-| [Odds-portal](https://www.oddsportal.com) | Historical betting odds | Free (web) |
+| [football-data.co.uk](https://www.football-data.co.uk) | Match results, shots, fouls, corners, cards for 10 European leagues (2023-25) | Free (CSV) |
+| [Odds-portal](https://www.oddsportal.com) | Historical betting odds for UCL matches | Free (web) |
 | [UEFA YouTube](https://www.youtube.com/@ChampionsLeague) | Official highlight clips | Free |
+
+**Derived stats:** xG (approximated from shots on target × 0.32), PPDA (from fouls data), possession (from corner ratio), form (last 5 results).
 
 ## Contributing
 
@@ -216,7 +311,7 @@ Validated on 5 UCL knockout matches where the market-favored outcome lost. The V
 
 ## Why AMD
 
-The MI300X's 192GB unified HBM3 memory fits Qwen-VL 72B on a single device — no model sharding required. This enables real-time multimodal conversation: the VLM processes annotated frames (4-6 images per team) alongside stats in a single context window, and users can ask follow-up questions without latency from cross-device communication. ROCm provides native PyTorch compatibility — our pipeline runs identically to CUDA with zero code changes (just a different pip install URL).
+The MI300X's 192GB unified HBM3 memory comfortably fits Qwen3-VL 32B on a single device with no model sharding required. This enables real-time multimodal conversation: the VLM processes annotated frames (4-6 images per team) alongside stats in a single context window, and users can ask follow-up questions without latency from cross-device communication. ROCm provides native PyTorch compatibility, and our pipeline runs identically to CUDA with zero code changes (just a different pip install URL).
 
 ## License
 
