@@ -52,6 +52,29 @@
     "Young_Boys"
   ],
   "matches": {
+    "AC_Milan_vs_Bayern_Munich_2024-12-11": {
+      "home": "AC_Milan",
+      "away": "Bayern_Munich",
+      "date": "2024-12-11",
+      "frames": [
+        "frame_000.jpg",
+        "frame_003.jpg",
+        "frame_005.jpg",
+        "frame_006.jpg",
+        "frame_008.jpg",
+        "frame_011.jpg",
+        "frame_013.jpg",
+        "frame_014.jpg",
+        "frame_015.jpg",
+        "frame_017.jpg"
+      ],
+      "metrics": {
+        "avg_pressing_speed": 0.003,
+        "avg_def_line_movement": 0.008,
+        "avg_compactness_delta": -0.119,
+        "avg_transition_speed": 0.117
+      }
+    },
     "AC_Milan_vs_Club_Brugge_2024-10-22": {
       "home": "AC_Milan",
       "away": "Club_Brugge",
@@ -284,6 +307,21 @@
         "avg_def_line_movement": -0.03,
         "avg_compactness_delta": -0.105,
         "avg_transition_speed": 0.163
+      }
+    },
+    "Arsenal_vs_PSG_2025-04-09": {
+      "home": "Arsenal",
+      "away": "PSG",
+      "date": "2025-04-09",
+      "frames": [
+        "frame_001.jpg",
+        "frame_009.jpg"
+      ],
+      "metrics": {
+        "avg_pressing_speed": 0.004,
+        "avg_def_line_movement": -0.07,
+        "avg_compactness_delta": -0.147,
+        "avg_transition_speed": 0.109
       }
     },
     "Arsenal_vs_PSV_2023-12-12": {
@@ -896,6 +934,25 @@
         "avg_transition_speed": 0.051
       }
     },
+    "Bayern_Munich_vs_Benfica_2025-03-05": {
+      "home": "Bayern_Munich",
+      "away": "Benfica",
+      "date": "2025-03-05",
+      "frames": [
+        "frame_002.jpg",
+        "frame_006.jpg",
+        "frame_010.jpg",
+        "frame_020.jpg",
+        "frame_023.jpg",
+        "frame_024.jpg"
+      ],
+      "metrics": {
+        "avg_pressing_speed": 0.005,
+        "avg_def_line_movement": -0.048,
+        "avg_compactness_delta": -0.111,
+        "avg_transition_speed": 0.169
+      }
+    },
     "Bayern_Munich_vs_Celtic_2025-02-18": {
       "home": "Bayern_Munich",
       "away": "Celtic",
@@ -948,6 +1005,25 @@
         "avg_def_line_movement": -0.032,
         "avg_compactness_delta": -0.621,
         "avg_transition_speed": 0.204
+      }
+    },
+    "Bayern_Munich_vs_Inter_Milan_2025-04-15": {
+      "home": "Bayern_Munich",
+      "away": "Inter_Milan",
+      "date": "2025-04-15",
+      "frames": [
+        "frame_004.jpg",
+        "frame_006.jpg",
+        "frame_007.jpg",
+        "frame_008.jpg",
+        "frame_013.jpg",
+        "frame_016.jpg"
+      ],
+      "metrics": {
+        "avg_pressing_speed": 0.004,
+        "avg_def_line_movement": -0.013,
+        "avg_compactness_delta": -0.103,
+        "avg_transition_speed": 0.185
       }
     },
     "Bayern_Munich_vs_Lazio_2024-03-05": {
@@ -2200,6 +2276,22 @@
         "avg_transition_speed": 0.155
       }
     },
+    "Inter_Milan_vs_Atletico_Madrid_2025-04-30": {
+      "home": "Inter_Milan",
+      "away": "Atletico_Madrid",
+      "date": "2025-04-30",
+      "frames": [
+        "frame_004.jpg",
+        "frame_007.jpg",
+        "frame_011.jpg"
+      ],
+      "metrics": {
+        "avg_pressing_speed": 0.003,
+        "avg_def_line_movement": -0.031,
+        "avg_compactness_delta": -0.274,
+        "avg_transition_speed": 0.08
+      }
+    },
     "Inter_Milan_vs_Bayern_Munich_2025-04-08": {
       "home": "Inter_Milan",
       "away": "Bayern_Munich",
@@ -3134,6 +3226,21 @@
         "avg_def_line_movement": -0.012,
         "avg_compactness_delta": -0.352,
         "avg_transition_speed": 0.1
+      }
+    },
+    "PSG_vs_Arsenal_2025-04-16": {
+      "home": "PSG",
+      "away": "Arsenal",
+      "date": "2025-04-16",
+      "frames": [
+        "frame_001.jpg",
+        "frame_009.jpg"
+      ],
+      "metrics": {
+        "avg_pressing_speed": 0.004,
+        "avg_def_line_movement": -0.07,
+        "avg_compactness_delta": -0.163,
+        "avg_transition_speed": 0.099
       }
     },
     "PSG_vs_Barcelona_2024-04-16": {
@@ -4203,6 +4310,29 @@
         "avg_def_line_movement": -0.039,
         "avg_compactness_delta": -0.228,
         "avg_transition_speed": 0.145
+      }
+    },
+    "Shakhtar_Donetsk_vs_Man_City_2024-11-06": {
+      "home": "Shakhtar_Donetsk",
+      "away": "Man_City",
+      "date": "2024-11-06",
+      "frames": [
+        "frame_002.jpg",
+        "frame_003.jpg",
+        "frame_006.jpg",
+        "frame_010.jpg",
+        "frame_011.jpg",
+        "frame_012.jpg",
+        "frame_013.jpg",
+        "frame_017.jpg",
+        "frame_019.jpg",
+        "frame_020.jpg"
+      ],
+      "metrics": {
+        "avg_pressing_speed": 0.005,
+        "avg_def_line_movement": -0.069,
+        "avg_compactness_delta": -0.697,
+        "avg_transition_speed": 0.328
       }
     },
     "Shakhtar_Donetsk_vs_Porto_2023-09-19": {

@@ -13,12 +13,21 @@ import gradio as gr
 import plotly.graph_objects as go
 
 APP_DIR = Path(__file__).resolve().parent
-RESULTS_PATH = APP_DIR / "data" / "vlm_results" / "results.json"
-DEMO_PATH = APP_DIR / "data" / "demo_matches.json"
-FRAMES_DIR = APP_DIR / "data" / "vlm_results" / "frames"
-CLIPS_DIR = APP_DIR / "data" / "vlm_results" / "clips"
-INDEX_PATH = APP_DIR / "data" / "frames_index.json"
-ALL_FRAMES_DIR = APP_DIR / "data" / "frames"
+
+# When running on HF Spaces with a mounted bucket, use /data directly
+HF_BUCKET_MOUNT = Path("/data")
+if HF_BUCKET_MOUNT.exists() and HF_BUCKET_MOUNT.is_dir():
+    DATA_DIR = HF_BUCKET_MOUNT
+else:
+    DATA_DIR = APP_DIR / "data"
+
+RESULTS_PATH = DATA_DIR / "vlm_results" / "results.json"
+DEMO_PATH = DATA_DIR / "demo_matches.json"
+FRAMES_DIR = DATA_DIR / "vlm_results" / "frames"
+CLIPS_DIR = DATA_DIR / "vlm_results" / "clips"
+INDEX_PATH = DATA_DIR / "frames_index.json"
+ALL_FRAMES_DIR = DATA_DIR / "frames"
+MATCH_STATS_PATH = DATA_DIR / "match_stats.json"
 
 VLM_BASE_URL = os.environ.get("VLM_BASE_URL", "")
 VLM_MODEL = os.environ.get("VLM_MODEL", "Qwen/Qwen2.5-VL-72B-Instruct")
@@ -31,11 +40,30 @@ def load_results():
     with open(DEMO_PATH) as f:
         demos = json.load(f)
     demo_lookup = {d["match_id"]: d for d in demos}
+
+    # Load league stats for all teams
+    team_stats = {}
+    if MATCH_STATS_PATH.exists():
+        with open(MATCH_STATS_PATH) as f:
+            ms = json.load(f)
+        team_stats = ms.get("team_stats", {})
+
     for m in results["matches"]:
         demo = demo_lookup.get(m["match_id"], {})
         m["first_leg"] = demo.get("first_leg", "")
         m["odds"] = demo.get("odds", {})
         m["narrative"] = demo.get("narrative", "")
+        # Inject team stats if not already present
+        if not m.get("stats"):
+            home = m["home_team"]
+            away = m["away_team"]
+            stats = {}
+            if home in team_stats:
+                stats["home"] = {"team": home, **team_stats[home]}
+            if away in team_stats:
+                stats["away"] = {"team": away, **team_stats[away]}
+            if stats:
+                m["stats"] = stats
     return results
 
 
@@ -374,10 +402,32 @@ def format_metrics_md(metrics: dict, team_name: str) -> str:
     return "\n".join(lines)
 
 
+def format_league_stats_compare(team_name: str, stats: dict) -> str:
+    """Format league stats for a team in the Compare tab."""
+    if not stats:
+        return f"**{team_name}**\n\n*No league stats available*"
+    lines = [f"**{team_name}**", ""]
+    lines.append("| Metric | Value |")
+    lines.append("|--------|-------|")
+    if stats.get("xg_last5") is not None:
+        lines.append(f"| xG — Expected Goals/match | {stats['xg_last5']} |")
+    if stats.get("xga_last5") is not None:
+        lines.append(f"| xGA — Expected Goals Against/match | {stats['xga_last5']} |")
+    if stats.get("ppda") is not None:
+        lines.append(f"| PPDA — Passes Per Defensive Action | {stats['ppda']} |")
+    if stats.get("possession_pct") is not None:
+        lines.append(f"| Possession | {stats['possession_pct']}% |")
+    if stats.get("form") is not None:
+        lines.append(f"| Form (last 5) | {stats['form']} |")
+    if stats.get("goals_scored_last5") is not None:
+        lines.append(f"| Goals (last 5) | {stats['goals_scored_last5']}F / {stats.get('goals_conceded_last5', '-')}A |")
+    return "\n".join(lines)
+
+
 def compare_teams(team_a: str, team_b: str):
     """Main comparison function — returns all outputs for the Compare tab."""
     if not team_a or not team_b:
-        empty = [], "", [], "", [], ""
+        empty = [], "", [], "", [], "", "", ""
         return empty
 
     frames_a, metrics_a = get_team_form(team_a)
@@ -392,7 +442,17 @@ def compare_teams(team_a: str, team_b: str):
     else:
         h2h_md = f"*No head-to-head matches found between {team_a} and {team_b} in the dataset.*"
 
-    return frames_a, metrics_a_md, frames_b, metrics_b_md, h2h_frames, h2h_md
+    # League stats
+    league_stats = {}
+    if MATCH_STATS_PATH.exists():
+        with open(MATCH_STATS_PATH) as f:
+            ms = json.load(f)
+        league_stats = ms.get("team_stats", {})
+
+    stats_a_md = format_league_stats_compare(team_a, league_stats.get(team_a, {}))
+    stats_b_md = format_league_stats_compare(team_b, league_stats.get(team_b, {}))
+
+    return frames_a, metrics_a_md, frames_b, metrics_b_md, h2h_frames, h2h_md, stats_a_md, stats_b_md
 
 
 def predict_matchup(team_a: str, team_b: str):
@@ -405,6 +465,13 @@ def predict_matchup(team_a: str, team_b: str):
 
     try:
         from openai import OpenAI
+
+        # Load league stats for context
+        league_stats = {}
+        if MATCH_STATS_PATH.exists():
+            with open(MATCH_STATS_PATH) as f:
+                ms = json.load(f)
+            league_stats = ms.get("team_stats", {})
 
         frames_a, metrics_a = get_team_form(team_a)
         frames_b, metrics_b = get_team_form(team_b)
@@ -446,6 +513,24 @@ def predict_matchup(team_a: str, team_b: str):
             for k, v in h2h_metrics.items():
                 context_lines.append(f"  {k}: {v}")
 
+        # Add league stats (xG, PPDA, possession, form)
+        stat_labels = {
+            "xg_last5": "Expected Goals (xG, last 5)",
+            "xga_last5": "Expected Goals Against (xGA, last 5)",
+            "ppda": "Passes Per Defensive Action (PPDA)",
+            "possession_pct": "Possession %",
+            "form": "Recent Form (last 5)",
+            "goals_scored_last5": "Goals Scored (last 5)",
+            "goals_conceded_last5": "Goals Conceded (last 5)",
+        }
+        for team_name, team_key in [(team_a, team_a), (team_b, team_b)]:
+            if team_key in league_stats:
+                context_lines.append(f"\n{team_name} league statistics:")
+                for stat_key, label in stat_labels.items():
+                    val = league_stats[team_key].get(stat_key)
+                    if val is not None:
+                        context_lines.append(f"  {label}: {val}")
+
         content.append({"type": "text", "text": "\n".join(context_lines)})
         content.append({"type": "text", "text": (
             f"Based on {team_a}'s recent form, {team_b}'s recent form, and their head-to-head history, "
@@ -455,8 +540,10 @@ def predict_matchup(team_a: str, team_b: str):
 
         system_msg = (
             "You are a tactical football analyst. Analyze the annotated frames showing "
-            "player positions, defensive lines, and team compactness. Compare the tactical "
-            "patterns of both teams and assess who has the advantage."
+            "player positions, defensive lines, and team compactness. Also consider the "
+            "league statistics (xG, PPDA, possession, form) to assess underlying quality. "
+            "Compare the tactical patterns and statistical profiles of both teams to assess "
+            "who has the advantage."
         )
 
         client = OpenAI(base_url=VLM_BASE_URL, api_key=VLM_API_KEY)
@@ -483,26 +570,28 @@ def format_edge_badge(match):
 
     correct = best_outcome == actual
     outcome_label = {"home": match["home_team"], "draw": "Draw", "away": match["away_team"]}
-    badge = f"**Edge: +{best_val*100:.0f}pp on {outcome_label[best_outcome]}**"
+    badge = f"Edge: +{best_val*100:.0f}pp on {outcome_label[best_outcome]}"
 
     if correct:
-        return f"### {badge}\n\nActual result: **{match['actual_score']}** ({match['actual_result'].replace('_', ' ')}) — CORRECT"
+        return f"## {badge}\n\nActual result: **{match['actual_score']}** ({match['actual_result'].replace('_', ' ')}) — CORRECT"
     else:
-        return f"### {badge}\n\nActual result: **{match['actual_score']}** ({match['actual_result'].replace('_', ' ')})"
+        return f"## {badge}\n\nActual result: **{match['actual_score']}** ({match['actual_result'].replace('_', ' ')})"
 
 
 def format_reasoning(match):
     a = match["vlm_assessment"]
     lines = []
-    lines.append(f"**Confidence:** {a['confidence']}")
+    lines.append(f"### Confidence: {a['confidence']}")
     lines.append("")
-    lines.append(f"**Reasoning:** {a['reasoning']}")
+    lines.append(f"### Reasoning")
+    lines.append(a['reasoning'])
     lines.append("")
-    lines.append("**Visual Evidence:**")
+    lines.append("### Visual Evidence")
     for ev in a.get("visual_evidence", []):
         lines.append(f"- {ev}")
     lines.append("")
-    lines.append(f"**Edge Signal:** {a['edge_signal']}")
+    lines.append(f"### Edge Signal")
+    lines.append(a['edge_signal'])
     return "\n".join(lines)
 
 
@@ -602,7 +691,7 @@ def format_stats_side(match, side):
 
 def format_match_info(match):
     lines = []
-    lines.append(f"**{match['home_team']}** vs **{match['away_team']}**")
+    lines.append(f"## {match['home_team']} vs {match['away_team']}")
     lines.append(f"- Stage: {match['stage']}")
     lines.append(f"- Date: {match['date']}")
     if match.get("first_leg"):
@@ -774,9 +863,17 @@ with gr.Blocks(
     gr.Markdown(f"""
 # Offsides — Tactical Edge Detection
 
-**Where the market gets it wrong.** Multimodal AI analyzes UEFA Champions League footage using YOLO + Qwen-VL 72B on AMD MI300X to detect mispriced prediction markets.
+**Where the market gets it wrong.** Multimodal AI analyzes UEFA Champions League footage to detect when prediction markets are mispriced.
 
 **Scorecard: {correct}/{total} correct edge calls** | Model: {RESULTS['model']} | Generated: {RESULTS['generated_at'][:10]}
+
+---
+
+`YouTube Highlights` → `Frame Extraction` → `YOLO Detection (YOLOv8m)` → `Annotation (OpenCV)` → `Tactical Reasoning (Qwen-VL 72B)` → `Edge Signal`
+
+**Powered by AMD Instinct MI300X** on ROCm via AMD Developer Cloud
+
+---
 """)
 
     with gr.Tabs():
@@ -829,7 +926,7 @@ with gr.Blocks(
             formation_plot = gr.Plot(label="Formation Map")
 
             # Tactical Metrics (side-by-side)
-            gr.Markdown("### Tactical Metrics", elem_classes=["section-heading"])
+            gr.Markdown("## Tactical Metrics", elem_classes=["section-heading"])
             with gr.Row():
                 with gr.Column():
                     metrics_home_box = gr.Markdown(elem_classes=["center-content"])
@@ -837,7 +934,7 @@ with gr.Blocks(
                     metrics_away_box = gr.Markdown(elem_classes=["center-content"])
 
             # Match Statistics (side-by-side)
-            gr.Markdown("### Match Statistics", elem_classes=["section-heading"])
+            gr.Markdown("## Match Statistics", elem_classes=["section-heading"])
             with gr.Row():
                 with gr.Column():
                     stats_home_box = gr.Markdown(elem_classes=["center-content"])
@@ -955,6 +1052,13 @@ over the annotated frames and tactical data in real time on AMD MI300X.
                     h2h_gallery = gr.Gallery(label="Head-to-Head", columns=3, height=200)
                     h2h_md = gr.Markdown()
 
+            gr.Markdown("## League Statistics", elem_classes=["section-heading"])
+            with gr.Row():
+                with gr.Column():
+                    league_stats_a_md = gr.Markdown(elem_classes=["center-content"])
+                with gr.Column():
+                    league_stats_b_md = gr.Markdown(elem_classes=["center-content"])
+
             with gr.Row():
                 predict_btn = gr.Button(
                     "Predict Winner (Live VLM)" if live_available else "Predict Winner (GPU Offline)",
@@ -965,7 +1069,7 @@ over the annotated frames and tactical data in real time on AMD MI300X.
             compare_btn.click(
                 fn=compare_teams,
                 inputs=[team_a_dd, team_b_dd],
-                outputs=[gallery_a, metrics_a_md, gallery_b, metrics_b_md, h2h_gallery, h2h_md],
+                outputs=[gallery_a, metrics_a_md, gallery_b, metrics_b_md, h2h_gallery, h2h_md, league_stats_a_md, league_stats_b_md],
             )
             predict_btn.click(
                 fn=predict_matchup,
@@ -975,11 +1079,7 @@ over the annotated frames and tactical data in real time on AMD MI300X.
 
     gr.Markdown("""
 ---
-**Architecture:** YouTube highlights → Frame extraction → YOLO detection → Annotation (OpenCV) → Qwen-VL 72B reasoning (AMD MI300X via vLLM on ROCm)
-
-**How it works:** For each upcoming match, the system analyzes the most recent 3 matches for both teams. YOLO detects player positions and ball location. OpenCV renders tactical overlays (defensive lines, compactness ellipses, team colors). Qwen-VL reasons over these annotated frames alongside stats and market odds to identify where the market may be mispriced.
-
-Built for the AMD Developer Hackathon 2026 (Track 3: Vision & Multimodal AI)
+Built for the **AMD Developer Hackathon 2026** (Track 3: Vision & Multimodal AI)
 """)
 
 

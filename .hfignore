@@ -1,0 +1,19 @@
+# Only these files are needed on HF Space:
+#   app.py
+#   requirements.txt
+#   README.md
+#   offsides-logo.png
+
+# Ignore everything else
+CLAUDE.md
+__pycache__/
+data/
+docs/
+downloaded_files/
+notebooks/
+scripts/
+venv/
+yolov8m.pt
+.env
+.gitignore
+*.pyc
