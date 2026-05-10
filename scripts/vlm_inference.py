@@ -309,12 +309,13 @@ def build_context_text(demo_match: dict, home_metrics: dict, away_metrics: dict,
             lines.append(f"  Transition speed: {m['avg_transition_speed']:.4f}")
         lines.append("")
 
-    lines.append("=== MARKET ODDS (pre-match) ===")
-    odds = demo_match["odds"]
-    prob = demo_match["implied_prob"]
-    lines.append(f"  {demo_match['home_team']} win: {odds['home']} (implied {prob['home']*100:.0f}%)")
-    lines.append(f"  Draw: {odds['draw']} (implied {prob['draw']*100:.0f}%)")
-    lines.append(f"  {demo_match['away_team']} win: {odds['away']} (implied {prob['away']*100:.0f}%)")
+    odds = demo_match.get("odds", {})
+    prob = demo_match.get("implied_prob", {})
+    if odds and prob:
+        lines.append("=== MARKET ODDS (pre-match) ===")
+        lines.append(f"  {demo_match['home_team']} win: {odds.get('home', '-')} (implied {prob.get('home', 0)*100:.0f}%)")
+        lines.append(f"  Draw: {odds.get('draw', '-')} (implied {prob.get('draw', 0)*100:.0f}%)")
+        lines.append(f"  {demo_match['away_team']} win: {odds.get('away', '-')} (implied {prob.get('away', 0)*100:.0f}%)")
 
     return "\n".join(lines)
 
@@ -461,14 +462,23 @@ def process_match(demo_match: dict, dry_run: bool = False) -> dict:
     h2h_metrics = build_h2h_metrics(home_team, away_team, demo_date)
 
     context_text = build_context_text(demo_match, home_metrics, away_metrics, h2h_metrics)
-    query = (
-        f"Assess the pre-match win probabilities for {home_team} vs {away_team}. "
-        f"The market prices {home_team} at {demo_match['implied_prob']['home']*100:.0f}%, "
-        f"draw at {demo_match['implied_prob']['draw']*100:.0f}%, "
-        f"and {away_team} at {demo_match['implied_prob']['away']*100:.0f}%. "
-        f"Based on {home_team}'s recent form, {away_team}'s recent form, and their head-to-head tactical patterns, "
-        f"do you see evidence that the market is mispriced? Provide your probability assessment."
-    )
+
+    implied = demo_match.get("implied_prob", {})
+    if implied:
+        query = (
+            f"Assess the pre-match win probabilities for {home_team} vs {away_team}. "
+            f"The market prices {home_team} at {implied.get('home', 0)*100:.0f}%, "
+            f"draw at {implied.get('draw', 0)*100:.0f}%, "
+            f"and {away_team} at {implied.get('away', 0)*100:.0f}%. "
+            f"Based on {home_team}'s recent form, {away_team}'s recent form, and their head-to-head tactical patterns, "
+            f"do you see evidence that the market is mispriced? Provide your probability assessment."
+        )
+    else:
+        query = (
+            f"Assess the pre-match win probabilities for {home_team} vs {away_team}. "
+            f"Based on {home_team}'s recent form, {away_team}'s recent form, and their head-to-head tactical patterns, "
+            f"provide your probability assessment (home win %, draw %, away win %)."
+        )
 
     messages = build_messages(home_frames, away_frames, h2h_frames, home_team, away_team, context_text, query)
 
@@ -496,7 +506,7 @@ def process_match(demo_match: dict, dry_run: bool = False) -> dict:
     assessment = parse_assessment(raw_response)
     edge = compute_edge(
         assessment.get("probabilities", {}),
-        demo_match["implied_prob"],
+        demo_match.get("implied_prob", {}),
     )
 
     return {
@@ -504,10 +514,10 @@ def process_match(demo_match: dict, dry_run: bool = False) -> dict:
         "home_team": home_team,
         "away_team": away_team,
         "date": demo_date,
-        "stage": demo_match["stage"],
-        "market_odds": demo_match["implied_prob"],
-        "actual_result": demo_match["actual_result"],
-        "actual_score": demo_match["actual_score"],
+        "stage": demo_match.get("stage", ""),
+        "market_odds": demo_match.get("implied_prob", {}),
+        "actual_result": demo_match.get("actual_result", ""),
+        "actual_score": demo_match.get("actual_score", ""),
         "vlm_assessment": {
             "probabilities": assessment.get("probabilities", {}),
             "edge": edge,

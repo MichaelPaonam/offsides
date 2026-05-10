@@ -1,38 +1,46 @@
 [
   {
-    "match_id": "Dortmund_vs_PSG_2024-05-07",
-    "home_team": "Dortmund",
-    "away_team": "PSG",
-    "date": "2024-05-07",
-    "stage": "Semi-final 2nd leg",
-    "first_leg": "PSG 0-1 Dortmund",
-    "actual_score": "1-0",
+    "match_id": "Atletico_Madrid_vs_Inter_Milan_2024-03-13",
+    "home_team": "Atletico Madrid",
+    "away_team": "Inter Milan",
+    "date": "2024-03-13",
+    "stage": "Round of 16 2nd leg",
+    "first_leg": "Inter Milan 1-0 Atletico Madrid",
+    "actual_score": "2-1",
     "actual_result": "home_win",
-    "odds": {"home": 4.33, "draw": 4.00, "away": 1.80},
-    "implied_prob": {"home": 0.23, "draw": 0.25, "away": 0.56},
+    "odds": {
+      "home": 2.2,
+      "draw": 3.3,
+      "away": 3.4
+    },
+    "implied_prob": {
+      "home": 0.45,
+      "draw": 0.3,
+      "away": 0.29
+    },
     "stats": {
       "home": {
-        "team": "Dortmund",
-        "xg_last5": 1.52,
-        "xga_last5": 1.28,
-        "ppda": 10.2,
-        "possession_pct": 46,
-        "form": "WWLWW",
-        "goals_scored_last5": 9,
+        "team": "Atletico Madrid",
+        "xg_last5": 1.56,
+        "xga_last5": 0.92,
+        "ppda": 11.4,
+        "possession_pct": 50,
+        "form": "WWDWL",
+        "goals_scored_last5": 8,
         "goals_conceded_last5": 5
       },
       "away": {
-        "team": "PSG",
-        "xg_last5": 2.14,
-        "xga_last5": 0.72,
-        "ppda": 9.6,
-        "possession_pct": 58,
-        "form": "WWWWL",
-        "goals_scored_last5": 12,
+        "team": "Inter Milan",
+        "xg_last5": 1.88,
+        "xga_last5": 0.78,
+        "ppda": 10.2,
+        "possession_pct": 54,
+        "form": "WWWWD",
+        "goals_scored_last5": 10,
         "goals_conceded_last5": 3
       }
     },
-    "narrative": "PSG heavily favored to overturn 1st-leg deficit at home but Dortmund's compact defensive shape and rapid transitions from their recent knockout run suggested resilience the market underpriced."
+    "narrative": "Inter led on aggregate and had the best defensive record in Serie A. Atletico's high-energy pressing at home disrupted Inter's build-up play, creating chaos the market underestimated."
   },
   {
     "match_id": "Dortmund_vs_Atletico_Madrid_2024-04-16",
@@ -43,8 +51,16 @@
     "first_leg": "Atletico Madrid 2-1 Dortmund",
     "actual_score": "4-2",
     "actual_result": "home_win",
-    "odds": {"home": 2.50, "draw": 3.60, "away": 2.75},
-    "implied_prob": {"home": 0.40, "draw": 0.28, "away": 0.36},
+    "odds": {
+      "home": 2.5,
+      "draw": 3.6,
+      "away": 2.75
+    },
+    "implied_prob": {
+      "home": 0.4,
+      "draw": 0.28,
+      "away": 0.36
+    },
     "stats": {
       "home": {
         "team": "Dortmund",
@@ -78,8 +94,16 @@
     "first_leg": "Barcelona 3-2 PSG",
     "actual_score": "4-1",
     "actual_result": "home_win",
-    "odds": {"home": 2.10, "draw": 3.80, "away": 3.40},
-    "implied_prob": {"home": 0.48, "draw": 0.26, "away": 0.29},
+    "odds": {
+      "home": 2.1,
+      "draw": 3.8,
+      "away": 3.4
+    },
+    "implied_prob": {
+      "home": 0.48,
+      "draw": 0.26,
+      "away": 0.29
+    },
     "stats": {
       "home": {
         "team": "PSG",
@@ -113,8 +137,16 @@
     "first_leg": "Real Madrid 3-3 Man City",
     "actual_score": "1-1 (Real Madrid won on penalties)",
     "actual_result": "draw",
-    "odds": {"home": 1.83, "draw": 4.00, "away": 4.33},
-    "implied_prob": {"home": 0.55, "draw": 0.25, "away": 0.23},
+    "odds": {
+      "home": 1.83,
+      "draw": 4.0,
+      "away": 4.33
+    },
+    "implied_prob": {
+      "home": 0.55,
+      "draw": 0.25,
+      "away": 0.23
+    },
     "stats": {
       "home": {
         "team": "Man City",
@@ -140,38 +172,1018 @@
     "narrative": "Man City dominant favorites at home but Real Madrid's low-block + lethal transitions and penalty-shootout composure saw them through. City's high line was vulnerable to counter-attacks the market discounted."
   },
   {
-    "match_id": "Atletico_Madrid_vs_Inter_Milan_2024-03-13",
-    "home_team": "Atletico Madrid",
-    "away_team": "Inter Milan",
-    "date": "2024-03-13",
-    "stage": "Round of 16 2nd leg",
-    "first_leg": "Inter Milan 1-0 Atletico Madrid",
-    "actual_score": "2-1",
+    "match_id": "Dortmund_vs_PSG_2024-05-07",
+    "home_team": "Dortmund",
+    "away_team": "PSG",
+    "date": "2024-05-07",
+    "stage": "Semi-final 2nd leg",
+    "first_leg": "PSG 0-1 Dortmund",
+    "actual_score": "1-0",
     "actual_result": "home_win",
-    "odds": {"home": 2.20, "draw": 3.30, "away": 3.40},
-    "implied_prob": {"home": 0.45, "draw": 0.30, "away": 0.29},
+    "odds": {
+      "home": 4.33,
+      "draw": 4.0,
+      "away": 1.8
+    },
+    "implied_prob": {
+      "home": 0.23,
+      "draw": 0.25,
+      "away": 0.56
+    },
     "stats": {
       "home": {
-        "team": "Atletico Madrid",
-        "xg_last5": 1.56,
-        "xga_last5": 0.92,
-        "ppda": 11.4,
-        "possession_pct": 50,
-        "form": "WWDWL",
-        "goals_scored_last5": 8,
+        "team": "Dortmund",
+        "xg_last5": 1.52,
+        "xga_last5": 1.28,
+        "ppda": 10.2,
+        "possession_pct": 46,
+        "form": "WWLWW",
+        "goals_scored_last5": 9,
         "goals_conceded_last5": 5
       },
       "away": {
-        "team": "Inter Milan",
-        "xg_last5": 1.88,
-        "xga_last5": 0.78,
-        "ppda": 10.2,
-        "possession_pct": 54,
-        "form": "WWWWD",
-        "goals_scored_last5": 10,
+        "team": "PSG",
+        "xg_last5": 2.14,
+        "xga_last5": 0.72,
+        "ppda": 9.6,
+        "possession_pct": 58,
+        "form": "WWWWL",
+        "goals_scored_last5": 12,
         "goals_conceded_last5": 3
       }
     },
-    "narrative": "Inter led on aggregate and had the best defensive record in Serie A. Atletico's high-energy pressing at home disrupted Inter's build-up play, creating chaos the market underestimated."
+    "narrative": "PSG heavily favored to overturn 1st-leg deficit at home but Dortmund's compact defensive shape and rapid transitions from their recent knockout run suggested resilience the market underpriced."
+  },
+  {
+    "match_id": "Brest_vs_PSG_2025-02-11",
+    "home_team": "Brest",
+    "away_team": "PSG",
+    "date": "2025-02-11",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Brest",
+        "xg_last5": 1.31,
+        "xga_last5": 1.34,
+        "ppda": 8.8,
+        "possession_pct": 48,
+        "form": "WLLLL",
+        "goals_scored_last5": 1,
+        "goals_conceded_last5": 15,
+        "matches_played": 10,
+        "avg_shots": 12.5,
+        "avg_sot": 4.1,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "PSG",
+        "xg_last5": 2.56,
+        "xga_last5": 0.67,
+        "ppda": 8.8,
+        "possession_pct": 52,
+        "form": "WLWWW",
+        "goals_scored_last5": 13,
+        "goals_conceded_last5": 5,
+        "matches_played": 17,
+        "avg_shots": 18.8,
+        "avg_sot": 8.0,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Celtic_vs_Bayern_Munich_2025-02-11",
+    "home_team": "Celtic",
+    "away_team": "Bayern_Munich",
+    "date": "2025-02-11",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Celtic",
+        "xg_last5": null,
+        "xga_last5": null,
+        "ppda": 8.8,
+        "possession_pct": null,
+        "form": "DWLLD",
+        "goals_scored_last5": 5,
+        "goals_conceded_last5": 7,
+        "matches_played": 10
+      },
+      "away": {
+        "team": "Bayern_Munich",
+        "xg_last5": 2.34,
+        "xga_last5": 1.15,
+        "ppda": 8.8,
+        "possession_pct": 53,
+        "form": "DWWLD",
+        "goals_scored_last5": 9,
+        "goals_conceded_last5": 5,
+        "matches_played": 14,
+        "avg_shots": 18.8,
+        "avg_sot": 7.3,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Club_Brugge_vs_Atalanta_2025-02-11",
+    "home_team": "Club_Brugge",
+    "away_team": "Atalanta",
+    "date": "2025-02-11",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Club_Brugge",
+        "xg_last5": 2.3,
+        "xga_last5": 0.96,
+        "ppda": 8.8,
+        "possession_pct": 50,
+        "form": "LWWLL",
+        "goals_scored_last5": 7,
+        "goals_conceded_last5": 11,
+        "matches_played": 12,
+        "avg_shots": 18.3,
+        "avg_sot": 7.2,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Atalanta",
+        "xg_last5": 1.09,
+        "xga_last5": 1.5,
+        "ppda": 8.8,
+        "possession_pct": 52,
+        "form": "LWDLL",
+        "goals_scored_last5": 11,
+        "goals_conceded_last5": 10,
+        "matches_played": 10,
+        "avg_shots": 12.6,
+        "avg_sot": 3.4,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Feyenoord_vs_AC_Milan_2025-02-11",
+    "home_team": "Feyenoord",
+    "away_team": "AC_Milan",
+    "date": "2025-02-11",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Feyenoord",
+        "xg_last5": 1.95,
+        "xga_last5": 1.15,
+        "ppda": 8.8,
+        "possession_pct": 45,
+        "form": "LWDLL",
+        "goals_scored_last5": 4,
+        "goals_conceded_last5": 11,
+        "matches_played": 12,
+        "avg_shots": 14.2,
+        "avg_sot": 6.1,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "AC_Milan",
+        "xg_last5": 1.34,
+        "xga_last5": 1.34,
+        "ppda": 8.8,
+        "possession_pct": 49,
+        "form": "WWLLD",
+        "goals_scored_last5": 5,
+        "goals_conceded_last5": 5,
+        "matches_played": 10,
+        "avg_shots": 13.6,
+        "avg_sot": 4.2,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Juventus_vs_PSV_2025-02-11",
+    "home_team": "Juventus",
+    "away_team": "PSV",
+    "date": "2025-02-11",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Juventus",
+        "xg_last5": 1.5,
+        "xga_last5": 1.09,
+        "ppda": 8.8,
+        "possession_pct": 52,
+        "form": "WDLWL",
+        "goals_scored_last5": 5,
+        "goals_conceded_last5": 6,
+        "matches_played": 10,
+        "avg_shots": 13.2,
+        "avg_sot": 4.7,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "PSV",
+        "xg_last5": 2.78,
+        "xga_last5": 0.83,
+        "ppda": 8.8,
+        "possession_pct": 56,
+        "form": "WLWLD",
+        "goals_scored_last5": 10,
+        "goals_conceded_last5": 14,
+        "matches_played": 12,
+        "avg_shots": 21.9,
+        "avg_sot": 8.7,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Man_City_vs_Real_Madrid_2025-02-11",
+    "home_team": "Man_City",
+    "away_team": "Real_Madrid",
+    "date": "2025-02-11",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Man_City",
+        "xg_last5": 1.66,
+        "xga_last5": 0.64,
+        "ppda": 8.8,
+        "possession_pct": 52,
+        "form": "LLWLL",
+        "goals_scored_last5": 8,
+        "goals_conceded_last5": 13,
+        "matches_played": 10,
+        "avg_shots": 15.2,
+        "avg_sot": 5.2,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Real_Madrid",
+        "xg_last5": 2.4,
+        "xga_last5": 1.25,
+        "ppda": 8.8,
+        "possession_pct": 60,
+        "form": "WWLL",
+        "goals_scored_last5": 6,
+        "goals_conceded_last5": 7,
+        "matches_played": 14,
+        "avg_shots": 18.9,
+        "avg_sot": 7.5,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Monaco_vs_Benfica_2025-02-11",
+    "home_team": "Monaco",
+    "away_team": "Benfica",
+    "date": "2025-02-11",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Monaco",
+        "xg_last5": 1.7,
+        "xga_last5": 1.02,
+        "ppda": 8.8,
+        "possession_pct": 51,
+        "form": "LWLLD",
+        "goals_scored_last5": 4,
+        "goals_conceded_last5": 10,
+        "matches_played": 10,
+        "avg_shots": 13.1,
+        "avg_sot": 5.3,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Benfica",
+        "xg_last5": 1.89,
+        "xga_last5": 1.28,
+        "ppda": 8.8,
+        "possession_pct": 54,
+        "form": "WWDLL",
+        "goals_scored_last5": 7,
+        "goals_conceded_last5": 7,
+        "matches_played": 12,
+        "avg_shots": 15.9,
+        "avg_sot": 5.9,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Sporting_CP_vs_Dortmund_2025-02-11",
+    "home_team": "Sporting_CP",
+    "away_team": "Dortmund",
+    "date": "2025-02-11",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Sporting_CP",
+        "xg_last5": null,
+        "xga_last5": null,
+        "ppda": 8.8,
+        "possession_pct": null,
+        "form": "LLDLD",
+        "goals_scored_last5": 3,
+        "goals_conceded_last5": 8,
+        "matches_played": 10
+      },
+      "away": {
+        "team": "Dortmund",
+        "xg_last5": 1.82,
+        "xga_last5": 1.38,
+        "ppda": 8.8,
+        "possession_pct": 53,
+        "form": "DDWLW",
+        "goals_scored_last5": 6,
+        "goals_conceded_last5": 7,
+        "matches_played": 14,
+        "avg_shots": 15.5,
+        "avg_sot": 5.7,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "AC_Milan_vs_Feyenoord_2025-02-18",
+    "home_team": "AC_Milan",
+    "away_team": "Feyenoord",
+    "date": "2025-02-18",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "AC_Milan",
+        "xg_last5": 1.34,
+        "xga_last5": 1.34,
+        "ppda": 8.8,
+        "possession_pct": 49,
+        "form": "WWLLD",
+        "goals_scored_last5": 5,
+        "goals_conceded_last5": 5,
+        "matches_played": 10,
+        "avg_shots": 13.6,
+        "avg_sot": 4.2,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Feyenoord",
+        "xg_last5": 1.95,
+        "xga_last5": 1.15,
+        "ppda": 8.8,
+        "possession_pct": 45,
+        "form": "LWDLL",
+        "goals_scored_last5": 4,
+        "goals_conceded_last5": 11,
+        "matches_played": 12,
+        "avg_shots": 14.2,
+        "avg_sot": 6.1,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Atalanta_vs_Club_Brugge_2025-02-18",
+    "home_team": "Atalanta",
+    "away_team": "Club_Brugge",
+    "date": "2025-02-18",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Atalanta",
+        "xg_last5": 1.09,
+        "xga_last5": 1.5,
+        "ppda": 8.8,
+        "possession_pct": 52,
+        "form": "LWDLL",
+        "goals_scored_last5": 11,
+        "goals_conceded_last5": 10,
+        "matches_played": 10,
+        "avg_shots": 12.6,
+        "avg_sot": 3.4,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Club_Brugge",
+        "xg_last5": 2.3,
+        "xga_last5": 0.96,
+        "ppda": 8.8,
+        "possession_pct": 50,
+        "form": "LWWLL",
+        "goals_scored_last5": 7,
+        "goals_conceded_last5": 11,
+        "matches_played": 12,
+        "avg_shots": 18.3,
+        "avg_sot": 7.2,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Bayern_Munich_vs_Celtic_2025-02-18",
+    "home_team": "Bayern_Munich",
+    "away_team": "Celtic",
+    "date": "2025-02-18",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Bayern_Munich",
+        "xg_last5": 2.34,
+        "xga_last5": 1.15,
+        "ppda": 8.8,
+        "possession_pct": 53,
+        "form": "DWWLD",
+        "goals_scored_last5": 9,
+        "goals_conceded_last5": 5,
+        "matches_played": 14,
+        "avg_shots": 18.8,
+        "avg_sot": 7.3,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Celtic",
+        "xg_last5": null,
+        "xga_last5": null,
+        "ppda": 8.8,
+        "possession_pct": null,
+        "form": "DWLLD",
+        "goals_scored_last5": 5,
+        "goals_conceded_last5": 7,
+        "matches_played": 10
+      }
+    }
+  },
+  {
+    "match_id": "Benfica_vs_Monaco_2025-02-18",
+    "home_team": "Benfica",
+    "away_team": "Monaco",
+    "date": "2025-02-18",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Benfica",
+        "xg_last5": 1.89,
+        "xga_last5": 1.28,
+        "ppda": 8.8,
+        "possession_pct": 54,
+        "form": "WWDLL",
+        "goals_scored_last5": 7,
+        "goals_conceded_last5": 7,
+        "matches_played": 12,
+        "avg_shots": 15.9,
+        "avg_sot": 5.9,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Monaco",
+        "xg_last5": 1.7,
+        "xga_last5": 1.02,
+        "ppda": 8.8,
+        "possession_pct": 51,
+        "form": "LWLLD",
+        "goals_scored_last5": 4,
+        "goals_conceded_last5": 10,
+        "matches_played": 10,
+        "avg_shots": 13.1,
+        "avg_sot": 5.3,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Dortmund_vs_Sporting_CP_2025-02-18",
+    "home_team": "Dortmund",
+    "away_team": "Sporting_CP",
+    "date": "2025-02-18",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Dortmund",
+        "xg_last5": 1.82,
+        "xga_last5": 1.38,
+        "ppda": 8.8,
+        "possession_pct": 53,
+        "form": "DDWLW",
+        "goals_scored_last5": 6,
+        "goals_conceded_last5": 7,
+        "matches_played": 14,
+        "avg_shots": 15.5,
+        "avg_sot": 5.7,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Sporting_CP",
+        "xg_last5": null,
+        "xga_last5": null,
+        "ppda": 8.8,
+        "possession_pct": null,
+        "form": "LLDLD",
+        "goals_scored_last5": 3,
+        "goals_conceded_last5": 8,
+        "matches_played": 10
+      }
+    }
+  },
+  {
+    "match_id": "PSG_vs_Brest_2025-02-18",
+    "home_team": "PSG",
+    "away_team": "Brest",
+    "date": "2025-02-18",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "PSG",
+        "xg_last5": 2.56,
+        "xga_last5": 0.67,
+        "ppda": 8.8,
+        "possession_pct": 52,
+        "form": "WLWWW",
+        "goals_scored_last5": 13,
+        "goals_conceded_last5": 5,
+        "matches_played": 17,
+        "avg_shots": 18.8,
+        "avg_sot": 8.0,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Brest",
+        "xg_last5": 1.31,
+        "xga_last5": 1.34,
+        "ppda": 8.8,
+        "possession_pct": 48,
+        "form": "WLLLL",
+        "goals_scored_last5": 1,
+        "goals_conceded_last5": 15,
+        "matches_played": 10,
+        "avg_shots": 12.5,
+        "avg_sot": 4.1,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "PSV_vs_Juventus_2025-02-18",
+    "home_team": "PSV",
+    "away_team": "Juventus",
+    "date": "2025-02-18",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "PSV",
+        "xg_last5": 2.78,
+        "xga_last5": 0.83,
+        "ppda": 8.8,
+        "possession_pct": 56,
+        "form": "WLWLD",
+        "goals_scored_last5": 10,
+        "goals_conceded_last5": 14,
+        "matches_played": 12,
+        "avg_shots": 21.9,
+        "avg_sot": 8.7,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Juventus",
+        "xg_last5": 1.5,
+        "xga_last5": 1.09,
+        "ppda": 8.8,
+        "possession_pct": 52,
+        "form": "WDLWL",
+        "goals_scored_last5": 5,
+        "goals_conceded_last5": 6,
+        "matches_played": 10,
+        "avg_shots": 13.2,
+        "avg_sot": 4.7,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Real_Madrid_vs_Man_City_2025-02-18",
+    "home_team": "Real_Madrid",
+    "away_team": "Man_City",
+    "date": "2025-02-18",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Real_Madrid",
+        "xg_last5": 2.4,
+        "xga_last5": 1.25,
+        "ppda": 8.8,
+        "possession_pct": 60,
+        "form": "WWLL",
+        "goals_scored_last5": 6,
+        "goals_conceded_last5": 7,
+        "matches_played": 14,
+        "avg_shots": 18.9,
+        "avg_sot": 7.5,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Man_City",
+        "xg_last5": 1.66,
+        "xga_last5": 0.64,
+        "ppda": 8.8,
+        "possession_pct": 52,
+        "form": "LLWLL",
+        "goals_scored_last5": 8,
+        "goals_conceded_last5": 13,
+        "matches_played": 10,
+        "avg_shots": 15.2,
+        "avg_sot": 5.2,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Real_Madrid_vs_Atletico_Madrid_2025-03-04",
+    "home_team": "Real_Madrid",
+    "away_team": "Atletico_Madrid",
+    "date": "2025-03-04",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Real_Madrid",
+        "xg_last5": 2.4,
+        "xga_last5": 1.25,
+        "ppda": 8.8,
+        "possession_pct": 60,
+        "form": "WWLL",
+        "goals_scored_last5": 6,
+        "goals_conceded_last5": 7,
+        "matches_played": 14,
+        "avg_shots": 18.9,
+        "avg_sot": 7.5,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Atletico_Madrid",
+        "xg_last5": 1.89,
+        "xga_last5": 0.99,
+        "ppda": 8.8,
+        "possession_pct": 51,
+        "form": "WWWL",
+        "goals_scored_last5": 10,
+        "goals_conceded_last5": 5,
+        "matches_played": 10,
+        "avg_shots": 13.7,
+        "avg_sot": 5.9,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Bayern_Munich_vs_Benfica_2025-03-05",
+    "home_team": "Bayern_Munich",
+    "away_team": "Benfica",
+    "date": "2025-03-05",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Bayern_Munich",
+        "xg_last5": 2.34,
+        "xga_last5": 1.15,
+        "ppda": 8.8,
+        "possession_pct": 53,
+        "form": "DWWLD",
+        "goals_scored_last5": 9,
+        "goals_conceded_last5": 5,
+        "matches_played": 14,
+        "avg_shots": 18.8,
+        "avg_sot": 7.3,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Benfica",
+        "xg_last5": 1.89,
+        "xga_last5": 1.28,
+        "ppda": 8.8,
+        "possession_pct": 54,
+        "form": "WWDLL",
+        "goals_scored_last5": 7,
+        "goals_conceded_last5": 7,
+        "matches_played": 12,
+        "avg_shots": 15.9,
+        "avg_sot": 5.9,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Atletico_Madrid_vs_Real_Madrid_2025-03-11",
+    "home_team": "Atletico_Madrid",
+    "away_team": "Real_Madrid",
+    "date": "2025-03-11",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Atletico_Madrid",
+        "xg_last5": 1.89,
+        "xga_last5": 0.99,
+        "ppda": 8.8,
+        "possession_pct": 51,
+        "form": "WWWL",
+        "goals_scored_last5": 10,
+        "goals_conceded_last5": 5,
+        "matches_played": 10,
+        "avg_shots": 13.7,
+        "avg_sot": 5.9,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Real_Madrid",
+        "xg_last5": 2.4,
+        "xga_last5": 1.25,
+        "ppda": 8.8,
+        "possession_pct": 60,
+        "form": "WWLL",
+        "goals_scored_last5": 6,
+        "goals_conceded_last5": 7,
+        "matches_played": 14,
+        "avg_shots": 18.9,
+        "avg_sot": 7.5,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Inter_Milan_vs_Bayern_Munich_2025-04-08",
+    "home_team": "Inter_Milan",
+    "away_team": "Bayern_Munich",
+    "date": "2025-04-08",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Inter_Milan",
+        "xg_last5": 1.22,
+        "xga_last5": 1.18,
+        "ppda": 8.8,
+        "possession_pct": 48,
+        "form": "WDDWL",
+        "goals_scored_last5": 11,
+        "goals_conceded_last5": 14,
+        "matches_played": 15,
+        "avg_shots": 12.7,
+        "avg_sot": 3.8,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Bayern_Munich",
+        "xg_last5": 2.34,
+        "xga_last5": 1.15,
+        "ppda": 8.8,
+        "possession_pct": 53,
+        "form": "DWWLD",
+        "goals_scored_last5": 9,
+        "goals_conceded_last5": 5,
+        "matches_played": 14,
+        "avg_shots": 18.8,
+        "avg_sot": 7.3,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Arsenal_vs_PSG_2025-04-09",
+    "home_team": "Arsenal",
+    "away_team": "PSG",
+    "date": "2025-04-09",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Arsenal",
+        "xg_last5": 1.66,
+        "xga_last5": 0.86,
+        "ppda": 8.8,
+        "possession_pct": 54,
+        "form": "DWWLL",
+        "goals_scored_last5": 8,
+        "goals_conceded_last5": 6,
+        "matches_played": 14,
+        "avg_shots": 15.6,
+        "avg_sot": 5.2,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "PSG",
+        "xg_last5": 2.56,
+        "xga_last5": 0.67,
+        "ppda": 8.8,
+        "possession_pct": 52,
+        "form": "WLWWW",
+        "goals_scored_last5": 13,
+        "goals_conceded_last5": 5,
+        "matches_played": 17,
+        "avg_shots": 18.8,
+        "avg_sot": 8.0,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Bayern_Munich_vs_Inter_Milan_2025-04-15",
+    "home_team": "Bayern_Munich",
+    "away_team": "Inter_Milan",
+    "date": "2025-04-15",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Bayern_Munich",
+        "xg_last5": 2.34,
+        "xga_last5": 1.15,
+        "ppda": 8.8,
+        "possession_pct": 53,
+        "form": "DWWLD",
+        "goals_scored_last5": 9,
+        "goals_conceded_last5": 5,
+        "matches_played": 14,
+        "avg_shots": 18.8,
+        "avg_sot": 7.3,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Inter_Milan",
+        "xg_last5": 1.22,
+        "xga_last5": 1.18,
+        "ppda": 8.8,
+        "possession_pct": 48,
+        "form": "WDDWL",
+        "goals_scored_last5": 11,
+        "goals_conceded_last5": 14,
+        "matches_played": 15,
+        "avg_shots": 12.7,
+        "avg_sot": 3.8,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "PSG_vs_Arsenal_2025-04-16",
+    "home_team": "PSG",
+    "away_team": "Arsenal",
+    "date": "2025-04-16",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "PSG",
+        "xg_last5": 2.56,
+        "xga_last5": 0.67,
+        "ppda": 8.8,
+        "possession_pct": 52,
+        "form": "WLWWW",
+        "goals_scored_last5": 13,
+        "goals_conceded_last5": 5,
+        "matches_played": 17,
+        "avg_shots": 18.8,
+        "avg_sot": 8.0,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Arsenal",
+        "xg_last5": 1.66,
+        "xga_last5": 0.86,
+        "ppda": 8.8,
+        "possession_pct": 54,
+        "form": "DWWLL",
+        "goals_scored_last5": 8,
+        "goals_conceded_last5": 6,
+        "matches_played": 14,
+        "avg_shots": 15.6,
+        "avg_sot": 5.2,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
+  },
+  {
+    "match_id": "Inter_Milan_vs_Atletico_Madrid_2025-04-30",
+    "home_team": "Inter_Milan",
+    "away_team": "Atletico_Madrid",
+    "date": "2025-04-30",
+    "stage": "Knockout 2024-25",
+    "actual_score": "",
+    "actual_result": "",
+    "odds": {},
+    "implied_prob": {},
+    "stats": {
+      "home": {
+        "team": "Inter_Milan",
+        "xg_last5": 1.22,
+        "xga_last5": 1.18,
+        "ppda": 8.8,
+        "possession_pct": 48,
+        "form": "WDDWL",
+        "goals_scored_last5": 11,
+        "goals_conceded_last5": 14,
+        "matches_played": 15,
+        "avg_shots": 12.7,
+        "avg_sot": 3.8,
+        "source": "football-data.co.uk (domestic league)"
+      },
+      "away": {
+        "team": "Atletico_Madrid",
+        "xg_last5": 1.89,
+        "xga_last5": 0.99,
+        "ppda": 8.8,
+        "possession_pct": 51,
+        "form": "WWWL",
+        "goals_scored_last5": 10,
+        "goals_conceded_last5": 5,
+        "matches_played": 10,
+        "avg_shots": 13.7,
+        "avg_sot": 5.9,
+        "source": "football-data.co.uk (domestic league)"
+      }
+    }
   }
 ]
