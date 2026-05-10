@@ -1,6 +1,6 @@
 """Offsides — Tactical Edge Detection Demo.
 
-Gradio app displaying pre-computed Qwen-VL 72B tactical assessments
+Gradio app displaying pre-computed Qwen3-VL 32B tactical assessments
 of UEFA Champions League matches on AMD MI300X.
 """
 
@@ -18,8 +18,11 @@ APP_DIR = Path(__file__).resolve().parent
 HF_BUCKET_MOUNT = Path("/data")
 if HF_BUCKET_MOUNT.exists() and HF_BUCKET_MOUNT.is_dir():
     DATA_DIR = HF_BUCKET_MOUNT
+    print(f"[Offsides] Using HF bucket mount: {DATA_DIR}")
+    print(f"[Offsides] Bucket contents: {list(DATA_DIR.iterdir())}")
 else:
     DATA_DIR = APP_DIR / "data"
+    print(f"[Offsides] Using local data: {DATA_DIR}")
 
 RESULTS_PATH = DATA_DIR / "vlm_results" / "results.json"
 DEMO_PATH = DATA_DIR / "demo_matches.json"
@@ -29,8 +32,13 @@ INDEX_PATH = DATA_DIR / "frames_index.json"
 ALL_FRAMES_DIR = DATA_DIR / "frames"
 MATCH_STATS_PATH = DATA_DIR / "match_stats.json"
 
+print(f"[Offsides] results.json exists: {RESULTS_PATH.exists()}")
+print(f"[Offsides] demo_matches.json exists: {DEMO_PATH.exists()}")
+print(f"[Offsides] frames dir exists: {ALL_FRAMES_DIR.exists()}")
+print(f"[Offsides] match_stats.json exists: {MATCH_STATS_PATH.exists()}")
+
 VLM_BASE_URL = os.environ.get("VLM_BASE_URL", "")
-VLM_MODEL = os.environ.get("VLM_MODEL", "Qwen/Qwen2.5-VL-72B-Instruct")
+VLM_MODEL = os.environ.get("VLM_MODEL", "Qwen/Qwen3-VL-32B-Instruct")
 VLM_API_KEY = os.environ.get("VLM_API_KEY", "EMPTY")
 
 
@@ -89,32 +97,40 @@ def get_match_choices():
 
 def get_scorecard():
     correct = 0
+    total = 0
     for m in MATCHES:
-        edge = m["vlm_assessment"]["edge"]
-        actual = result_key(m["actual_result"])
+        edge = m.get("vlm_assessment", {}).get("edge", {})
+        actual_result = m.get("actual_result", "")
+        if not edge or not actual_result:
+            continue
+        actual = result_key(actual_result)
         best = max(edge.items(), key=lambda x: x[1])
         if best[0] == actual:
             correct += 1
-    return correct, len(MATCHES)
+        total += 1
+    return correct, total
 
 
 def make_prob_chart(match):
-    market = match["market_odds"]
-    vlm = match["vlm_assessment"]["probabilities"]
+    market = match.get("market_odds", {})
+    vlm = match.get("vlm_assessment", {}).get("probabilities", {})
 
     categories = ["Home", "Draw", "Away"]
-    market_vals = [market["home"] * 100, market["draw"] * 100, market["away"] * 100]
     vlm_vals = [vlm.get("home", 0) * 100, vlm.get("draw", 0) * 100, vlm.get("away", 0) * 100]
 
     fig = go.Figure()
-    fig.add_trace(go.Bar(
-        name="Market Implied",
-        x=categories,
-        y=market_vals,
-        marker_color="#6366f1",
-        text=[f"{v:.0f}%" for v in market_vals],
-        textposition="outside",
-    ))
+
+    if market and market.get("home"):
+        market_vals = [market["home"] * 100, market["draw"] * 100, market["away"] * 100]
+        fig.add_trace(go.Bar(
+            name="Market Implied",
+            x=categories,
+            y=market_vals,
+            marker_color="#6366f1",
+            text=[f"{v:.0f}%" for v in market_vals],
+            textposition="outside",
+        ))
+
     fig.add_trace(go.Bar(
         name="VLM Assessment",
         x=categories,
@@ -194,14 +210,17 @@ def make_formation_plot(match):
 
     centers = np.array(centers)
 
-    # Normalize to pitch coordinates (0-105 x 0-68)
-    x_min, x_max = centers[:, 0].min(), centers[:, 0].max()
-    y_min, y_max = centers[:, 1].min(), centers[:, 1].max()
-    x_range = x_max - x_min if x_max - x_min > 0 else 1
-    y_range = y_max - y_min if y_max - y_min > 0 else 1
+    # Normalize to pitch coordinates centered on (52.5, 34)
+    cx_mid = (centers[:, 0].min() + centers[:, 0].max()) / 2
+    cy_mid = (centers[:, 1].min() + centers[:, 1].max()) / 2
+    x_range = centers[:, 0].max() - centers[:, 0].min()
+    y_range = centers[:, 1].max() - centers[:, 1].min()
+    x_range = x_range if x_range > 0 else 1
+    y_range = y_range if y_range > 0 else 1
 
-    pitch_x = (centers[:, 0] - x_min) / x_range * 100 + 2.5
-    pitch_y = (centers[:, 1] - y_min) / y_range * 64 + 2
+    # Scale to fit within pitch (with padding) and center
+    pitch_x = (centers[:, 0] - cx_mid) / x_range * 90 + 52.5
+    pitch_y = (centers[:, 1] - cy_mid) / y_range * 58 + 34
 
     # KMeans to split into two teams
     from sklearn.cluster import KMeans
@@ -250,8 +269,8 @@ def make_formation_plot(match):
     if ball:
         ball_cx = (ball["bbox"][0] + ball["bbox"][2]) / 2
         ball_cy = (ball["bbox"][1] + ball["bbox"][3]) / 2
-        ball_px = (ball_cx - x_min) / x_range * 100 + 2.5
-        ball_py = (ball_cy - y_min) / y_range * 64 + 2
+        ball_px = (ball_cx - cx_mid) / x_range * 90 + 52.5
+        ball_py = (ball_cy - cy_mid) / y_range * 58 + 34
         fig.add_trace(go.Scatter(
             x=[ball_px], y=[ball_py], mode="markers",
             marker=dict(size=10, color="#fbbf24", symbol="circle",
@@ -563,19 +582,25 @@ def predict_matchup(team_a: str, team_b: str):
 
 
 def format_edge_badge(match):
-    edge = match["vlm_assessment"]["edge"]
-    actual = result_key(match["actual_result"])
+    edge = match.get("vlm_assessment", {}).get("edge", {})
+    if not edge:
+        return "## No edge data available"
+
     best = max(edge.items(), key=lambda x: x[1])
     best_outcome, best_val = best
-
-    correct = best_outcome == actual
     outcome_label = {"home": match["home_team"], "draw": "Draw", "away": match["away_team"]}
-    badge = f"Edge: +{best_val*100:.0f}pp on {outcome_label[best_outcome]}"
+    badge = f"Edge: +{best_val*100:.0f}pp on {outcome_label.get(best_outcome, best_outcome)}"
 
-    if correct:
-        return f"## {badge}\n\nActual result: **{match['actual_score']}** ({match['actual_result'].replace('_', ' ')}) — CORRECT"
-    else:
-        return f"## {badge}\n\nActual result: **{match['actual_score']}** ({match['actual_result'].replace('_', ' ')})"
+    actual_result = match.get("actual_result", "")
+    actual_score = match.get("actual_score", "")
+    if actual_result and actual_score:
+        actual = result_key(actual_result)
+        correct = best_outcome == actual
+        if correct:
+            return f"## {badge}\n\nActual result: **{actual_score}** ({actual_result.replace('_', ' ')}) — CORRECT"
+        else:
+            return f"## {badge}\n\nActual result: **{actual_score}** ({actual_result.replace('_', ' ')})"
+    return f"## {badge}"
 
 
 def format_reasoning(match):
@@ -699,8 +724,9 @@ def format_match_info(match):
     odds = match.get("odds", {})
     if odds:
         lines.append(f"- Decimal odds: {match['home_team']} {odds.get('home', '-')} / Draw {odds.get('draw', '-')} / {match['away_team']} {odds.get('away', '-')}")
-    market = match["market_odds"]
-    lines.append(f"- Implied probability: {match['home_team']} {market['home']*100:.0f}% / Draw {market['draw']*100:.0f}% / {match['away_team']} {market['away']*100:.0f}%")
+    market = match.get("market_odds", {})
+    if market and market.get("home"):
+        lines.append(f"- Implied probability: {match['home_team']} {market['home']*100:.0f}% / Draw {market['draw']*100:.0f}% / {match['away_team']} {market['away']*100:.0f}%")
     if match.get("narrative"):
         lines.append(f"\n*{match['narrative']}*")
     return "\n".join(lines)
@@ -761,9 +787,10 @@ def select_clip_for_match(clip_label, match_choice):
 def build_live_context(match_idx: int) -> str:
     match = MATCHES[match_idx]
     lines = []
-    lines.append(f"Match: {match['home_team']} vs {match['away_team']} ({match['stage']}, {match['date']})")
-    market = match["market_odds"]
-    lines.append(f"Market implied: {match['home_team']} {market['home']*100:.0f}% / Draw {market['draw']*100:.0f}% / {match['away_team']} {market['away']*100:.0f}%")
+    lines.append(f"Match: {match['home_team']} vs {match['away_team']} ({match.get('stage', '')}, {match['date']})")
+    market = match.get("market_odds", {})
+    if market and market.get("home"):
+        lines.append(f"Market implied: {match['home_team']} {market['home']*100:.0f}% / Draw {market['draw']*100:.0f}% / {match['away_team']} {market['away']*100:.0f}%")
     stats = match.get("stats", {})
     for side in ["home", "away"]:
         s = stats.get(side, {})
@@ -869,7 +896,7 @@ with gr.Blocks(
 
 ---
 
-`YouTube Highlights` → `Frame Extraction` → `YOLO Detection (YOLOv8m)` → `Annotation (OpenCV)` → `Tactical Reasoning (Qwen-VL 72B)` → `Edge Signal`
+`YouTube Highlights` → `Frame Extraction` → `YOLO Detection (YOLOv8m)` → `Annotation (OpenCV)` → `Tactical Reasoning (Qwen3-VL 32B)` → `Edge Signal`
 
 **Powered by AMD Instinct MI300X** on ROCm via AMD Developer Cloud
 
@@ -1085,6 +1112,7 @@ Built for the **AMD Developer Hackathon 2026** (Track 3: Vision & Multimodal AI)
 
 if __name__ == "__main__":
     demo.launch(
+        allowed_paths=[str(DATA_DIR)],
         theme=gr.themes.Monochrome(font=gr.themes.GoogleFont("Inter")),
         js="() => { document.documentElement.classList.add('dark'); }",
         css="""
